@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+/* Make sure html and body take up full height */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Wrapper to stretch FullCalendar to full height */
+.calendar-wrapper {
+  height: 100vh; /* Full viewport height */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.fc {
+  height: 100vh;
+}
+
+.fc-daygrid-day-frame {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  height: 100px;
+}
+
+.fc-scroller-harness {
+  min-height: 100%;
+}

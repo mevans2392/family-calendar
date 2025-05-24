@@ -1,0 +1,48 @@
+<div class="calendar-wrapper">
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>
+
+<div class="modal" tabindex="-1" [class.show]="showEventModal" [style.display]="showEventModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ editingEvent ? 'Edit Event' : 'Add Event' }}</h5>
+        <button type="button" class="btn-close" (click)="showEventModal = false"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="eventTitle" class="form-label">Title</label>
+          <input id="eventTitle" class="form-control" [(ngModel)]="newEventTitle" />
+        </div>
+        <div class="mb-3">
+          <label for="eventUser" class="form-label">Assign to</label>
+          <select id="eventUser" class="form-select" [(ngModel)]="selectedUserId">
+            <option [ngValue]="null">Unassigned</option>
+            <option *ngFor="let user of users" [ngValue]="user.uid">{{ user.name }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Date: {{ selectedDate }}</label>
+        </div>
+        <div class="mb-3">
+          <label for="startTime" class="form-label">Start Time</label>
+          <input id="startTime" class="form-control" type='time' [(ngModel)]="startTime" />
+        </div>
+        <div class="mb-3">
+          <label for="endTime" class="form-label">End Time</label>
+          <input id="endTime" class="form-control" type='time' [(ngModel)]="endTime" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showEventModal = false">Cancel</button>
+        <button *ngIf="editingEvent" class="btn btn-danger me-auto" (click)="deleteEvent()">Delete</button>
+        <button class="btn btn-primary" (click)="saveEvent()">
+          {{ editingEvent ? 'Update Event' : 'Save Event'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
