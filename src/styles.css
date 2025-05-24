@@ -7,17 +7,6 @@ html, body {
   overflow-y: auto;
 }
 
-/* Wrapper to stretch FullCalendar to full height */
-.calendar-wrapper {
-  height: 100vh; /* Full viewport height */
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.fc {
-  height: 100vh;
-}
-
 .fc-daygrid-day-frame {
   display: flex;
   flex-direction: column;
@@ -28,3 +17,12 @@ html, body {
 .fc-scroller-harness {
   min-height: 100%;
 }
+
+@media (max-width: 760px) {
+  .fc {
+    margin-bottom: 0;
+  }
+  .col-sm-4 {
+    margin-top: 0;
+  }
+} 

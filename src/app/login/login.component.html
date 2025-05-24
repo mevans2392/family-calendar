@@ -11,9 +11,33 @@
 </div>
 
 
-<div *ngIf="user$ | async as user" style="text-align: right;">
-    <button class="btn btn-danger" (click)="logout()" style="transform: translate(-16px, 8px);">Logout</button>
-    <app-calendar></app-calendar>
+<div *ngIf="user$ | async as user">
+    <div class="row">
+        <div class="col-sm-2" style="transform: translateX(30px);">
+            <button class="btn btn-danger" (click)="logout()" style="transform: translate(-16px, 8px);">Logout</button>
+        </div>
+    </div>
+    
+    
+    <div class="row" id="toDoList">
+        <div class="col-sm-8">
+            <app-calendar></app-calendar>
+        </div>
+        <div class="col-sm-4">
+            <h1>Random Content</h1>
+            <ul>
+                <li>Seeing</li>
+                <li>If This</li>
+                <li>Works</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row" style="text-align: center;">
+        <h1>Another Random section to check functionality</h1>
+        <p>This will need boxes that can be filled for days of the week and lists for meals for the day.</p>
+    </div>
+    
 </div>
 
 
