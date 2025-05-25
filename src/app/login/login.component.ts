@@ -4,10 +4,12 @@ import { Auth, signInWithEmailAndPassword, signOut, user } from '@angular/fire/a
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CalendarComponent } from "../calendar/calendar.component";
+import { ToDoListComponent } from "../to-do-list/to-do-list.component";
+import { MealPlannerComponent } from "../meal-planner/meal-planner.component";
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule, CalendarComponent],
+  imports: [CommonModule, FormsModule, CalendarComponent, ToDoListComponent, MealPlannerComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

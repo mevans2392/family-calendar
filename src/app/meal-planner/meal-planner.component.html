@@ -1,0 +1,35 @@
+<div class="meal-grid">
+    <div class="header">
+        <div class="cell empty"></div>
+        <div class="cell" *ngFor="let day of days">{{ day }}</div>
+    </div>
+
+    <div class="meal-row" *ngFor="let meal of meals">
+        <div class="cell meal-type">{{ meal }}</div>
+        <div class="cell" *ngFor="let day of days" (click)="openEventModal(day, meal)">
+            {{ mealData[day]?.[meal] || '' }}
+        </div>
+    </div>
+</div>
+
+
+<!-- modal -->
+<div class="modal" tabindex="-1" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="showModal">
+        <h5 class="modal-title">{{ selectedDay }} - {{ selectedMeal }}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="mealInput" class="form-label">Meal</label>
+          <input id="mealInput" class="form-control" [(ngModel)]="mealInput" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showModal = false">Cancel</button>
+        <button class="btn btn-primary" (click)="saveMeal()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
