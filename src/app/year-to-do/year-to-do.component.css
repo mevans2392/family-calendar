@@ -1,0 +1,39 @@
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 20px;
+}
+
+.month-box {
+  background: #fffde7;
+  border: 2px dashed #fdd835;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  font-family: 'Courier New', Courier, monospace;
+  min-height: 250px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.month-box:hover {
+  background: #fff9c4;
+  transform: scale(1.02);
+}
+
+.month-box h3 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 1.2em;
+  border-bottom: 1px dashed #fbc02d;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+
+.preview-list {
+  list-style-type: disc;
+  padding-left: 16px;
+  margin: 0;
+  font-size: 0.85em;
+}

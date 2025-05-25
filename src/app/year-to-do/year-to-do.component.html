@@ -1,0 +1,58 @@
+<div class="container">
+    <button routerLink="/home" class="btn btn-primary">Back to Calendar</button>
+
+    <div class="month-grid">
+    <div *ngFor="let month of months" class="month-box">
+        <h3 (click)="openModal(month)">{{ month }}</h3>
+        
+        <div *ngFor="let item of toDoData[month]; let i = index"class="task-row">
+            <input
+            type="checkbox"
+            [(ngModel)]="item.completed"
+            (click)="$event.stopPropagation(); toggleComplete(month, i)"
+            />
+            <span
+            [class.completed]="item.completed"
+            (click)="openModal(month, i)"
+            >
+            {{ item.title }}
+            </span>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div
+  class="modal"
+  tabindex="-1"
+  [class.show]="showEventModal"
+  [style.display]="showEventModal ? 'block' : 'none'"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="showEventModal">
+        <h5 class="modal-title">
+          {{ selectedMonth }} - {{ editingIndex !== null ? 'Edit Task' : 'Add Task' }}
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="toDoInput" class="form-label">Task</label>
+          <input id="toDoInput" class="form-control" [(ngModel)]="newToDoTitle" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-primary" (click)="saveToDo()">Save</button>
+
+        <button class="btn btn-danger" *ngIf="editingIndex !== null" (click)="deleteTask(selectedMonth!, editingIndex)">
+        Delete
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+

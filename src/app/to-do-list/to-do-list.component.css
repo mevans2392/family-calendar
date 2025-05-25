@@ -26,6 +26,6 @@ h3 {
   display: flex;
   align-items: center;
   padding-left: 10px;
-  font-family: 'Courier New', Courier, monospace; /* Optional: notebook feel */
+  font-family: 'Courier New', Courier, monospace;
   font-size: 16px;
 }
