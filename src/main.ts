@@ -1,5 +1,5 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, isDevMode } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
@@ -11,6 +11,7 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { appRoutes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
+import { provideServiceWorker } from '@angular/service-worker';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -20,7 +21,10 @@ bootstrapApplication(AppComponent, {
     provideFirestore(() => getFirestore()),
     provideRouter(appRoutes),
     provideHttpClient(),
-    provideAnimations()
+    provideAnimations(), provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          })
   ]
 }).catch((err) => console.error(err));
 
