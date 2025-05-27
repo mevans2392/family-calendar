@@ -104,6 +104,17 @@ export class CalendarComponent implements OnInit {
         hour: 'numeric',
         minute: '2-digit',
         meridiem: 'short'
+      },
+      eventDidMount: (info: any) => {
+        const uid = info.event.extendedProps.uid;
+        const userColor = USER_COLORS[uid] || 'black';
+
+        info.el.style.color = userColor;
+
+        const dot = info.el.querySelector('.fc-event-dot') as HTMLElement;
+        if (dot) {
+          dot.style.borderColor = userColor;
+        }
       }
     };
   }

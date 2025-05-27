@@ -10,8 +10,9 @@ export const appRoutes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
     { path: 'login', component: LoginComponent },
     { path: 'home', component: MainScreenComponent },
-    { path: 'calendar', component: CalendarComponent },
-    { path: 'todos', component: ToDoListComponent },
-    { path: 'meals', component: MealPlannerComponent },
-    { path: 'yearly', component: YearToDoComponent },
+    { 
+        path: 'yearly', 
+        loadComponent: () => 
+            import('./year-to-do/year-to-do.component').then(m => m.YearToDoComponent)
+    }
 ];
