@@ -82,6 +82,35 @@ export class CalendarComponent implements OnInit {
         this.loadEvents();
       }
     });
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('orientationchange', this.onResize);
+    document.addEventListener('visibilitychange', this.onVisibilityChange);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('orientationchange', this.onResize);
+    document.removeEventListener('visibilitychange', this.onVisibilityChange);
+  }
+
+  onVisibilityChange = () => {
+    if (document.hidden) {
+      setTimeout(() => this.onResize(), 100);
+    }
+  };
+
+  getResponsiveView(): 'dayGridDay' | 'dayGridMonth' {
+    return this.screenService.isMobile() ? 'dayGridDay' : 'dayGridMonth';
+  }
+
+  onResize = () => {
+    setTimeout(() => {
+      const newView = this.getResponsiveView();
+      const calendarApi = this.calendarComponent.getApi?.();
+      if(calendarApi && calendarApi.view.type !== newView) {
+        calendarApi.changeView(newView);
+      }
+    }, 100);
   }
 
   loadEvents(): void {
@@ -141,7 +170,7 @@ export class CalendarComponent implements OnInit {
 
   setCalendarOptions(events: any[]) {
     const isMobile = this.screenService.isMobile();
-    const initialView = isMobile ? 'dayGridDay' : 'dayGridMonth';
+    const initialView = this.getResponsiveView();
     const titleFormat = isMobile ? { month: 'short', day: 'numeric' } : undefined;
 
     this.calendarOptions = {
@@ -170,6 +199,9 @@ export class CalendarComponent implements OnInit {
         if (dot) {
           dot.style.borderColor = userColor;
         }
+      },
+      viewDidMount: () => {
+        this.onResize();
       },
       height: 'auto',
       contentHeight: 600,

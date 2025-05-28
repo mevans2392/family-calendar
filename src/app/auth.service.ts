@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, setPersistence, browserLocalPersistence, browserSessionPersistence, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -9,9 +9,12 @@ import { Router } from '@angular/router';
 export class AuthService {
   constructor(private auth: Auth, private router: Router) {}
 
-  login(email: string, password: string): Promise<any> {
-    return signInWithEmailAndPassword(this.auth, email, password)
-      .then(() => this.router.navigate(['/home']));
+  async login(email: string, password: string, rememberMe: boolean): Promise<any> {
+    const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+
+    await setPersistence(this.auth, persistence);
+    await signInWithEmailAndPassword(this.auth, email, password);
+    this.router.navigate(['/home']);
   }
 
   logout(): Promise<any> {
