@@ -10,6 +10,7 @@
             type="checkbox"
             [(ngModel)]="item.completed"
             (click)="$event.stopPropagation(); toggleComplete(month, i)"
+            [class.completed]="item.completed"
             />
             <span
             [class.completed]="item.completed"

@@ -1,15 +1,30 @@
+.meal-grid-wrapper {
+  max-width: 100%;
+  padding: 10px;
+  margin: auto;
+}
+
+/* Buttons for mobile view */
+.day-nav-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* === DESKTOP GRID (Default) === */
 .meal-grid {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(8, 1fr); /* 1 for meal type + 7 days */
   gap: 4px;
-  padding-bottom: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0 20px 20px 20px;
+  border: 1px solid black;
 }
 
 .header, .meal-row {
   display: contents;
 }
+
 .cell {
   padding: 10px;
   border: 1px solid #ccc;
@@ -19,14 +34,18 @@
   display: grid;
   place-items: center;
 }
+
 .cell.meal-type {
   font-weight: bold;
-  
+  background-color: #f9f9f9;
 }
+
 .cell.empty {
   background: transparent;
   border: none;
 }
+
+/* === MODAL === */
 .modal {
   position: absolute;
   top: 30px;
@@ -41,6 +60,23 @@
   height: 320px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
+
+/* === MOBILE/TABLET OVERRIDES === */
+@media (max-width: 767px) {
+  .meal-grid {
+    grid-template-columns: repeat(2, 1fr); /* Meal type + 1 day */
+  }
+
+  .cell {
+    height: auto;
+    min-height: 60px;
+  }
+
+  .day-nav-row {
+    margin: 10px 20px;
+  }
+}
+
 
 
 

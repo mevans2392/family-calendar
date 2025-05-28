@@ -7,6 +7,12 @@ html, body {
   overflow-y: auto;
 }
 
+.fc-dayGridDay-view .fc-scrollgrid,
+.fc-dayGridDay-view .fc-daygrid-day-frame {
+  min-height: 400px !important;
+  height: auto !important;
+}
+
 .fc-daygrid-day-frame {
   display: flex;
   flex-direction: column;

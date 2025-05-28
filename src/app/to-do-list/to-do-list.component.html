@@ -14,12 +14,12 @@
             </label>
         </div>
     </div>
-    <div class="row mt-2">
-        <div class="col-sm-5">
-            <button class="btn btn-primary" (click)="openModal()">Add Item</button>
+    <div class="row mt-2 align-items-center">
+        <div class="col-5">
+            <button class="btn btn-primary w-100" (click)="openModal()">Add Item</button>
         </div>
-        <div class="col-sm-7" style="text-align: right;">
-            <button class="btn btn-danger" (click)="deleteCompleted()">Delete Checked</button>
+        <div class="col-7 d-flex justify-content-end">
+            <button class="btn btn-danger" style="white-space: nowrap;" (click)="deleteCompleted()">Delete Checked</button>
         </div>
     </div>
 

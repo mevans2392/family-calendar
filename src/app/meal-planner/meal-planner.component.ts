@@ -3,6 +3,8 @@ import { Firestore, doc, getDoc, setDoc, updateDoc } from '@angular/fire/firesto
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Auth, user } from '@angular/fire/auth';
+import { ScreenSizeService } from '../screen-size.service';
+import { onSnapshot } from 'firebase/firestore';
 
 @Component({
   selector: 'app-meal-planner',
@@ -20,22 +22,23 @@ export class MealPlannerComponent implements OnInit{
   meals = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
   mealData: Record<string, any> = {};
 
-  selectedDay: string | null = null;
+  selectedDayIndex: number = new Date().getDay();
+  selectedDay: string = this.days[this.selectedDayIndex];
   selectedMeal: string | null = null;
   mealInput: string = '';
   showModal: boolean = false;
 
+  constructor(private screenService: ScreenSizeService) {}
+
   async ngOnInit() {
     for (const day of this.days) {
       const ref = doc(this.db, 'mealPlanner', day);
-      const snap = await getDoc(ref);
-      if(snap.exists()) {
-        this.mealData[day] = snap.data();
-      } else {
-        this.mealData[day] = {};
-      }
+      onSnapshot(ref, (snap) => {
+        this.mealData[day] = snap.exists() ? snap.data() : {};
+      })
     }
   }
+
 
   openEventModal(day: string, meal: string) {
     console.log('modal triggered', day, meal);
@@ -60,5 +63,22 @@ export class MealPlannerComponent implements OnInit{
     this.showModal = false;
   }
 
+  get isCompact(): boolean {
+    return this.screenService.isTabletOrSmaller();
+  }
+
+  get visibleDays(): string[] {
+      return this.isCompact ? [this.selectedDay] : this.days;
+    }
+
+  previousDay() {
+    this.selectedDayIndex = (this.selectedDayIndex - 1 + this.days.length) % this.days.length;
+    this.selectedDay = this.days[this.selectedDayIndex];
+  }
+
+  nextDay() {
+    this.selectedDayIndex = (this.selectedDayIndex + 1) % this.days.length;
+    this.selectedDay = this.days[this.selectedDayIndex];
+  }
 
 }

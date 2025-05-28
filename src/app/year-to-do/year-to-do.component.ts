@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Firestore, doc, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { RouterModule } from '@angular/router';
+import { onSnapshot } from 'firebase/firestore';
 
 interface ToDoItem {
   title: string;
@@ -33,9 +34,14 @@ export class YearToDoComponent implements OnInit {
   async ngOnInit() {
     for (const month of this.months) {
       const ref = doc(this.db, 'yearlyToDo', month);
-      const snap = await getDoc(ref);
-      const data = snap.exists() ? (snap.data() as { items: ToDoItem[] }) : { items: [] };
-      this.toDoData[month] = data.items;
+      onSnapshot(ref, (snap) => {
+        if(snap.exists()) {
+          const data = snap.data();
+          this.toDoData[month] = data['items'] || [];
+        } else {
+          this.toDoData[month] = [];
+        }
+      })
     }
   }
 

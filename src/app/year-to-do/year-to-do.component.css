@@ -37,3 +37,8 @@
   margin: 0;
   font-size: 0.85em;
 }
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}

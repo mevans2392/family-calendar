@@ -2,3 +2,19 @@
   text-align: left;
 }
 
+@media (max-width: 767px) {
+  .fc-dayGridDay-view .fc-daygrid-day-frame {
+  min-height: 250px;
+}
+
+.fc-dayGridDay-view .fc-scrollgrid-section-body {
+  min-height: 300px;
+}
+
+.fc-dayGridDay-view .fc-scrollgrid {
+  height: auto !important;
+}
+
+}
+
+

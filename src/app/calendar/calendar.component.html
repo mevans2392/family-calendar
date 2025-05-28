@@ -1,5 +1,11 @@
+<!-- <div *ngIf="screenService.isMobile()" class="day-nav-buttons d-flex justify-content-between mb-2">
+  <button class="btn btn-sm btn-outline-primary" (click)="goToPreviousDay()"><</button>
+  <span class="align-self-center">{{ formattedMobileDate }}</span>
+  <button class="btn btn-sm btn-outline-primary" (click)="goToNextDay()">></button>
+</div> -->
+
 <div class="calendar-wrapper">
-  <full-calendar [options]="calendarOptions"></full-calendar>
+  <full-calendar #calendar [options]="calendarOptions"></full-calendar>
 </div>
 
 <!-- modal for adding events -->

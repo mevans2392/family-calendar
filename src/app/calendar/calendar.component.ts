@@ -1,12 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FullCalendarModule } from '@fullcalendar/angular';
+import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Auth, user } from '@angular/fire/auth';
 import { Firestore, collection, collectionData, addDoc, deleteDoc, doc, query, orderBy, updateDoc } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { ScreenSizeService } from '../screen-size.service';
 
 interface CalendarEvent {
   id?: string;
@@ -27,7 +27,6 @@ const USER_COLORS: Record<string, string> = {
   'uid-5': 'orange',
 };
 
-
 @Component({
   selector: 'app-calendar',
   standalone: true,
@@ -39,10 +38,13 @@ export class CalendarComponent implements OnInit {
   db: Firestore = inject(Firestore);
   auth: Auth = inject(Auth);
   user$ = user(this.auth);
+  screenService: ScreenSizeService = inject(ScreenSizeService);
+
+  @ViewChild('calendar', { static: false })
+  calendarComponent!: FullCalendarComponent;
 
   calendarOptions: any = {
     plugins: [dayGridPlugin, interactionPlugin],
-    initialView: 'dayGridMonth',
     events: [],
     height: 'auto',
     contentHeight: 'auto',
@@ -50,7 +52,6 @@ export class CalendarComponent implements OnInit {
   };
 
   uid: string = '';
-
   showEventModal = false;
   newEventTitle = '';
   selectedUserId: string | null = null;
@@ -58,6 +59,9 @@ export class CalendarComponent implements OnInit {
   startTime: string = '';
   endTime: string = '';
   editingEvent: CalendarEvent | null = null;
+
+  currentMobileDate = new Date();
+  private eventSub: any;
 
   users = [
     { uid: 'qpRdiNU87IShdxHrFf1uZZRyLql1', name: 'Dada' },
@@ -67,36 +71,89 @@ export class CalendarComponent implements OnInit {
     { uid: 'uid-5', name: 'Anyone' },
   ];
 
+  get formattedMobileDate(): string {
+    return this.currentMobileDate.toISOString().substring(0, 10);
+  }
+
   ngOnInit(): void {
     this.user$.subscribe((user) => {
       if (user) {
         this.uid = user.uid;
-        const ref = collection(this.db, 'calendarEvents');
-        const q = query(ref, orderBy('date'));
-        
-        collectionData(q, { idField: 'id' }).subscribe((events: any[]) => {
-          const calendarEvents = events.map((e) => ({
-            id: e.id,
-            title: e.title,
-            start: e.startTime ? `${e.date}T${e.startTime.trim()}` : e.date,
-            end: e.endTime ? `${e.date}T${e.endTime}` : undefined,
-            allDay: e.isAllDay,
-            backgroundColor: USER_COLORS[e.uid] || 'grey',
-            extendedProps: { uid: e.uid, startTime: e.startTime, endTime: e.endTime }
-          }));
-
-          console.log(calendarEvents[0]);
-          this.setCalendarOptions(calendarEvents);
-        })
+        this.loadEvents();
       }
-    })
+    });
+  }
+
+  loadEvents(): void {
+    if (this.eventSub) {
+      this.eventSub.unsubscribe();
+    }
+
+    const ref = collection(this.db, 'calendarEvents');
+    const q = query(ref, orderBy('date'));
+
+    this.eventSub = collectionData(q, { idField: 'id' }).subscribe((events: any[]) => {
+      const cutoffDate = new Date();
+      cutoffDate.setDate(cutoffDate.getDate() - 365);
+
+      events.forEach(e => {
+        const eventDate = new Date(e.date);
+        if (eventDate < cutoffDate) {
+          deleteDoc(doc(this.db, 'calendarEvents', e.id)).catch(err => console.error('Delete Error:', err));
+        }
+      });
+
+      const calendarEvents = events.map((e) => ({
+        id: e.id,
+        title: e.title,
+        start: e.startTime ? `${e.date}T${e.startTime.trim()}` : e.date,
+        end: e.endTime ? `${e.date}T${e.endTime}` : undefined,
+        allDay: e.isAllDay,
+        backgroundColor: USER_COLORS[e.uid] || 'grey',
+        extendedProps: { uid: e.uid, startTime: e.startTime, endTime: e.endTime }
+      }));
+
+      this.setCalendarOptions(calendarEvents);
+    });
+  }
+
+  goToPreviousDay() {
+    const newDate = new Date(this.currentMobileDate);
+    newDate.setDate(newDate.getDate() - 1);
+    this.currentMobileDate = newDate;
+
+    const calendarApi = this.calendarComponent.getApi?.();
+    if (calendarApi) {
+      calendarApi.gotoDate(this.currentMobileDate);
+    }
+  }
+
+  goToNextDay() {
+    const newDate = new Date(this.currentMobileDate);
+    newDate.setDate(newDate.getDate() + 1);
+    this.currentMobileDate = newDate;
+
+    const calendarApi = this.calendarComponent.getApi?.();
+    if (calendarApi) {
+      calendarApi.gotoDate(this.currentMobileDate);
+    }
   }
 
   setCalendarOptions(events: any[]) {
+    const isMobile = this.screenService.isMobile();
+    const initialView = isMobile ? 'dayGridDay' : 'dayGridMonth';
+    const titleFormat = isMobile ? { month: 'short', day: 'numeric' } : undefined;
+
     this.calendarOptions = {
-      plugins: [dayGridPlugin, interactionPlugin],
-      initialView: 'dayGridMonth',
+      ...this.calendarOptions,
+      initialView,
+      titleFormat,
       events,
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: ''
+      },
       dateClick: this.handleDateClick.bind(this),
       eventClick: this.handleEventClick.bind(this),
       editable: false,
@@ -108,15 +165,25 @@ export class CalendarComponent implements OnInit {
       eventDidMount: (info: any) => {
         const uid = info.event.extendedProps.uid;
         const userColor = USER_COLORS[uid] || 'black';
-
         info.el.style.color = userColor;
-
         const dot = info.el.querySelector('.fc-event-dot') as HTMLElement;
         if (dot) {
           dot.style.borderColor = userColor;
         }
-      }
+      },
+      height: 'auto',
+      contentHeight: 600,
     };
+
+    setTimeout(() => {
+      const calendarApi = this.calendarComponent.getApi?.();
+      if (calendarApi) {
+        calendarApi.changeView(initialView);
+        if (isMobile) {
+          calendarApi.gotoDate(this.formattedMobileDate);
+        }
+      }
+    }, 0);
   }
 
   handleDateClick(arg: any) {
@@ -152,16 +219,13 @@ export class CalendarComponent implements OnInit {
       alert('No event selected to delete.');
       return;
     }
-
     const confirmDelete = confirm('Are you sure you want to delete this event?');
     if (!confirmDelete) return;
-
     try {
       const eventRef = doc(this.db, 'calendarEvents', this.editingEvent.id);
       await deleteDoc(eventRef);
-
       this.showEventModal = false;
-      this.clearForm;
+      this.clearForm();
     } catch (error) {
       console.error('Error deleting event:', error);
       alert('An error occurred while deleting the event.');
@@ -173,7 +237,6 @@ export class CalendarComponent implements OnInit {
       alert("please select a user.");
       return;
     }
-
     const eventData: CalendarEvent = {
       title: this.newEventTitle,
       date: this.selectedDate,
@@ -182,7 +245,6 @@ export class CalendarComponent implements OnInit {
       endTime: this.endTime.trim() || '',
       isAllDay: !this.startTime?.trim(),
     };
-
     try {
       if (this.editingEvent && this.editingEvent.id) {
         const eventRef = doc(this.db, 'calendarEvents', this.editingEvent.id);
@@ -191,13 +253,12 @@ export class CalendarComponent implements OnInit {
         const eventsRef = collection(this.db, 'calendarEvents');
         await addDoc(eventsRef, eventData as { [key:string]: any});
       }
-
       console.log(eventData);
       this.showEventModal = false;
       this.clearForm();
     } catch (error) {
       console.error("Error saving event:", error);
-      alert("An error occured while saving the event.");
+      alert("An error occurred while saving the event.");
     }
   }
 
@@ -209,5 +270,5 @@ export class CalendarComponent implements OnInit {
     this.endTime = '';
     this.editingEvent = null;
   }
-
 }
+

@@ -1,13 +1,15 @@
-<div class="container">
+<div class="container mt-2">
     
     <button class="btn btn-danger" (click)="logout()">Logout</button>
     <button routerLink="/yearly" class="btn btn-primary">Yearly To-Do</button>
 
+    <hr>
+
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-lg-9">
             <app-calendar></app-calendar>
         </div>
-        <div class="col-sm-3">
+        <div class="col-lg-3">
             <app-to-do-list></app-to-do-list>
         </div>
     </div>
