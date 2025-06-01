@@ -1,0 +1,20 @@
+.goal-row {
+  margin-bottom: 10px;
+}
+
+.goal-items-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* .to-do-item {
+  background: #f9f9f9;
+  border-radius: 6px;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+} */

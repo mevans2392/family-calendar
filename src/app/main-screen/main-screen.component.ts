@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { ToDoListComponent } from '../to-do-list/to-do-list.component';
-import { MealPlannerComponent } from '../meal-planner/meal-planner.component';
 import { AuthService } from '../auth.service';
 import { RouterModule } from '@angular/router';
+import { GoalsComponent } from "../goals/goals.component";
 
 @Component({
   selector: 'app-main-screen',
-  imports: [CalendarComponent, ToDoListComponent, MealPlannerComponent, RouterModule],
+  imports: [CalendarComponent, ToDoListComponent, RouterModule, GoalsComponent],
   templateUrl: './main-screen.component.html',
   styleUrl: './main-screen.component.css'
 })

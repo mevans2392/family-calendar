@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <!-- title -->
+    <div class="row">
+        <h3>Week Goals for {{ getThisWeeksFriday() }}</h3>
+    </div>
+
+    <!-- body -->
+    <div class="goal-row" *ngFor="let user of users" [style.color]="USER_COLORS[user.uid] || 'grey'">
+  <strong>{{ user.name }}:</strong>
+
+  <div class="goal-items-wrapper">
+    <div
+      *ngFor="let item of getGoalsForUser(user.uid)"
+      class="to-do-item"
+      (click)="editGoal(item)"
+    >
+      <label [style.color]="USER_COLORS[item.uid] || 'grey'">
+        <input
+          type="checkbox"
+          [(ngModel)]="item.completed"
+          (click)="$event.stopPropagation()"
+        />
+        <span
+          [ngStyle]="{
+            'text-decoration': item.completed ? 'line-through' : 'none'
+          }"
+        >
+          {{ item.title }},
+        </span>
+      </label>
+    </div>
+  </div>
+</div>
+
+
+    <!-- buttons -->
+    <button class="btn btn-primary mt-3" (click)="openModal()">Add Goal</button>
+    <button class="btn btn-danger mt-3" (click)="deleteCompleted()">Delete Goals</button>
+</div>
+
+
+<!-- modal for adding/editing items -->
+<div class="modal" tabindex="-1" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="showModal">
+        <h5>{{ editingGoal ? 'Edit Goal' : 'Add Goal' }}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="goalTitle" class="form-label">Title</label>
+          <input id="goalTitle" class="form-control" [(ngModel)]="newGoalTitle" />
+        </div>
+        <div class="mb-3">
+          <label for="goalUser" class="form-label">Who's Goal?</label>
+          <select id="goalUser" class="form-select" [(ngModel)]="selectedUserId">
+            <option [ngValue]="null">Unassigned</option>
+            <option *ngFor="let user of users" [ngValue]="user.uid">{{ user.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showModal = false">Cancel</button>
+        <button class="btn btn-primary" (click)="editingGoal ? updateGoal() : saveGoals()">
+          {{ editingGoal ? 'Update' : 'Save' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

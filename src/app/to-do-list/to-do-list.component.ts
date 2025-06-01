@@ -80,7 +80,7 @@ export class ToDoListComponent {
   }
 
   async saveToDo() {
-    if(!this.newToDoTitle || ! this.selectedUserId) {
+    if(!this.newToDoTitle || !this.selectedUserId) {
       alert("Please enter a title and select a user");
       return;
     }
