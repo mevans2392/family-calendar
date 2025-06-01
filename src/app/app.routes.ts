@@ -15,6 +15,11 @@ export const appRoutes: Routes = [
     {
         path: 'meals',
         loadComponent: () => 
-            import('./meal-planner/meal-planner.component').then(m => m.MealPlannerComponent)
+            import('./meal-display/meal-display.component').then(m => m.MealDisplayComponent)
+    },
+    {
+        path: 'shopping',
+        loadComponent: () =>
+            import('./shopping-list/shopping-list.component').then(m => m.ShoppingListComponent)
     },
 ];

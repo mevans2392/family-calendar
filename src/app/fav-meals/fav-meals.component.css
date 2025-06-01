@@ -1,0 +1,31 @@
+#to-do-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.fav-meal-item {
+  border-bottom: 1px solid #ccc;
+  background-size: 100% 35px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  line-height: 35px;
+  padding: 0 10px;
+  margin-bottom: 5px;
+}
+
+.ingredient-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.ingredient-list li {
+  padding: 4px 0;
+}
+
+#toDoTitle {
+  margin-top: 30px;
+}

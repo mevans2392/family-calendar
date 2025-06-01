@@ -1,18 +1,15 @@
-<div class="container-fluid mt-2">
-  <button routerLink="/home" class="btn btn-primary">Back to Calendar</button>
-
   <div class="meal-grid-wrapper">
     <div class="header">
-      <h2 class="text-center my-4 border-bottom pb-2">Meal Planner</h2>
+      <h2 class="text-center border-bottom pb-2">Meal Planner</h2>
     </div>
-    <!-- Navigation Row for Compact View -->
+     
     <div *ngIf="isCompact" class="day-nav-row">
       <button class="btn btn-sm btn-outline-primary" (click)="previousDay()">&#8592;</button>
       <span>{{ days[selectedDayIndex] }}</span>
       <button class="btn btn-sm btn-outline-primary" (click)="nextDay()">&#8594;</button>
     </div>
 
-    <!-- Meal Planner Grid -->
+    
     <div class="meal-grid">
       <div class="header">
         <div class="cell empty"></div>
@@ -40,7 +37,7 @@
       </div>
     </div>
   </div>
-</div>
+
 
 
 <!-- modal -->

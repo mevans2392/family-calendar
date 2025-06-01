@@ -18,7 +18,6 @@
   grid-template-columns: repeat(8, 1fr); /* 1 for meal type + 7 days */
   gap: 4px;
   padding: 0 20px 20px 20px;
-  border: 1px solid black;
 }
 
 .header, .meal-row {
@@ -50,7 +49,7 @@
 }
 
 /* === MOBILE/TABLET OVERRIDES === */
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   .meal-grid {
     grid-template-columns: repeat(2, 1fr); /* Meal type + 1 day */
   }

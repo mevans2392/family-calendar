@@ -176,6 +176,7 @@ export class CalendarComponent implements OnInit {
     this.calendarOptions = {
       ...this.calendarOptions,
       initialView,
+      fixedWeekCount: false,
       titleFormat,
       events,
       headerToolbar: {

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Auth, user } from '@angular/fire/auth';
 import { ScreenSizeService } from '../screen-size.service';
 import { onSnapshot } from 'firebase/firestore';
-import { RouterLink } from '@angular/router';
+
 
 interface MealEntry {
   name: string;
@@ -15,7 +15,7 @@ interface MealEntry {
 @Component({
   selector: 'app-meal-planner',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './meal-planner.component.html',
   styleUrl: './meal-planner.component.css'
 })
@@ -34,6 +34,9 @@ export class MealPlannerComponent implements OnInit{
   showModal: boolean = false;
 
   editingIndex: number = -1;
+
+  readonly cellWidth = 120;
+  readonly cellHeight = 100;
 
   users = [
   { uid: 'qpRdiNU87IShdxHrFf1uZZRyLql1', name: 'Dada' },

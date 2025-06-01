@@ -1,0 +1,45 @@
+<div class="container-fluid mt-2">
+    <button routerLink="/home" class="btn btn-primary">Back to Calendar</button>
+    <button routerLink="/meals" class="btn btn-primary" style="margin-left: .5em;">Meal Prep</button>
+    <div class="itemContainer">
+        <h2 style="text-align: center;">Shopping List</h2>
+        <div *ngFor="let items of item" class="items" (click)="editItem(items)">
+            <input type="checkbox" [(ngModel)]="items.completed" (click)="$event.stopPropagation()" />
+            <span [ngStyle]="{ 'text-decoration': items.completed ? 'line-through' : 'none'}">
+                {{ items.title }}
+            </span>
+        </div>
+        <div class="row mt-3 align-items-center">
+            <div class="col-4">
+                <button class="btn btn-primary w-100" (click)="openModal()">Add Item</button>
+            </div>
+            <div class="col-8 d-flex justify-content-end">
+                <button class="btn btn-danger" (click)="deleteShoppingItems()">Delete Selected Items</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal for adding/editing items -->
+<div class="modal" tabindex="-1" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" *ngIf="showModal">
+        <h5>{{ editingItem ? 'Edit To-Do' : 'Add To-Do' }}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="toDoTitle" class="form-label">Title</label>
+          <input id="toDoTitle" class="form-control" [(ngModel)]="newItemTitle" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showModal = false">Cancel</button>
+        <button class="btn btn-primary" (click)="editingItem ? updateItem() : saveShoppingItem()">
+          {{ editingItem ? 'Update' : 'Save' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
