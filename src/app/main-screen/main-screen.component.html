@@ -1,7 +1,11 @@
-<div class="container mt-2">
+<div class="container-fluid mt-2">
     
     <button class="btn btn-danger" (click)="logout()">Logout</button>
-    <button routerLink="/yearly" class="btn btn-primary">Yearly To-Do</button>
+    <button routerLink="/yearly" class="btn btn-primary" style="margin-left: .5em;">Yearly To-Do</button>
+    <button class="btn btn-primary" style="margin-left: .5em;">Weekly Meeting</button>
+    <button routerLink="/meals" class="btn btn-primary" style="margin-left: .5em;">Meal Prep</button>
+    <button class="btn btn-primary" style="margin-left: .5em;">Grocery List</button>
+
 
     <hr>
 
@@ -12,9 +16,6 @@
         <div class="col-lg-3">
             <app-to-do-list></app-to-do-list>
         </div>
-    </div>
-    <div class="row mt-4">
-        <app-meal-planner></app-meal-planner>
     </div>
 
 </div>

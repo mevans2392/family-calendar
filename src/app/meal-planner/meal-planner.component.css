@@ -25,12 +25,16 @@
   display: contents;
 }
 
+.meal-grid .header .cell {
+  height: 80px;
+}
+
 .cell {
   padding: 10px;
   border: 1px solid #ccc;
   text-align: center;
   cursor: pointer;
-  height: 80px;
+  height: 150px;
   display: grid;
   place-items: center;
 }
@@ -43,22 +47,6 @@
 .cell.empty {
   background: transparent;
   border: none;
-}
-
-/* === MODAL === */
-.modal {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1050;
-  background: white;
-  display: block;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  width: 320px;
-  height: 320px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
 
 /* === MOBILE/TABLET OVERRIDES === */

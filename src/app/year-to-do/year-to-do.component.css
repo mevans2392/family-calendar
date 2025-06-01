@@ -12,9 +12,10 @@
   border-radius: 10px;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
   font-family: 'Courier New', Courier, monospace;
-  min-height: 250px;
+  min-height: 300px;
   cursor: pointer;
   transition: transform 0.2s ease;
+  font-size: 1.5rem;
 }
 
 .month-box:hover {

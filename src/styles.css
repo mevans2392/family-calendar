@@ -17,7 +17,7 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  height: 100px;
+  height: 120px;
 }
 
 .fc-scroller-harness {

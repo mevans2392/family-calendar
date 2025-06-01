@@ -1,29 +1,42 @@
-<div class="meal-grid-wrapper">
-  <div class="header">
-    <h2 class="text-center my-4 border-bottom pb-2">Meal Planner</h2>
-  </div>
-  <!-- Navigation Row for Compact View -->
-  <div *ngIf="isCompact" class="day-nav-row">
-    <button class="btn btn-sm btn-outline-primary" (click)="previousDay()">&#8592;</button>
-    <span>{{ days[selectedDayIndex] }}</span>
-    <button class="btn btn-sm btn-outline-primary" (click)="nextDay()">&#8594;</button>
-  </div>
+<div class="container-fluid mt-2">
+  <button routerLink="/home" class="btn btn-primary">Back to Calendar</button>
 
-  <!-- Meal Planner Grid -->
-  <div class="meal-grid">
+  <div class="meal-grid-wrapper">
     <div class="header">
-      <div class="cell empty"></div>
-      <div class="cell" *ngFor="let day of visibleDays">{{ day }}</div>
+      <h2 class="text-center my-4 border-bottom pb-2">Meal Planner</h2>
+    </div>
+    <!-- Navigation Row for Compact View -->
+    <div *ngIf="isCompact" class="day-nav-row">
+      <button class="btn btn-sm btn-outline-primary" (click)="previousDay()">&#8592;</button>
+      <span>{{ days[selectedDayIndex] }}</span>
+      <button class="btn btn-sm btn-outline-primary" (click)="nextDay()">&#8594;</button>
     </div>
 
-    <div class="meal-row" *ngFor="let meal of meals">
-      <div class="cell meal-type">{{ meal }}</div>
-      <div
-        class="cell"
-        *ngFor="let day of visibleDays"
-        (click)="openEventModal(day, meal)"
-      >
-        {{ mealData[day]?.[meal] || '' }}
+    <!-- Meal Planner Grid -->
+    <div class="meal-grid">
+      <div class="header">
+        <div class="cell empty"></div>
+        <div class="cell" *ngFor="let day of visibleDays">{{ day }}</div>
+      </div>
+
+      <div class="meal-row" *ngFor="let meal of meals">
+        <div class="cell meal-type">{{ meal }}</div>
+        <div
+          class="cell"
+          *ngFor="let day of visibleDays"
+        >
+          <div 
+            *ngFor="let entry of mealData[day]?.[meal] || []" 
+            [style.color]="USER_COLORS[entry.uid] || 'inherit'"
+            (click)="editMeal(day, meal, entry)"
+            style="cursor: pointer;">
+            {{ entry.name }}
+          </div>
+          <div (click)="openEventModal(day, meal)" class="text-muted small" style="cursor:pointer;">
+            + Add
+          </div>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -31,22 +44,62 @@
 
 
 <!-- modal -->
-<div class="modal" tabindex="-1" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
+<!-- Meal Planner Modal -->
+<div
+  class="modal fade"
+  tabindex="-1"
+  [class.show]="showModal"
+  [style.display]="showModal ? 'block' : 'none'"
+  [style.opacity]="showModal ? '1' : '0'"
+  role="dialog"
+>
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header" *ngIf="showModal">
-        <h5 class="modal-title">{{ selectedDay }} - {{ selectedMeal }}</h5>
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ editingIndex >= 0 ? 'Edit Meal' : 'Add Meal' }} – {{ selectedDay }} / {{ selectedMeal }}
+        </h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="showModal = false"></button>
       </div>
+
+      <!-- Modal Body -->
       <div class="modal-body">
         <div class="mb-3">
-          <label for="mealInput" class="form-label">Meal</label>
-          <input id="mealInput" class="form-control" [(ngModel)]="mealInput" />
+          <label for="mealInput" class="form-label">Meal Name</label>
+          <input
+            id="mealInput"
+            class="form-control"
+            [(ngModel)]="mealInput.name"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="userSelect" class="form-label">Who's Meal?</label>
+          <select
+            id="userSelect"
+            class="form-select"
+            [(ngModel)]="mealInput.uid"
+          >
+            <option [ngValue]="null" disabled>Select a person</option>
+            <option *ngFor="let user of users" [ngValue]="user.uid">
+              {{ user.name }}
+            </option>
+          </select>
         </div>
       </div>
+
+      <!-- Modal Footer -->
       <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="showModal = false">Cancel</button>
-        <button class="btn btn-primary" (click)="saveMeal()">Save</button>
+        <button type="button" class="btn btn-danger" (click)="deleteMeal()">Delete Meal</button>
+        <button type="button" class="btn btn-secondary" (click)="showModal = false">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveMeal()">
+          {{ editingIndex >= 0 ? 'Update Meal' : 'Save Meal' }}
+        </button>
       </div>
+      
     </div>
   </div>
 </div>
+

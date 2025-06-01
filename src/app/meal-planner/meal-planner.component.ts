@@ -5,11 +5,17 @@ import { CommonModule } from '@angular/common';
 import { Auth, user } from '@angular/fire/auth';
 import { ScreenSizeService } from '../screen-size.service';
 import { onSnapshot } from 'firebase/firestore';
+import { RouterLink } from '@angular/router';
+
+interface MealEntry {
+  name: string;
+  uid: string;
+}
 
 @Component({
   selector: 'app-meal-planner',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './meal-planner.component.html',
   styleUrl: './meal-planner.component.css'
 })
@@ -25,8 +31,28 @@ export class MealPlannerComponent implements OnInit{
   selectedDayIndex: number = new Date().getDay();
   selectedDay: string = this.days[this.selectedDayIndex];
   selectedMeal: string | null = null;
-  mealInput: string = '';
   showModal: boolean = false;
+
+  editingIndex: number = -1;
+
+  users = [
+  { uid: 'qpRdiNU87IShdxHrFf1uZZRyLql1', name: 'Dada' },
+  { uid: 'kc0kSHF8wSbz4vbVyJ8TjFT3Hjo2', name: 'Mama' },
+  { uid: 'uid-3', name: 'Riley' },
+  { uid: 'uid-4', name: 'Mimi' },
+  { uid: 'uid-5', name: 'Anyone' },
+];
+
+USER_COLORS: Record<string, string> = {
+  'qpRdiNU87IShdxHrFf1uZZRyLql1': 'green',
+  'kc0kSHF8wSbz4vbVyJ8TjFT3Hjo2': 'purple',
+  'uid-3': 'red',
+  'uid-4': 'blue',
+  'uid-5': 'orange',
+};
+
+mealInput: MealEntry = { name: '', uid: '' };
+
 
   constructor(private screenService: ScreenSizeService) {}
 
@@ -44,23 +70,87 @@ export class MealPlannerComponent implements OnInit{
     console.log('modal triggered', day, meal);
     this.selectedDay = day;
     this.selectedMeal = meal;
-    this.mealInput = this.mealData[day]?.[meal] || '';
+
+    const existingMeal = this.mealData[day]?.[meal];
+
+    this.mealInput = {
+      name: existingMeal?.name || '',
+      uid: existingMeal?.uid || '',
+    };
+
     this.showModal = true;
   }
 
-  async saveMeal() {
+  async saveMeal(): Promise<void> {
     if (!this.selectedDay || !this.selectedMeal) return;
+
     const ref = doc(this.db, 'mealPlanner', this.selectedDay);
 
-    const update = { [this.selectedMeal]: this.mealInput };
-    try {
-      await updateDoc(ref, update);
-    } catch (error) {
-      await setDoc(ref, update)
+    // Ensure structure exists
+    const existingEntries = Array.isArray(this.mealData[this.selectedDay]?.[this.selectedMeal])
+      ? this.mealData[this.selectedDay][this.selectedMeal]
+      : [];
+
+    const updatePayload: any = {};
+
+    if (this.editingIndex >= 0) {
+      // Editing an existing entry
+      const updated = [...existingEntries];
+      updated[this.editingIndex] = { ...this.mealInput };
+      updatePayload[this.selectedMeal] = updated;
+      this.editingIndex = -1;
+    } else {
+      // Adding a new entry
+      updatePayload[this.selectedMeal] = [...existingEntries, { ...this.mealInput }];
     }
 
-    this.mealData[this.selectedDay][this.selectedMeal] = this.mealInput;
+    try {
+      await updateDoc(ref, updatePayload);
+    } catch (error) {
+      await setDoc(ref, updatePayload);
+    }
+
+    // Reflect changes in local state
+    if (!this.mealData[this.selectedDay]) {
+      this.mealData[this.selectedDay] = {};
+    }
+    this.mealData[this.selectedDay][this.selectedMeal] = updatePayload[this.selectedMeal];
     this.showModal = false;
+  }
+
+
+  editMeal(day: string, meal: string, entry: MealEntry) {
+    this.selectedDay = day;
+    this.selectedMeal = meal;
+    this.mealInput = { ...entry };
+    this.editingIndex = this.mealData[day][meal].findIndex((e: MealEntry) => 
+      e.name === entry.name && e.uid === entry.uid
+    );
+    this.showModal = true;
+  }
+
+  async deleteMeal(): Promise<void> {
+    if (this.selectedDay && this.selectedMeal && this.editingIndex >= 0) {
+      const ref = doc(this.db, 'mealPlanner', this.selectedDay);
+      const existingEntries = this.mealData[this.selectedDay][this.selectedMeal] || [];
+
+      const updatedEntries = [...existingEntries];
+      updatedEntries.splice(this.editingIndex, 1); // remove 1 item at index
+
+      const updatePayload = {
+        [this.selectedMeal]: updatedEntries
+      };
+
+      try {
+        await updateDoc(ref, updatePayload);
+      } catch (error) {
+        console.error('Error deleting meal:', error);
+      }
+
+      this.mealData[this.selectedDay][this.selectedMeal] = updatedEntries;
+      this.editingIndex = -1;
+      this.showModal = false;
+    }
   }
 
   get isCompact(): boolean {
