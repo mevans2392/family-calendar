@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { LoginComponent } from "./login/login.component";
+import { LoginComponent } from "./components/login/login.component";
 import { MainScreenComponent } from "./main-screen/main-screen.component";
 
 
@@ -21,5 +21,10 @@ export const appRoutes: Routes = [
         path: 'shopping',
         loadComponent: () =>
             import('./shopping-list/shopping-list.component').then(m => m.ShoppingListComponent)
+    },
+    {
+        path: 'register',
+        loadComponent: () =>
+            import('./components/register-family/register-family.component').then(m => m.RegisterFamilyComponent)
     },
 ];

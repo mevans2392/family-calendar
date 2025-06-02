@@ -3,7 +3,7 @@ import { Firestore, doc, getDoc, setDoc, updateDoc } from '@angular/fire/firesto
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Auth, user } from '@angular/fire/auth';
-import { ScreenSizeService } from '../screen-size.service';
+import { ScreenSizeService } from '../services/screen-size.service';
 import { onSnapshot } from 'firebase/firestore';
 
 

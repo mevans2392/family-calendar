@@ -12,10 +12,15 @@
             <input [(ngModel)]="password" type="password" id="password" class="form-control" />
         </div>
 
-        <label>
+        <div class="mb-3 d-flex align-items-center justify-content-between">
+            <label>
             <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" />
-            Remember Me
-        </label>
+                Remember Me
+            </label>
+
+            <button routerLink="/register" class="btn btn-link">Register Family</button>
+        </div>
+        
 
         <button class="btn btn-primary w-100" (click)="login()">Login</button>
 
