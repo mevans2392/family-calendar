@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, collectionData, doc, deleteDoc, addDoc, updateDoc, query, orderBy } from '@angular/fire/firestore';
-import { Auth } from '@angular/fire/auth';
 import { CalendarEvent } from '../shared/shared-interfaces';
 import { Observable } from 'rxjs';
 import { FamilyMembersService } from './family-members.service';
@@ -10,7 +9,6 @@ import { FamilyMembersService } from './family-members.service';
 })
 export class CalendarService {
   private firestore: Firestore = inject(Firestore);
-  private auth: Auth = inject(Auth);
   private familyService: FamilyMembersService = inject(FamilyMembersService);
 
   async loadEvents(): Promise<Observable<CalendarEvent[]>> {

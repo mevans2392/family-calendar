@@ -14,6 +14,7 @@
             />
             <span
             [class.completed]="item.completed"
+            [style.color]="getColorForUid(item.uid)"
             (click)="openModal(month, i)"
             >
             {{ item.title }}
@@ -28,12 +29,12 @@
 <div
   class="modal"
   tabindex="-1"
-  [class.show]="showEventModal"
-  [style.display]="showEventModal ? 'block' : 'none'"
+  [class.show]="showModal"
+  [style.display]="showModal ? 'block' : 'none'"
 >
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header" *ngIf="showEventModal">
+      <div class="modal-header" *ngIf="showModal">
         <h5 class="modal-title">
           {{ selectedMonth }} - {{ editingIndex !== null ? 'Edit Task' : 'Add Task' }}
         </h5>
@@ -42,6 +43,13 @@
         <div class="mb-3">
           <label for="toDoInput" class="form-label">Task</label>
           <input id="toDoInput" class="form-control" [(ngModel)]="newToDoTitle" />
+        </div>
+        <div class="mb-3">
+          <label for="toDoUser" class="form-label">Who's Doing it?</label>
+          <select id="toDoUser" class="form-select" [(ngModel)]="selectedUserId">
+            <option [ngValue]="null">Select a Family Member</option>
+            <option *ngFor="let user of familyMembers" [ngValue]="user.id">{{ user.name }}</option>
+          </select>
         </div>
       </div>
       <div class="modal-footer">

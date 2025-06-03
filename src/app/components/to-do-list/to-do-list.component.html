@@ -6,7 +6,7 @@
     </div>
     <div class="row" id="to-do-container">
         <div *ngFor="let item of toDoItems" class="to-do-items" (click)="editItem(item)">
-            <label [style.color]="USER_COLORS[item.uid] || 'grey'">
+            <label [style.color]="getColorForUid(item.uid) || 'grey'">
                 <input type="checkbox" [(ngModel)]="item.completed" (click)="$event.stopPropagation()"/>
                 <span [ngStyle]="{ 'text-decoration': item.completed ? 'line-through' : 'none' }">
                     {{item.title }}
@@ -27,10 +27,10 @@
 
 
 <!-- modal for adding/editing items -->
-<div class="modal" tabindex="-1" [class.show]="showEventModal" [style.display]="showEventModal ? 'block' : 'none'">
+<div class="modal" tabindex="-1" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header" *ngIf="showEventModal">
+      <div class="modal-header" *ngIf="showModal">
         <h5>{{ editingItem ? 'Edit To-Do' : 'Add To-Do' }}</h5>
       </div>
       <div class="modal-body">
@@ -41,13 +41,13 @@
         <div class="mb-3">
           <label for="toDoUser" class="form-label">Assign to</label>
           <select id="toDoUser" class="form-select" [(ngModel)]="selectedUserId">
-            <option [ngValue]="null">Unassigned</option>
-            <option *ngFor="let user of users" [ngValue]="user.uid">{{ user.name }}</option>
+            <option [ngValue]="null">Select a Family Member</option>
+            <option *ngFor="let user of familyMembers" [ngValue]="user.id">{{ user.name }}</option>
           </select>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="showEventModal = false">Cancel</button>
+        <button class="btn btn-secondary" (click)="showModal = false">Cancel</button>
         <button class="btn btn-primary" (click)="editingItem ? updateToDo() : saveToDo()">
           {{ editingItem ? 'Update' : 'Save' }}
         </button>

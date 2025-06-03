@@ -5,16 +5,16 @@
     </div>
 
     <!-- body -->
-    <div class="goal-row" *ngFor="let user of users" [style.color]="USER_COLORS[user.uid] || 'grey'">
+    <div class="goal-row" *ngFor="let user of familyMembers" [style.color]="getColorForUid(user.id) || 'grey'">
   <strong>{{ user.name }}:</strong>
 
   <div class="goal-items-wrapper">
     <div
-      *ngFor="let item of getGoalsForUser(user.uid)"
+      *ngFor="let item of getGoalsForUser(user.id)"
       class="to-do-item"
-      (click)="editGoal(item)"
+      (click)="handleGoalClick(item)"
     >
-      <label [style.color]="USER_COLORS[item.uid] || 'grey'">
+      <label [style.color]="getColorForUid(user.id) || 'grey'">
         <input
           type="checkbox"
           [(ngModel)]="item.completed"
@@ -35,7 +35,7 @@
 
     <!-- buttons -->
     <button class="btn btn-primary mt-3" (click)="openModal()">Add Goal</button>
-    <button class="btn btn-danger mt-3" (click)="deleteCompleted()">Delete Goals</button>
+    <button class="btn btn-danger mt-3" (click)="deleteGoals()">Delete Goals</button>
 </div>
 
 
@@ -54,14 +54,14 @@
         <div class="mb-3">
           <label for="goalUser" class="form-label">Who's Goal?</label>
           <select id="goalUser" class="form-select" [(ngModel)]="selectedUserId">
-            <option [ngValue]="null">Unassigned</option>
-            <option *ngFor="let user of users" [ngValue]="user.uid">{{ user.name }}</option>
+            <option [ngValue]="null">Select a Family Member</option>
+            <option *ngFor="let user of familyMembers" [ngValue]="user.id">{{ user.name }}</option>
           </select>
         </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" (click)="showModal = false">Cancel</button>
-        <button class="btn btn-primary" (click)="editingGoal ? updateGoal() : saveGoals()">
+        <button class="btn btn-primary" (click)="editingGoal ? saveGoal() : saveGoal()">
           {{ editingGoal ? 'Update' : 'Save' }}
         </button>
       </div>

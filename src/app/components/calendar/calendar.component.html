@@ -24,7 +24,7 @@
         <div class="mb-3">
           <label for="eventUser" class="form-label">Assign to</label>
           <select id="eventUser" class="form-select" [(ngModel)]="selectedUserId">
-            <option [ngValue]="null">Unassigned</option>
+            <option [ngValue]="null">Select a Family Member</option>
             <option *ngFor="let member of familyMembers" [ngValue]="member.id">{{ member.name }}</option>
           </select>
         </div>

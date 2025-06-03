@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MealPlannerComponent } from "../meal-planner/meal-planner.component";
+import { MealPlannerComponent } from '../meal-planner/meal-planner.component';
 import { RouterLink } from '@angular/router';
 import { FavMealsComponent } from "../fav-meals/fav-meals.component";
 

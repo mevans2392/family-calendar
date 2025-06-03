@@ -56,7 +56,7 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h5 class="modal-title">
-          {{ editingIndex >= 0 ? 'Edit Meal' : 'Add Meal' }} – {{ selectedDay }} / {{ selectedMeal }}
+          {{ editingIndex !== null ? 'Edit Meal' : 'Add Meal' }} – {{ selectedDay }} / {{ selectedMeal }}
         </h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="showModal = false"></button>
       </div>
@@ -80,7 +80,7 @@
             [(ngModel)]="mealInput.uid"
           >
             <option [ngValue]="null" disabled>Select a person</option>
-            <option *ngFor="let user of users" [ngValue]="user.uid">
+            <option *ngFor="let user of familyMembers" [ngValue]="user.id">
               {{ user.name }}
             </option>
           </select>
@@ -92,7 +92,7 @@
         <button type="button" class="btn btn-danger" (click)="deleteMeal()">Delete Meal</button>
         <button type="button" class="btn btn-secondary" (click)="showModal = false">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="saveMeal()">
-          {{ editingIndex >= 0 ? 'Update Meal' : 'Save Meal' }}
+          {{ editingIndex !== null ? 'Update Meal' : 'Save Meal' }}
         </button>
       </div>
       
