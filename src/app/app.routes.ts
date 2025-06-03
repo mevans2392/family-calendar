@@ -27,4 +27,9 @@ export const appRoutes: Routes = [
         loadComponent: () =>
             import('./components/register-family/register-family.component').then(m => m.RegisterFamilyComponent)
     },
+    {
+        path: 'meeting',
+        loadComponent: () =>
+            import('./components/fam-meeting/fam-meeting.component').then(m => m.FamMeetingComponent)
+    }
 ];

@@ -12,14 +12,25 @@ export class FamilyMembersService {
   private auth: Auth = inject(Auth);
 
   async getFamilyId(): Promise<string> {
-    const uid = this.auth.currentUser?.uid;
-    if (!uid) throw new Error('User not authenticated');
+    const auth = this.auth;
+
+    const uid = await new Promise<string>((resolve, reject) => {
+      const unsubscribe = auth.onAuthStateChanged(user => {
+        unsubscribe(); // stop listening once auth is ready
+        if (user?.uid) {
+          resolve(user.uid);
+        } else {
+          reject('User not authenticated');
+        }
+      });
+    });
 
     const userDoc = await getDoc(doc(this.firestore, 'users', uid));
     const data = userDoc.data();
-    if(!data?.['familyId']) throw new Error('Family ID not found');
+    if (!data?.['familyId']) throw new Error('Family ID not found');
     return data['familyId'];
   }
+
 
   async getMembers(): Promise<Observable<FamilyMember[]>> {
     const familyId = await this.getFamilyId();

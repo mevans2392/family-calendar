@@ -8,3 +8,20 @@ export function getThisWeeksFriday(): string {
     const date = friday.getDate();
     return `${month}/${date}`;
 }
+
+export function getStartAndEndOfWeekStrings(date: Date = new Date()): { start: string; end: string } {
+  const dayIndex = date.getDay(); // 0 = Sunday
+  const start = new Date(date);
+  start.setDate(date.getDate() - dayIndex);
+
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+
+  const format = (d: Date) =>
+    d.toISOString().split('T')[0]; // 'YYYY-MM-DD'
+
+  return {
+    start: format(start),
+    end: format(end),
+  };
+}

@@ -20,12 +20,6 @@
 }
 
 #toDoTitle {
-  margin-top: 60px;
-}
-
-@media (max-width: 767px) {
-  #toDoTitle {
-    margin-top: 30px;
-  }
+  margin-top: 30px;
 }
 

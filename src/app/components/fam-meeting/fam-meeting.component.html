@@ -1,0 +1,96 @@
+<div class="container mt-4">
+    <button routerLink="/home" class="btn btn-primary mb-3">Back to Calendar</button>
+    <h2 class="mb-3 text-center">Weekly Meeting</h2>
+    <div class="mb-3 border p-3">
+        <p>What are you grateful for?</p>
+        <p>What did you find hard about last week?</p>
+        <p>What did you appreciate from your partner last week?</p>
+        <p>What would you like to see more of from your partner this week?</p>
+        
+    </div>
+
+    <h2 class="mb-3 text-center">This Week's Calendar</h2>
+
+    <div class="row text-center fw-bold bg-light border py-2">
+        <div class="col" *ngFor="let day of daysOfWeek">
+        {{ day }}<br />
+        {{ formatDateForDisplay(weekDates[day]) }}
+        </div>
+    </div>
+
+    <div class="row text-center border-bottom py-2" *ngIf="weekEvents">
+        <div class="col" *ngFor="let day of daysOfWeek">
+        <div 
+            *ngFor="let event of weekEvents[weekDates[day]]" 
+            class="small text-start ps-2" 
+            [style.color]="event.isAllDay ? 'white' : memberColors[event.uid] || 'grey'"
+            [ngStyle]="{ 'background-color': event.isAllDay ? memberColors[event.uid] || 'grey' : 'transparent', 'padding': event.isAllDay ? '2px 6px' : '' }"
+            (click)="openEditEventModal(event)"
+            style="cursor: pointer; border-radius: 4px;"
+            >
+            {{ event.startTime ? formatTimeTo12Hour(event.startTime) + ' - ' : '' }}{{event.title }}
+        </div>
+        <div (click)="openNewEventModal(weekDates[day])" class="text-muted small" style="cursor:pointer;">
+            + Add
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-6" style="border: 1px solid black; padding-bottom: 2rem;">
+            <app-to-do-list></app-to-do-list>
+        </div>
+        <div class="col-6" style="border-top: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; padding-bottom: 2rem;">
+            <app-fav-meals></app-fav-meals>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <app-meal-planner></app-meal-planner>
+</div>
+
+
+<!-- modal for adding Calendar events -->
+<div class="modal" tabindex="-1" [class.show]="showCalendarModal" [style.display]="showCalendarModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ editingEvent ? 'Edit Event' : 'Add Event' }}</h5>
+        <button type="button" class="btn-close" (click)="showCalendarModal = false"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="eventTitle" class="form-label">Title</label>
+          <input id="eventTitle" class="form-control" [(ngModel)]="newEventTitle" />
+        </div>
+        <div class="mb-3">
+          <label for="eventUser" class="form-label">Assign to</label>
+          <select id="eventUser" class="form-select" [(ngModel)]="selectedUserId">
+            <option [ngValue]="null">Select a Family Member</option>
+            <option *ngFor="let member of familyMembers" [ngValue]="member.id">{{ member.name }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Date: {{ selectedDate }}</label>
+        </div>
+        <div class="mb-3">
+          <label for="startTime" class="form-label">Start Time</label>
+          <input id="startTime" class="form-control" type='time' [(ngModel)]="startTime" />
+        </div>
+        <div class="mb-3">
+          <label for="endTime" class="form-label">End Time</label>
+          <input id="endTime" class="form-control" type='time' [(ngModel)]="endTime" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showCalendarModal = false">Cancel</button>
+        <button *ngIf="editingEvent" class="btn btn-danger me-auto" (click)="deleteEvent()">Delete</button>
+        <button class="btn btn-primary" (click)="saveEvent()">
+          {{ editingEvent ? 'Update Event' : 'Save Event'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
