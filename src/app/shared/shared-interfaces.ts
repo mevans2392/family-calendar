@@ -2,11 +2,14 @@ export interface CalendarEvent {
   id?: string;
   title: string;
   date: string;
+  repeat?: 'daily' | 'weekly' | 'monthly';
+  repeatUntil?: string;
   isAllDay: boolean;
   uid: string;
   userColor?: string;
   startTime?: string;
   endTime?: string;
+  seriesId?: string;
 }
 
 export interface FamilyMember {

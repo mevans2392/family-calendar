@@ -1,0 +1,43 @@
+.header {
+    display: grid;
+    grid-auto-rows: 60px;
+    position: relative;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    align-items: center;
+}
+
+.day-grid {
+  display: grid;
+  grid-auto-rows: 60px; /* each hour = 60px */
+  position: relative;
+}
+
+.member-cell {
+  position: relative;
+  border-right: 1px solid #eee; 
+  height: 60px;
+}
+
+.time-column {
+  width: 60px;
+  min-width: 60px;
+  max-width: 60px;
+  text-align: right;
+  padding: 0.25em;
+  border-right: 1px solid #ddd;
+}
+
+.event-block {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 0.75rem;
+  color: white;
+  z-index: 2;
+}
+
+

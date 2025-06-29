@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CalendarService } from '../../services/calendar.service';
-import { getStartAndEndOfWeekStrings } from '../../shared/date-utils';
+import { DateUtils } from '../../shared/date-utils';
 import { CalendarEvent, FamilyMember } from '../../shared/shared-interfaces';
 import { FamilyMembersService } from '../../services/family-members.service';
 import { RouterModule } from '@angular/router';
@@ -38,8 +38,8 @@ export class FamMeetingComponent implements OnInit {
   currentEventId: string | null = null;
 
   async ngOnInit(): Promise<void> {
-    const { start } = getStartAndEndOfWeekStrings();
-    this.dateStrings = this.generateWeekDates(start);
+    // const { start } = DateUtils.getStartOfWeek(Date.getDate());
+    // this.dateStrings = this.generateWeekDates(start);
 
     const members$ = await this.familyService.getMembers();
     members$.subscribe(members => {

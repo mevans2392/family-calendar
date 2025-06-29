@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 import { FamilyMember, ToDoItem } from '../../shared/shared-interfaces';
 import { YearToDoService } from '../../services/year-to-do.service';
 import { FamilyMembersService } from '../../services/family-members.service';
+import { NavComponent } from '../nav/nav.component';
 
 @Component({
   selector: 'app-year-to-do-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, NavComponent],
   templateUrl: './year-to-do.component.html',
   styleUrl: './year-to-do.component.css'
 })

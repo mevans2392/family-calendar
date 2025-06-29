@@ -1,0 +1,28 @@
+<div class="tab-container">
+    
+    <div 
+        class="tab"
+        style="background: rgba(255, 0, 0, 0.25);"
+    >
+        <button class="button" (click)="logout()">Logout</button>
+    </div>
+
+    <div
+        class="tab"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+    >
+        <button class="button" routerLink="/home">Calendar</button>
+    </div>
+
+    <div class="tab" routerLinkActive="active">
+        <button class="button" routerLink="/yearly">Yearly To-Do</button>
+    </div>
+
+    <div class="tab" routerLinkActive="active">
+        <button class="button" routerLink="/meals">Meal Prep</button>
+    </div>
+</div>
+
+<div class="tab-content"></div>
+

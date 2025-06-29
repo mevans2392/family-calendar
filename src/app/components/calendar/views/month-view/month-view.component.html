@@ -1,0 +1,45 @@
+<div class="month-view">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0">{{ monthLabel }}</h4>
+        <div class="btn-group">
+            <button class="btn btn-outline-secondary" (click)="goToPreviousMonth()">&lt;</button>
+            <button class="btn btn-outline-secondary" (click)="goToThisMonth()" style="width: 200px;">Jump to Current Month</button>
+            <button class="btn btn-outline-secondary" (click)="goToNextMonth()">&gt;</button>
+        </div>
+        
+    </div>
+    <div class="header-row">
+        <div class="day-name" *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
+            {{ day }}
+        </div>
+    </div>
+    <div class="week-row" *ngFor="let week of weeks">
+        <div
+            class="day-cell"
+            *ngFor="let day of week"
+            [class.today]="isToday(day)"
+            (click)="onDateClick(day)"
+        >
+            <div class="date-number">{{ day.getDate() }}</div>
+            <div
+                class="event-pill"
+                *ngFor="let event of getEventsForDay(day)"
+                [style.color]="getColorForUid(event.uid)"
+                (click)="onEventClick(event, $event)"
+            >
+                <ng-container *ngIf="!showBubbleOnly">
+                    <span *ngIf="!event.isAllDay && event.startTime">{{ formatTime(event.startTime) }}: </span> {{ event.title }}
+                </ng-container>
+
+                <ng-container *ngIf="showBubbleOnly">
+                    <div
+                        class="user-bubble"
+                        [style.backgroundColor]="getColorForUid(event.uid)"
+                        style="width: 100%; height: 12px; border-radius: 20%; display: inline-block;"
+                    ></div>
+                </ng-container>
+                
+            </div>
+        </div>
+    </div>
+</div>

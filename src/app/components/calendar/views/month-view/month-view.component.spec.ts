@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainScreenComponent } from './main-screen.component';
+import { MonthViewComponent } from './month-view.component';
 
-describe('MainScreenComponent', () => {
-  let component: MainScreenComponent;
-  let fixture: ComponentFixture<MainScreenComponent>;
+describe('MonthViewComponent', () => {
+  let component: MonthViewComponent;
+  let fixture: ComponentFixture<MonthViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MainScreenComponent]
+      imports: [MonthViewComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MainScreenComponent);
+    fixture = TestBed.createComponent(MonthViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

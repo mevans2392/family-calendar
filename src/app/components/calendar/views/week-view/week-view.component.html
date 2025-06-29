@@ -1,0 +1,61 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">{{ weekEndingLabel }}</h4>
+    <div class="btn-group">
+        <div class="btn btn-outline-secondary" (click)="goToPreviousWeek()">&lt;</div>
+        <div class="btn btn-outline-secondary" (click)="goToThisWeek()">Jump to Current Week</div>
+        <div class="btn btn-outline-secondary" (click)="goToNextWeek()">&gt;</div>
+    </div>
+    
+    
+</div>
+
+<div class="week-scroll-container">
+    <!-- Week Header -->
+    <div class="week-header">
+        <div class="time-column"></div>
+        <div *ngFor="let day of getWeekDates()" class="day-header">
+            {{ day | date: 'EEE' }}
+        </div>
+    </div>
+
+    <!-- Hour Rows -->
+    <div *ngFor="let hour of hours" class="week-row">
+        <div class="time-column">
+            {{ formatHour(hour) }}
+        </div>
+
+        <!-- Each hour has 7 day cells -->
+        <div 
+            *ngFor="let day of getWeekDates()" 
+            class="day-cell"
+            (click)="onDateClick(day)"    
+        >
+            <div *ngIf="hour === 6" class="day-cell">
+                <div
+                    *ngFor="let event of getAllDayEventsForDay(day)"
+                    class="event-block all-day"
+                    [style.backgroundColor]="getColorForUid(event.uid)"
+                    [style.height.px]="getEventDuration(event) * 60"
+                    (click)="onEventClick(event, $event)"
+                >
+                    {{ event.title }}
+                </div>
+            </div>
+            <div
+                *ngFor="let event of getEventsForSlot(day, hour)"
+                class="event-block"
+                [style.backgroundColor]="getColorForUid(event.uid)"
+                [style.height.px]="getEventDuration(event) * 60"
+                [style.top.px]="getEventOffset(event)"
+                [style.width.%]="100 / event.total"
+                [style.left.%]="(100 / event.total) * event.offset"
+                style="color: white;"
+                (click)="onEventClick(event, $event)"
+            >
+                <span *ngIf="!event.isAllDay && event.startTime">{{ formatTime(event.startTime) }}: </span>
+                {{ event.title }}
+            </div>
+            
+        </div>
+    </div>
+</div>

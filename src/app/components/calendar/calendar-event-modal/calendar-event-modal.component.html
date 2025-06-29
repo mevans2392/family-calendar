@@ -1,0 +1,114 @@
+<div
+  class="modal"
+  tabindex="-1"
+  [class.show]="show"
+  [style.display]="show ? 'block' : 'none'"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ editingEvent ? 'Edit Event' : 'Add Event' }}</h5>
+        <button type="button" class="btn-close" (click)="onClose()"></button>
+      </div>
+
+      <div class="modal-body">
+        
+        <div class="mb-3">
+          <label for="eventTitle" class="form-label">Title</label>
+          <input id="eventTitle" class="form-control" [(ngModel)]="newEventTitle" />
+        </div>
+
+        <div class="mb-3">
+          <label for="eventUser" class="form-label">Assign to</label>
+          <select
+            id="eventUser"
+            class="form-select"
+            [(ngModel)]="selectedUserId"
+          >
+            <option [ngValue]="null">Select a Family Member</option>
+            <option *ngFor="let member of familyMembers" [ngValue]="member.id">
+              {{ member.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="repeatOption" class="form-label">Repeat</label>
+          <select id="repeatOption" class="form-select" [(ngModel)]="repeatOption">
+            <option value="">Does not repeat</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="repeatUntil" class="form-label">Repeat Until</label>
+          <input id="repeatUntil" class="form-control" type="date" [(ngModel)]="repeatUntil" />
+        </div>
+
+        <div class="mb-3">
+          <label>
+            <input type="checkbox" [(ngModel)]="isAllDay" />
+            All Day Event
+          </label>
+        </div>
+
+        <div *ngIf="!isAllDay">
+          <div class="mb-3">
+            <label for="startTime" class="form-label">Start Time</label>
+            <input
+              id="startTime"
+              class="form-control"
+              type="time"
+              [(ngModel)]="startTime"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="endTime" class="form-label">End Time</label>
+            <input
+              id="endTime"
+              class="form-control"
+              type="time"
+              [(ngModel)]="endTime"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="onClose()">Cancel</button>
+        <button *ngIf="editingEvent" class="btn btn-danger me-auto" (click)="onDelete()">Delete</button>
+        <button class="btn btn-primary" (click)="onSave()">
+          {{ isEditing ? 'Update Event' : 'Save Event' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Delete Confirmation Modal -->
+<div
+  class="modal"
+  tabindex="-1"
+  *ngIf="showDeleteConfirm"
+  style="display: block;"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Event</h5>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to delete just this event or the entire series?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="confirmDeleteSingle()">This Event</button>
+        <button class="btn btn-danger" (click)="confirmDeleteSeries()">Entire Series</button>
+        <button class="btn btn-outline-secondary" (click)="cancelDelete()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

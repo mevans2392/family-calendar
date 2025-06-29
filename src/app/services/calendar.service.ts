@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, collectionData, doc, deleteDoc, addDoc, updateDoc, query, orderBy } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, deleteDoc, addDoc, updateDoc, query, orderBy, where, getDocs } from '@angular/fire/firestore';
 import { CalendarEvent } from '../shared/shared-interfaces';
 import { Observable } from 'rxjs';
 import { FamilyMembersService } from './family-members.service';
@@ -33,8 +33,29 @@ export class CalendarService {
 
   async deleteEvent(eventId: string): Promise<void> {
     const familyId = await this.familyService.getFamilyId();
-    const ref = doc(this.firestore, `families/${familyId}/calendarEvents/${eventId}`);
-    await deleteDoc(ref);
+    const eventsRef = collection(this.firestore, `families/${familyId}/calendarEvents`);
+
+    if (eventId.startsWith('series:')) {
+      const seriesId = eventId.replace('series:', '');
+      const q = query(eventsRef, where('seriesId', '==', seriesId));
+
+      try {
+        const snapshot = await getDocs(q);
+        const deletePromises = snapshot.docs.map(docSnap => deleteDoc(docSnap.ref));
+        await Promise.all(deletePromises);
+        console.log(`Deleted entire event series with seriesId: ${seriesId}`);
+      } catch (err) {
+        console.error('Error deleting event series:', err);
+      }
+
+    } else {
+      try {
+        await deleteDoc(doc(eventsRef, eventId));
+        console.log(`Deleted single event with id: ${eventId}`);
+      } catch (err) {
+        console.error('Error deleting single event:', err);
+      }
+    }
   }
   
 }

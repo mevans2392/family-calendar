@@ -1,27 +1,44 @@
-export function getThisWeeksFriday(): string {
-    const today = new Date();
-    const day = today.getDay();
-    const diff = 5 - day + (day > 5 ? 7 : 0);
-    const friday = new Date(today.setDate(today.getDate() + diff));
+export class DateUtils {
+  
+  static toDateString(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() +1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
-    const month = friday.getMonth() + 1;
-    const date = friday.getDate();
-    return `${month}/${date}`;
-}
+  static fromDateString(dateStr: string): Date {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  }
 
-export function getStartAndEndOfWeekStrings(date: Date = new Date()): { start: string; end: string } {
-  const dayIndex = date.getDay(); // 0 = Sunday
-  const start = new Date(date);
-  start.setDate(date.getDate() - dayIndex);
+  static getStartOfWeek(date: Date): Date {
+    const start = new Date(date);
+    start.setDate(start.getDate() - start.getDay());
+    start.setHours(0, 0, 0, 0);
+    return start
+  }
 
-  const end = new Date(start);
-  end.setDate(start.getDate() + 6);
+  static isSameDay(a: Date, b: Date): boolean {
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  }
 
-  const format = (d: Date) =>
-    d.toISOString().split('T')[0]; // 'YYYY-MM-DD'
+  static formatTime12Hour(time24: string): string {
+    const [hourStr, minute] = time24.split(':');
+    let hour = parseInt(hourStr, 10);
+    const ampm = hour >= 12 ? 'pm' : 'am';
+    hour = hour % 12 || 12;
+    return `${hour}:${minute}${ampm}`;
+  }
 
-  return {
-    start: format(start),
-    end: format(end),
-  };
+  static formatHour(hour: number): string {
+    const ampm = hour >= 12 ? 'pm' : 'am';
+    const hour12 = hour % 12 || 12;
+    return `${hour12}${ampm}`;
+  }
+  
 }

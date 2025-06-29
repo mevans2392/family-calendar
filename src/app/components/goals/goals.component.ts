@@ -5,7 +5,7 @@ import { Auth, user } from '@angular/fire/auth';
 import { FamilyMembersService } from '../../services/family-members.service';
 import { GoalsService } from '../../services/goals.service';
 import { WeekGoal, FamilyMember } from '../../shared/shared-interfaces';
-import { getThisWeeksFriday } from '../../shared/date-utils';
+import { DateUtils } from '../../shared/date-utils';
 
 
 @Component({
@@ -29,7 +29,7 @@ export class GoalsComponent implements OnInit {
   selectedUserId: string | null = null;
   editingGoal: WeekGoal | null = null;
   private goalSub: any;
-  getThisWeeksFriday = getThisWeeksFriday;
+  //getThisWeeksFriday = getThisWeeksFriday;
 
 
   ngOnInit(): void {

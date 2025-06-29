@@ -6,29 +6,3 @@ html, body {
   height: 100%;
   overflow-y: auto;
 }
-
-.fc-dayGridDay-view .fc-scrollgrid,
-.fc-dayGridDay-view .fc-daygrid-day-frame {
-  min-height: 400px !important;
-  height: auto !important;
-}
-
-.fc-daygrid-day-frame {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  height: 120px;
-}
-
-.fc-scroller-harness {
-  min-height: 100%;
-}
-
-@media (max-width: 760px) {
-  .fc {
-    margin-bottom: 0;
-  }
-  .col-sm-4 {
-    margin-top: 0;
-  }
-} 

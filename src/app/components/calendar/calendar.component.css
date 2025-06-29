@@ -1,20 +1,18 @@
-.modal {
-  text-align: left;
+.btn-group {
+  border: 1px solid gray;
+}
+.switch-view-button {
+  width: 100px;
+  height: 30px;
+  border: none;
+  background: white;
+  border-radius: 10%;
 }
 
-@media (max-width: 767px) {
-  .fc-dayGridDay-view .fc-daygrid-day-frame {
-  min-height: 250px;
-}
-
-.fc-dayGridDay-view .fc-scrollgrid-section-body {
-  min-height: 300px;
-}
-
-.fc-dayGridDay-view .fc-scrollgrid {
-  height: auto !important;
-}
-
+.switch-view-button:hover {
+  border: none;
+  background-color: #6c757d;
+  color: white;
 }
 
 

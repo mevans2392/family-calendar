@@ -1,54 +1,50 @@
-<!-- <div *ngIf="screenService.isMobile()" class="day-nav-buttons d-flex justify-content-between mb-2">
-  <button class="btn btn-sm btn-outline-primary" (click)="goToPreviousDay()"><</button>
-  <span class="align-self-center">{{ formattedMobileDate }}</span>
-  <button class="btn btn-sm btn-outline-primary" (click)="goToNextDay()">></button>
-</div> -->
-
-<div class="calendar-wrapper">
-  <full-calendar #calendar [options]="calendarOptions"></full-calendar>
-</div>
-
-<!-- modal for adding Calendar events -->
-<div class="modal" tabindex="-1" [class.show]="showEventModal" [style.display]="showEventModal ? 'block' : 'none'">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ editingEvent ? 'Edit Event' : 'Add Event' }}</h5>
-        <button type="button" class="btn-close" (click)="showEventModal = false"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="eventTitle" class="form-label">Title</label>
-          <input id="eventTitle" class="form-control" [(ngModel)]="newEventTitle" />
-        </div>
-        <div class="mb-3">
-          <label for="eventUser" class="form-label">Assign to</label>
-          <select id="eventUser" class="form-select" [(ngModel)]="selectedUserId">
-            <option [ngValue]="null">Select a Family Member</option>
-            <option *ngFor="let member of familyMembers" [ngValue]="member.id">{{ member.name }}</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label>Date: {{ selectedDate }}</label>
-        </div>
-        <div class="mb-3">
-          <label for="startTime" class="form-label">Start Time</label>
-          <input id="startTime" class="form-control" type='time' [(ngModel)]="startTime" />
-        </div>
-        <div class="mb-3">
-          <label for="endTime" class="form-label">End Time</label>
-          <input id="endTime" class="form-control" type='time' [(ngModel)]="endTime" />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="showEventModal = false">Cancel</button>
-        <button *ngIf="editingEvent" class="btn btn-danger me-auto" (click)="deleteEvent()">Delete</button>
-        <button class="btn btn-primary" (click)="saveEvent()">
-          {{ editingEvent ? 'Update Event' : 'Save Event'}}
-        </button>
-      </div>
-    </div>
+<div class="container-fluid">
+  <app-nav></app-nav>
+  <!-- view switcher -->
+  <div class="btn-group mb-3" role="group">
+    <button type="button" class="switch-view-button" (click)="switchView('month')">Month</button>
+    <button type="button" class="switch-view-button" (click)="switchView('week')">Week</button>
+    <button type="button" class="switch-view-button" (click)="switchView('day')">Day</button>
   </div>
+  <!-- Calendar View -->
+  <app-month-view
+    *ngIf="currentView() === 'month'"
+    [selectedDate]="selectedDate()"
+    [events]="calendarEvents()"
+    [familyMembers]="familyMembers()"
+    (dateClicked)="handleDateClick($event)"
+    (editClicked)="handleEventEdit($event)"
+    (dateChanged)="selectedDate.set($event)"  
+  ></app-month-view>
+  <app-week-view
+    *ngIf="currentView() === 'week'"
+    [selectedDate]="selectedDate()"
+    [events]="calendarEvents()"
+    [familyMembers]="familyMembers()"
+    (dateClicked)="handleDateClick($event)"
+    (editClicked)="handleEventEdit($event)"
+    (dateChanged)="selectedDate.set($event)" 
+  ></app-week-view>
+  <app-day-view
+    *ngIf="currentView() === 'day'"
+    [selectedDate]="selectedDate()"
+    [events]="calendarEvents()"
+    [familyMembers]="familyMembers()"
+    (dateClicked)="handleDateClick($event)"
+    (editClicked)="handleEventEdit($event)"
+    (dateChanged)="selectedDate.set($event)" 
+  ></app-day-view>
+  <!-- event modal -->
+  <app-calendar-event-modal
+    [show]="showEventModal()"
+    [selectedDate]="selectedDate()"
+    [familyMembers]="familyMembers()"
+    [editingEvent]="editingEvent()"
+    (save)="saveEvent($event)"
+    (delete)="deleteEvent($event)"
+    (close)="showEventModal.set(false)"
+  ></app-calendar-event-modal>
+
 </div>
 
 

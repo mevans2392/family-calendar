@@ -1,0 +1,80 @@
+.week-scroll-container {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.week-header,
+.week-row {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr); /* 1 time column, 7 day columns */
+  align-items: start;
+}
+
+.week-header {
+    align-items: start;
+    height: 60px;
+    border-bottom: 1px solid #eee;
+}
+
+.time-column {
+  text-align: left;
+  border-right: 1px solid #eee;
+  height: 60px;
+  font-size: 0.75rem;
+  padding-left: 8px;
+}
+
+.day-header {
+  text-align: center;
+  font-weight: bold;
+  padding: 4px;
+  /* background: #f8f9fa; */
+  /* border: 1px solid #eee; */
+}
+
+.week-row {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  min-height: 60px; /* or whatever you want per hour */
+  position: relative;
+}
+
+.day-cell {
+  position: relative;
+  border-right: 1px solid #eee;
+  padding: 0; /* important */
+  overflow: visible;
+  height: 60px; /* or same as .week-row height */
+}
+
+.event-block {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  right: 2px;
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  padding: 2px 4px;
+  box-sizing: border-box;
+}
+
+.event-block.all-day {
+    position: relative;
+    height: auto;
+    top: 0;
+    margin-bottom: 2px;
+    font-weight: bold;
+    font-size: 0.75rem;
+    color: withe;
+}
+
+@media (max-width: 767px) {
+  .week-header,
+  .week-row {
+    min-width: 900px;
+  }
+}
+
+
+
