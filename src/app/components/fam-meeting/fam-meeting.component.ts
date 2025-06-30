@@ -6,7 +6,6 @@ import { DateUtils } from '../../shared/date-utils';
 import { CalendarEvent, FamilyMember } from '../../shared/shared-interfaces';
 import { FamilyMembersService } from '../../services/family-members.service';
 import { RouterModule } from '@angular/router';
-import { ToDoListComponent } from '../to-do-list/to-do-list.component';
 import { FavMealsComponent } from '../fav-meals/fav-meals.component';
 import { MealPlannerComponent } from '../meal-planner/meal-planner.component';
 
@@ -14,7 +13,7 @@ import { MealPlannerComponent } from '../meal-planner/meal-planner.component';
 @Component({
   selector: 'app-fam-meeting',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ToDoListComponent, FavMealsComponent, MealPlannerComponent],
+  imports: [CommonModule, FormsModule, RouterModule, FavMealsComponent, MealPlannerComponent],
   templateUrl: './fam-meeting.component.html',
   styleUrl: './fam-meeting.component.css'
 })

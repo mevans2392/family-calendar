@@ -1,0 +1,31 @@
+<div class="modal-backdrop">
+  <div class="custom-modal">
+    <h2>MODAL VISIBLE?</h2>
+    <h2>{{ formChore.id ? 'Edit Chore' : 'Add New Chore' }}</h2>
+
+    <label>
+      Title:
+      <input [(ngModel)]="formChore.title" />
+    </label>
+
+    <label>
+      Points:
+      <input type="number" [(ngModel)]="formChore.points" />
+    </label>
+
+    <label>
+      Month (optional):
+      <select [(ngModel)]="formChore.month">
+        <option value="">(Unscheduled)</option>
+        <option *ngFor="let m of MONTHS" [value]="m">{{ m }}</option>
+      </select>
+    </label>
+
+    <div class="modal-actions">
+      <button (click)="save()">Save</button>
+      <button (click)="deleteChore()">Delete</button>
+      <button (click)="close.emit()">Cancel</button>
+    </div>
+  </div>
+</div>
+

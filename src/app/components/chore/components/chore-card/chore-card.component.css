@@ -1,0 +1,40 @@
+.chore-card {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    width: 200px;
+    height: 100px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.chore-checkbox {
+    display: flex;
+    position: relative;
+    align-items: center;
+    gap: 0.5rem;
+    flex-grow: 1;
+    z-index: 2;
+}
+
+.chore-title {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.chore-points {
+    font-size: 0.85rem;
+    color: #555;
+    white-space: nowrap;
+}
+
+.edit-overlay {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    z-index: 1;
+}

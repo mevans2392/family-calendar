@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-6"><app-nav></app-nav></div>
+    <div class="col-6"><button (click)="openModal = true; selectedChore = null">+ Add Chore</button></div>
+</div>
+
+
+<div class="chore-screen">
+    <div class="member-columns" *ngIf="(members$ | async) as members">
+        <ng-container *ngIf="(chores$ | async) as chores">
+            <div class="columns-scroll">
+                <app-member-column
+                    *ngFor="let member of members"
+                    [member]="member"
+                    [chores]="getChoresForMember(member.id, chores)"
+                    [style.color]="member.color"
+                    (choreUpdated)="loadChores()"
+                    (editChoreRequested)="openEditModal($event)"
+                    [connectedDropLists]="getDropListIds(members)"
+                ></app-member-column>
+            </div>
+
+            <app-unassigned-chores
+                [chores]="getUnassignedChores(chores)"
+                (choreUpdated)="loadChores()"
+                (editChoreRequested)="openEditModal($event)"
+                [connectedDropLists]="getDropListIds(members)"
+            ></app-unassigned-chores>
+
+            <app-chore-modal
+                *ngIf="openModal"
+                [chore]="selectedChore"
+                (close)="openModal = false"
+            ></app-chore-modal>
+        </ng-container>
+    </div>
+</div>
+
+

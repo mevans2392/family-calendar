@@ -1,6 +1,5 @@
 import { Routes } from "@angular/router";
 import { LoginComponent } from "./components/login/login.component";
-import { CalendarComponent } from "./components/calendar/calendar.component";
 
 
 export const appRoutes: Routes = [
@@ -9,11 +8,12 @@ export const appRoutes: Routes = [
     { 
         path: 'home', 
         loadComponent: () =>
-            import('./components/calendar/calendar.component').then(m => m.CalendarComponent) },
-    { 
-        path: 'yearly', 
-        loadComponent: () => 
-            import('./components/year-to-do/year-to-do.component').then(m => m.YearToDoComponent)
+            import('./components/calendar/calendar.component').then(m => m.CalendarComponent) 
+    },
+    {
+        path: 'chore',
+        loadComponent: () =>
+            import('./components/chore/chore.component').then(m => m.ChoreComponent)
     },
     {
         path: 'meals',

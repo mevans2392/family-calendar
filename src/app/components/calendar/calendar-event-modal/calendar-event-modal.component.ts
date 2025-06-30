@@ -92,16 +92,18 @@ export class CalendarEventModalComponent {
       isAllDay: this.isAllDay,
       startTime: this.isAllDay ? '' : this.startTime.trim(),
       endTime: this.isAllDay ? '' : this.endTime.trim(),
-      repeat,
-      repeatUntil,
       seriesId: seriesId || '',
+      repeat: this.repeatOption as 'daily' | 'weekly' | 'monthly' || '',
+      repeatUntil: this.repeatUntil,
     });
 
     const events: CalendarEvent[] = [];
 
     let currentDate = new Date(baseDate);
+
     do {
       events.push(createEvent(new Date(currentDate)));
+      
       if (!repeat || !repeatEndDate) break;
       incrementMap[repeat](currentDate);
     } while (currentDate <= repeatEndDate);
@@ -156,10 +158,21 @@ export class CalendarEventModalComponent {
     this.startTime = '';
     this.endTime = '';
     this._editingEvent = null;
+    this.repeatOption = '';
+    this.repeatUntil = '';
   }
 
   generateSimpleId(): string {
     return Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+  }
+
+  generateFirestoreId(): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let autoId = '';
+    for (let i = 0; i < 20; i++) {
+      autoId += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return autoId;
   }
 
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { YearToDoComponent } from './year-to-do.component';
+import { ChoreCardComponent } from './chore-card.component';
 
-describe('YearToDoComponent', () => {
-  let component: YearToDoComponent;
-  let fixture: ComponentFixture<YearToDoComponent>;
+describe('ChoreCardComponent', () => {
+  let component: ChoreCardComponent;
+  let fixture: ComponentFixture<ChoreCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [YearToDoComponent]
+      imports: [ChoreCardComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(YearToDoComponent);
+    fixture = TestBed.createComponent(ChoreCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

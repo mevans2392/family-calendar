@@ -1,0 +1,40 @@
+.member-column {
+  width: 16rem;
+  min-height: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.member-header {
+  margin-bottom: 1rem;
+}
+
+.member-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.member-points {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.member-chore-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-grow: 1;
+  min-height: 100px;
+  padding-top: 0.25rem;
+  border-top: 1px solid #eee;
+}
+
+.chore-card-wrapper {
+  cursor: grab;
+}

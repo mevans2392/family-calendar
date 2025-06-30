@@ -1,0 +1,13 @@
+.chore-screen {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+.columns-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+}
+.member-columns {
+    text-align: center;
+}

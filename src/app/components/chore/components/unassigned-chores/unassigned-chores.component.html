@@ -1,0 +1,24 @@
+<div class="chore-bucket">
+  <div class="bucket-title">Unassigned Chores</div>
+
+  <div
+    class="chore-bucket-list"
+    cdkDropList
+    id="unassigned-chore-list"
+    [cdkDropListData]="chores"
+    [cdkDropListConnectedTo]="connectedDropLists"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    <div
+      *ngFor="let chore of chores"
+      cdkDrag
+      [cdkDragData]="chore"
+      class="chore-card-wrapper"
+    >
+      <app-chore-card 
+        [chore]="chore"
+        (edit)="editChore($event)"
+      ></app-chore-card>
+    </div>
+  </div>
+</div>
