@@ -1,5 +1,8 @@
 .member-column {
+  flex: 0 0 auto;         /* 👈 Key to keeping width fixed and scrollable */
   width: 16rem;
+  min-width: 14rem;       /* 👈 fallback for smaller screens */
+  max-width: 90vw;        /* 👈 prevent overflow on mobile */
   min-height: 500px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -7,9 +10,9 @@
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
-  overflow-y: auto;
+  overflow-x: auto;
 }
+
 
 .member-header {
   margin-bottom: 1rem;
@@ -43,3 +46,10 @@
 .chore-card-wrapper {
   cursor: grab;
 }
+
+@media (max-width: 768px) {
+  .member-column {
+    width: 60vw;
+  }
+}
+

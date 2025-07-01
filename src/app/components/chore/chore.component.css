@@ -1,10 +1,15 @@
 .chore-screen {
-    display: flex;
-    flex-direction: column;
+    display: block;
+    overflow-x: hidden;
     padding: 1rem;
 }
+
 .columns-scroll {
     display: flex;
+    flex-wrap: nowrap;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     gap: 1rem;
+    padding-bottom: 1rem;
+    align-items: center;
 }

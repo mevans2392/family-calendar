@@ -1,6 +1,6 @@
 <div class="row justify-content-between align-items-center">
-    <div class="col-6"><app-nav></app-nav></div>
-    <div class="col-6" style="text-align: center;">
+    <div class="col-lg-6"><app-nav></app-nav></div>
+    <div class="col-lg-6" style="text-align: center;">
         <button class="btn btn-outline-secondary" (click)="openModal = true; selectedChore = null" style="margin-right: 5px;">Add Chore</button>
         <button class="btn btn-outline-secondary" style="margin-right: 5px;" routerLink="/annual-chore">Annual Chores</button>
         <button class="btn btn-outline-secondary" style="margin-right: 5px;">Rewards (Coming Soon)</button>
@@ -8,12 +8,10 @@
 </div>
     
 
-
-
 <div class="chore-screen">
     <div class="member-columns" *ngIf="(members$ | async) as members">
         <ng-container *ngIf="(chores$ | async) as chores">
-            <div class="columns-scroll justify-content-center">
+            <div class="columns-scroll">
                 <app-member-column
                     *ngFor="let member of members"
                     [member]="member"
