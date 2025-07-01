@@ -1,8 +1,10 @@
 .chore-bucket {
   margin-top: 2rem;
+  min-height: 175px;
   padding: 1rem;
-  border-top: 1px solid #ccc;
-  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
 }
 
 .bucket-title {
@@ -13,12 +15,13 @@
 
 .chore-bucket-list {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  overflow-x: auto;
   min-height: 100px;
   padding-bottom: 0.5rem;
 }
 
 .chore-card-wrapper {
+  flex: 0 1 150px;
   cursor: grab;
 }

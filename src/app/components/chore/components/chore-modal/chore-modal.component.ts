@@ -13,6 +13,7 @@ import { ChoreService } from '../../../../services/chore.service';
 })
 export class ChoreModalComponent implements OnInit {
   @Input() chore: Partial<Chore> | null = null;
+  
   @Output() close = new EventEmitter<void>();
 
   formChore: Partial<Chore> = {};
@@ -51,6 +52,10 @@ export class ChoreModalComponent implements OnInit {
       await this.choreService.deleteChore(this.formChore.id);
       this.close.emit();
     }
+  }
+
+  onClose() {
+    this.close.emit();
   }
 }
 

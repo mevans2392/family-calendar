@@ -5,9 +5,9 @@
             [checked]="chore.complete"
             (change)="toggleComplete($event)" 
         />
+        <span class="checkmark"></span>
         <span class="chore-title">{{ chore.title }}</span>
     </label>
     <div class="chore-points">{{ chore.points }}</div>
-
     <div class="edit-overlay" (click)="edit.emit(chore)"></div>
 </div>

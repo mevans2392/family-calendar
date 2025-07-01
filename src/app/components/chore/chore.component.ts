@@ -1,17 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MemberColumnComponent } from './components/member-column/member-column.component';
-import { Chore, FamilyMember } from '../../shared/shared-interfaces';
+import { Chore, FamilyMember, MONTHS, MonthOption } from '../../shared/shared-interfaces';
 import { ChoreService } from '../../services/chore.service';
 import { FamilyMembersService } from '../../services/family-members.service';
 import { Observable } from 'rxjs';
 import { NavComponent } from '../nav/nav.component';
 import { UnassignedChoresComponent } from './components/unassigned-chores/unassigned-chores.component';
 import { ChoreModalComponent } from './components/chore-modal/chore-modal.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-chore',
-  imports: [CommonModule, NavComponent, MemberColumnComponent, UnassignedChoresComponent, ChoreModalComponent],
+  imports: [CommonModule, RouterModule, NavComponent, MemberColumnComponent, UnassignedChoresComponent, ChoreModalComponent],
   templateUrl: './chore.component.html',
   styleUrl: './chore.component.css'
 })
@@ -38,7 +39,17 @@ export class ChoreComponent {
   }
 
   getUnassignedChores(chores: Chore[]): Chore[] {
-    return chores.filter(c => !c.assignedUser);
+    const currentMonth = this.getCurrentMonthName();
+
+    return chores.filter(c => 
+      !c.assignedUser &&
+      (c.month === '' || c.month === currentMonth)
+    );
+  }
+
+  getCurrentMonthName(): MonthOption {
+    const monthIndex = new Date().getMonth();
+    return MONTHS[monthIndex];
   }
 
   getDropListIds(members: FamilyMember[]): string[] {

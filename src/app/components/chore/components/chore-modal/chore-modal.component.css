@@ -5,30 +5,34 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure it's on top */
+  z-index: 1000;
 }
 
-.custom-modal {
+.modal-content-wrapper {
   background: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  min-width: 300px;
-  border: 3px solid red; /* DEBUG: Make it visible */
-  z-index: 1001; /* Ensure it's above the backdrop */
+  width: 90%;
+  max-width: 500px;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-.modal h2 {
-  margin-top: 0;
-}
-
-.modal label {
-  display: block;
-  margin: 1rem 0;
-}
-
-.modal-actions {
+.modal-header,
+.modal-footer {
   display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
 }

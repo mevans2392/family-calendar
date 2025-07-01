@@ -1,0 +1,27 @@
+.month-bucket {
+    margin-top: 2rem;
+    min-height: 175px;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.bucket-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.chore-bucket-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    min-height: 100px;
+    padding-bottom: 0.5rem;
+}
+
+.chore-card-wrapper {
+    flex: 0 1 150px;
+    cursor: grab;
+}
