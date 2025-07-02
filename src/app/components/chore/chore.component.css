@@ -1,7 +1,12 @@
 .chore-screen {
     display: block;
-    overflow-x: hidden;
+    overflow-x: auto;
     padding: 1rem;
+}
+
+.columns-scroll-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .columns-scroll {
@@ -11,5 +16,13 @@
     -webkit-overflow-scrolling: touch;
     gap: 1rem;
     padding-bottom: 1rem;
-    align-items: center;
+    justify-content: center;
+    min-width: max-content;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.columns-scroll::-webkit-scrollbar {
+    display: none;
 }

@@ -1,8 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 /* Make sure html and body take up full height */
+body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
 html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-y: auto;
 }

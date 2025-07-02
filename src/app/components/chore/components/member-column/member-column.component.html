@@ -1,7 +1,7 @@
 <div class="member-column">
     <div class="member-header">
-        <div class="member-name" [style.color]="member.color">{{ member.name }}</div>
-        <div class="member-points" [style.color]="member.color">{{ member.points }}</div>
+        <div class="member-name">{{ member.name }}</div>
+        <div class="member-points" [style.color]="member.color">{{ member.points || 0 }}</div>
     </div>
 
     <div

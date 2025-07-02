@@ -1,0 +1,62 @@
+.reward-screen {
+    padding: 1rem;
+}
+
+.reward-members {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.member-card {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+    min-width: 120px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.member-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.member-points {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.reward-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.reward-card {
+    background-color: #fff;
+    border: 1px solid #bbb;
+    padding: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.2s ease;
+}
+
+.reward-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.reward-title {
+    font-weight: 600;
+}
+
+.reward-points {
+    font-size: 0.85rem;
+    color: #333;
+}

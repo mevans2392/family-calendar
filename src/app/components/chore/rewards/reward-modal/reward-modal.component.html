@@ -1,0 +1,39 @@
+<div class="modal-backdrop">
+    <div class="modal-content-wrapper">
+        <div class="modal-header">
+            <h5 class="modal-title">{{ formReward.id ? 'Edit Reward' : 'Add Reward'}}</h5>
+            <button type="button" class="btn-close" (click)="onClose()">x</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="rewardTitle" class="form-label">Title</label>
+                <input id="rewardTitle" class="form-control" [(ngModel)]="formReward.title" />
+            </div>
+
+            <div class="mb-3">
+                <label for="rewardPoints" class="form-label">Points</label>
+                <input type="number" id="rewardPoints" class="form-control" [(ngModel)]="formReward.points" />
+            </div>
+
+            <div class="mb-3">
+                <label for="member" class="form-label">Who gets the reward?</label>
+                <select id="member" class="form-select" [(ngModel)]="selectedMember">
+                    <option value="">Please select a Family Member</option>
+                    <option *ngFor="let member of filteredMembers" [ngValue]="member">{{ member.name }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button
+                *ngIf="selectedMember && formReward?.points"
+                class="btn btn-success"
+                (click)="giveRewardtoMember()"
+            >Give Reward ({{ formReward.points }} pts)</button>
+            <button class="btn btn-secondary" (click)="onClose()">Cancel</button>
+            <button class="btn btn-primary" (click)="save()">{{ formReward.id ? 'Update Reward' : 'Add Reward'}}</button>
+            <button *ngIf="formReward.id" class="btn btn-danger me-auto" (click)="deleteReward()">Delete</button>
+        </div>
+    </div>
+</div>

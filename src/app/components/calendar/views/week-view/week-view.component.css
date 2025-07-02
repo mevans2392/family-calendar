@@ -1,6 +1,12 @@
 .week-scroll-container {
   overflow-x: auto;
   width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.week-scroll-container::-webkit-scrollbar {
+    display: none;
 }
 
 .week-header,

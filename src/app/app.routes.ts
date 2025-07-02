@@ -18,7 +18,12 @@ export const appRoutes: Routes = [
     {
         path: 'annual-chore',
         loadComponent: () =>
-            import('./components/chore/components/annual-chores/annual-chores.component').then(m => m.AnnualChoresComponent)
+            import('./components/chore/annual-chores/annual-chores.component').then(m => m.AnnualChoresComponent)
+    },
+    {
+        path: 'rewards',
+        loadComponent: () =>
+            import('./components/chore/rewards/rewards.component').then(m => m.RewardsComponent)
     },
     {
         path: 'meals',

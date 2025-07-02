@@ -4,7 +4,7 @@ import { MemberColumnComponent } from './components/member-column/member-column.
 import { Chore, FamilyMember, MONTHS, MonthOption } from '../../shared/shared-interfaces';
 import { ChoreService } from '../../services/chore.service';
 import { FamilyMembersService } from '../../services/family-members.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { NavComponent } from '../nav/nav.component';
 import { UnassignedChoresComponent } from './components/unassigned-chores/unassigned-chores.component';
 import { ChoreModalComponent } from './components/chore-modal/chore-modal.component';
@@ -24,10 +24,15 @@ export class ChoreComponent {
   chores$!: Observable<Chore[]>;
   openModal = false;
   selectedChore: Chore | null = null;
+  filteredMembers$!: Observable<FamilyMember[]>;
 
   async ngOnInit() {
     this.members$ = await this.familyService.getMembers();
     await this.loadChores();
+
+    this.filteredMembers$ = this.members$.pipe(
+      map(members => members.filter(m => m.name !== 'Anyone'))
+    )
   }
 
   async loadChores() {

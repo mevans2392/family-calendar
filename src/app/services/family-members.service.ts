@@ -48,4 +48,10 @@ export class FamilyMembersService {
 
     await updateDoc(memberRef, { points: currentPoints + points });
   }
+
+  async updatePoints(memberId: string, newPoints: number): Promise<void> {
+    const familyId = await this.getFamilyId();
+    const ref = doc(this.firestore, `families/${familyId}/users/${memberId}`);
+    await updateDoc(ref, { points: newPoints });
+  }
 }

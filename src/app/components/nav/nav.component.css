@@ -4,6 +4,12 @@
     display: flex;
     gap: 0.5rem;
     margin-bottom: -1px; /* So tab connects to tab-content smoothly */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.tab-container::-webkit-scrollbar {
+    display: none;
 }
 
 .tab {

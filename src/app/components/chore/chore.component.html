@@ -3,25 +3,28 @@
     <div class="col-lg-6" style="text-align: center;">
         <button class="btn btn-outline-secondary" (click)="openModal = true; selectedChore = null" style="margin-right: 5px;">Add Chore</button>
         <button class="btn btn-outline-secondary" style="margin-right: 5px;" routerLink="/annual-chore">Annual Chores</button>
-        <button class="btn btn-outline-secondary" style="margin-right: 5px;">Rewards (Coming Soon)</button>
+        <button class="btn btn-outline-secondary" style="margin-right: 5px;" routerLink="/rewards">Rewards</button>
     </div>
 </div>
     
 
 <div class="chore-screen">
-    <div class="member-columns" *ngIf="(members$ | async) as members">
+    <div class="member-columns" *ngIf="(filteredMembers$ | async) as members">
         <ng-container *ngIf="(chores$ | async) as chores">
-            <div class="columns-scroll">
-                <app-member-column
-                    *ngFor="let member of members"
-                    [member]="member"
-                    [chores]="getChoresForMember(member.id, chores)"
-                    (choreUpdated)="loadChores()"
-                    (editChoreRequested)="openEditModal($event)"
-                    [connectedDropLists]="getDropListIds(members)"
-                ></app-member-column>
+            <div class="columns-scroll-wrapper">
+                <div class="columns-scroll">
+                    <app-member-column
+                        *ngFor="let member of members"
+                        [member]="member"
+                        [style.color]="member.color"
+                        [chores]="getChoresForMember(member.id, chores)"
+                        (choreUpdated)="loadChores()"
+                        (editChoreRequested)="openEditModal($event)"
+                        [connectedDropLists]="getDropListIds(members)"
+                    ></app-member-column>
+                </div>
             </div>
-
+            
             <app-unassigned-chores
                 [chores]="getUnassignedChores(chores)"
                 (choreUpdated)="loadChores()"

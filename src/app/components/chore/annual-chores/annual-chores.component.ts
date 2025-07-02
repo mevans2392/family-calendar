@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from '../../../nav/nav.component';
-import { Chore, MONTHS, MonthOption } from '../../../../shared/shared-interfaces';
-import { ChoreService } from '../../../../services/chore.service'; 
-import { ChoreCardComponent } from '../chore-card/chore-card.component';
-import { ChoreModalComponent } from '../chore-modal/chore-modal.component';
+import { NavComponent } from '../../nav/nav.component';
+import { Chore, MONTHS, MonthOption } from '../../../shared/shared-interfaces';
+import { ChoreService } from '../../../services/chore.service'; 
+import { ChoreCardComponent } from '../components/chore-card/chore-card.component';
+import { ChoreModalComponent } from '../components/chore-modal/chore-modal.component';
 
 @Component({
   selector: 'app-annual-chores',

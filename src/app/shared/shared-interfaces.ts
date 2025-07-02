@@ -39,6 +39,12 @@ export interface FamilyMember {
     points: number;
 }
 
+export interface Reward {
+  id: string;
+  title: string;
+  points: number;
+}
+
 export interface WeekGoal {
   id?: string;
   title: string;
