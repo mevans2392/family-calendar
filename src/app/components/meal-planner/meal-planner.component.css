@@ -1,69 +1,97 @@
 .meal-grid-wrapper {
-  max-width: 100%;
-  padding: 10px;
-  margin: auto;
+    overflow-x: auto;
+    margin-bottom: 24px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-/* Buttons for mobile view */
-.day-nav-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+.meal-grid-wrapper::-webkit-scrollbar {
+    display: none;
 }
 
-/* === DESKTOP GRID (Default) === */
 .meal-grid {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr); /* 1 for meal type + 7 days */
-  gap: 4px;
-  padding: 0 20px 20px 20px;
+    display: grid;
+    grid-template-columns: 120px repeat(7, 1fr);
+    grid-auto-rows: 100px;
+    gap: 1px;
+    background-color: #ccc;
+    min-width: 960px;
 }
 
-.header, .meal-row {
-  display: contents;
+.header-cell {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px;
 }
 
-.meal-grid .header .cell {
-  height: 80px;
+.header-cell.empty {
+    background-color: transparent;
 }
 
-.cell {
-  padding: 10px;
-  border: 1px solid #ccc;
-  text-align: center;
-  cursor: pointer;
-  height: 150px;
-  display: grid;
-  place-items: center;
+.meal-type {
+    background-color: #f9f9f9;
+    padding: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
 }
 
-.cell.meal-type {
-  font-weight: bold;
-  background-color: #f9f9f9;
+.meal-cell {
+    background-color: #f7f7f7;
+    position: relative;
+    min-height: 100px;
 }
 
-.cell.empty {
-  background: transparent;
-  border: none;
+.meal-slot {
+    position: absolute;
+    inset: 0;
+    padding: 0.5rem;
+    border: 1px dashed transparent;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-/* === MOBILE/TABLET OVERRIDES === */
-@media (max-width: 1024px) {
-  .meal-grid {
-    grid-template-columns: repeat(2, 1fr); /* Meal type + 1 day */
-  }
-
-  .cell {
-    height: auto;
-    min-height: 60px;
-  }
-
-  .day-nav-row {
-    margin: 10px 20px;
-  }
+.recipe-card-wrapper {
+    flex: 0 1 auto;
+    display: flex;
+    justify-content: center;
 }
 
+.meal-slot.cdk-drop-list-dragging {
+    border-color: #ccc;
+    background-color: #f7f7f7;
+}
 
+.unassigned-recipe-house {
+    background-color: #f7f7f7;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+}
 
+.unassigned-container {
+    min-height: 150px;
+    border: 2px dashed transparent;
+    padding: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    background-color: #fafafa;
+    transition: border-color 0.2s ease;
+}
 
+.unassigned-container.cdk-drop-list-dragging {
+    border-color: #ccc;
+    background-color: #f0f0f0;
+}
+
+.recipe-card-wrapper {
+    flex: 0 1 auto;
+}

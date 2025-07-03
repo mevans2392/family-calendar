@@ -1,150 +1,89 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { NavComponent } from '../nav/nav.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Auth, user } from '@angular/fire/auth';
-import { MealPlannerService } from '../../services/meal-planner.service';
-import { FamilyMembersService } from '../../services/family-members.service';
-import { ScreenSizeService } from '../../services/screen-size.service';
-import { FamilyMember, MealEntry } from '../../shared/shared-interfaces';
+import { RecipeModalComponent } from './recipe-modal/recipe-modal.component';
+import { Recipe } from '../../shared/shared-interfaces';
+import { RecipeService } from '../../services/recipe.service';
+import { Observable } from 'rxjs';
+import { CdkDragDrop, CdkDropListGroup, CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 
 @Component({
   selector: 'app-meal-planner',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [NavComponent, CommonModule, RecipeModalComponent, DragDropModule, RecipeCardComponent],
   templateUrl: './meal-planner.component.html',
   styleUrl: './meal-planner.component.css'
 })
-export class MealPlannerComponent implements OnInit {
-  private mealPlannerService = inject(MealPlannerService);
-  private familyService = inject(FamilyMembersService);
-  private screenService = inject(ScreenSizeService);
-  private auth = inject(Auth);
-  user$ = user(this.auth);
+export class MealPlannerComponent {
+  daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  mealTypes = ['Breakfast', 'Lunch', 'Dinner'];
 
-  uid: string = '';
-  familyMembers: FamilyMember[] = [];
-  USER_COLORS: Record<string, string> = {};
-  mealData: Record<string, any> = {};
+  private recipeService = inject(RecipeService);
 
-  days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  meals = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
-  selectedDayIndex = new Date().getDay();
-  selectedDay = this.days[this.selectedDayIndex];
-  selectedMeal: string | null = null;
-  showModal = false;
-  mealInput: MealEntry = { name: '', uid: '' };
-  editingIndex: number | null = null;
+  recipes: Recipe[] = [];
+  openModal = false;
+  selectedRecipe: Recipe | null = null;
+  
 
   ngOnInit(): void {
-    this.user$.subscribe(user => {
-      if (user) {
-        this.uid = user.uid;
-        this.loadFamilyMembers();
-        this.loadMealData();
+    this.loadRecipes();
+  }
+
+  async loadRecipes() {
+    (await this.recipeService.loadRecipes()).subscribe((recipes) => {
+      this.recipes = recipes;
+    });
+  }
+
+  getRecipesForCell(day: string, mealType: string): Recipe[] {
+    return this.recipes.filter(r => r.day === day && r.mealType === mealType);
+  }
+
+  getUnassignedRecipes(): Recipe[] {
+    return this.recipes.filter(r => !r.day || !r.mealType);
+  }
+
+  get connectedDropLists(): string[] {
+    const ids: string[] = [];
+    
+    for(let day of this.daysOfWeek) {
+      for(let meal of this.mealTypes) {
+        ids.push(`${day}-${meal}`);
       }
-    });
-  }
-
-  get isCompact(): boolean {
-    return this.screenService.isTabletOrSmaller();
-  }
-
-  get visibleDays(): string[] {
-    return this.isCompact ? [this.selectedDay] : this.days;
-  }
-
-  getColorForUid(uid: string): string {
-    return this.USER_COLORS[uid] || 'grey';
-  }
-
-  async loadFamilyMembers() {
-    const members$ = await this.familyService.getMembers();
-    members$.subscribe(members => {
-      this.familyMembers = members;
-      this.USER_COLORS = members.reduce((map, member) => {
-        map[member.id] = member.color;
-        return map;
-      }, {} as Record<string, string>);
-    });
-  }
-
-  loadMealData() {
-    this.mealPlannerService.subscribeToMealPlanner(this.days, data => {
-      this.mealData = data;
-    });
-  }
-
-  openEventModal(day: string, meal: string, entryIndex: number | null = null) {
-    this.selectedDay = day;
-    this.selectedMeal = meal;
-
-    if (entryIndex !== null) {
-      const entry = this.mealData[day][meal][entryIndex];
-      this.mealInput = { ...entry };
-      this.editingIndex = entryIndex;
-    } else {
-      this.mealInput = { name: '', uid: '' };
-      this.editingIndex = null;
     }
 
-    this.showModal = true;
+    ids.push('unassigned-recipe-list');
+    return ids;
   }
 
-  closeModal() {
-    this.mealInput = { name: '', uid: '' };
-    this.editingIndex = null;
-    this.showModal = false;
-  }
+  handleDrop(event: CdkDragDrop<Recipe[]>, day: string, mealType: string) {
+    const original = event.item.data as Recipe;
 
-  async saveMeal() {
-    if (!this.selectedDay || !this.selectedMeal || !this.mealInput.name || !this.mealInput.uid) return;
+    if(!original.day && !original.mealType) {
+      const clone: Recipe = {
+        ...original,
+        id: '',
+        day,
+        mealType
+      };
 
-    const existing = this.mealData[this.selectedDay]?.[this.selectedMeal] || [];
-
-    if (this.editingIndex !== null) {
-      existing[this.editingIndex] = { ...this.mealInput };
-    } else {
-      existing.push({ ...this.mealInput });
-    }
-
-    await this.mealPlannerService.saveMeal(this.selectedDay, this.selectedMeal, existing);
-    this.closeModal();
-  }
-
-  editMeal(day: string, meal: string, entry: MealEntry) {
-    this.selectedDay = day;
-    this.selectedMeal = meal;
-    this.mealInput = { ...entry };
-
-    const entries = this.mealData[day]?.[meal] || [];
-    this.editingIndex = entries.findIndex((e: MealEntry) => e.name === entry.name && e.uid === entry.uid);
-
-    this.showModal = true;
-  }
-
-
-  async deleteMeal() {
-    if (
-      this.selectedDay &&
-      this.selectedMeal &&
-      this.editingIndex !== null &&
-      this.editingIndex >= 0
-    ) {
-      const updated = [...this.mealData[this.selectedDay][this.selectedMeal]];
-      updated.splice(this.editingIndex, 1);
-
-      await this.mealPlannerService.saveMeal(this.selectedDay, this.selectedMeal, updated);
-      this.closeModal();
+      this.recipeService.saveRecipe(clone).then(() => this.loadRecipes());
     }
   }
 
-  previousDay() {
-    this.selectedDayIndex = (this.selectedDayIndex - 1 + this.days.length) % this.days.length;
-    this.selectedDay = this.days[this.selectedDayIndex];
+  handleUnassignDrop(event: CdkDragDrop<Recipe[]>) {
+    const recipe = event.item.data as Recipe;
+
+    if(recipe.day && recipe.mealType) {
+      this.recipeService.deleteRecipe(recipe.id).then(() => this.loadRecipes());
+    }
   }
 
-  nextDay() {
-    this.selectedDayIndex = (this.selectedDayIndex + 1) % this.days.length;
-    this.selectedDay = this.days[this.selectedDayIndex];
+  openEditModal(recipe: Recipe | null) {
+    this.selectedRecipe = recipe;
+    this.openModal = true;
   }
+
+
 }

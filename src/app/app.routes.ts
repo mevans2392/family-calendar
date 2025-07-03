@@ -5,11 +5,18 @@ import { LoginComponent } from "./components/login/login.component";
 export const appRoutes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
     { path: 'login', component: LoginComponent },
+    {
+        path: 'register',
+        loadComponent: () =>
+            import('./components/register-family/register-family.component').then(m => m.RegisterFamilyComponent)
+    },
     { 
         path: 'home', 
         loadComponent: () =>
             import('./components/calendar/calendar.component').then(m => m.CalendarComponent) 
     },
+
+    //routes to chores component
     {
         path: 'chore',
         loadComponent: () =>
@@ -25,24 +32,11 @@ export const appRoutes: Routes = [
         loadComponent: () =>
             import('./components/chore/rewards/rewards.component').then(m => m.RewardsComponent)
     },
+
+    //routes to meal planner component
     {
-        path: 'meals',
-        loadComponent: () => 
-            import('./components/meal-display/meal-display.component').then(m => m.MealDisplayComponent)
-    },
-    {
-        path: 'shopping',
+        path: 'meal-planner',
         loadComponent: () =>
-            import('./components/shopping-list/shopping-list.component').then(m => m.ShoppingListComponent)
+            import('./components/meal-planner/meal-planner.component').then(m => m.MealPlannerComponent)
     },
-    {
-        path: 'register',
-        loadComponent: () =>
-            import('./components/register-family/register-family.component').then(m => m.RegisterFamilyComponent)
-    },
-    {
-        path: 'meeting',
-        loadComponent: () =>
-            import('./components/fam-meeting/fam-meeting.component').then(m => m.FamMeetingComponent)
-    }
 ];

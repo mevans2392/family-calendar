@@ -1,102 +1,81 @@
-  <div class="meal-grid-wrapper">
-    <div class="header">
-      <h2 class="text-center border-bottom pb-2">Meal Planner</h2>
+<div class="row justify-content-between align-items-center">
+    <div class="col-lg-6"><app-nav></app-nav></div>
+    <div class="col-lg-6" style="text-align: center;">
+        <button class="btn btn-outline-secondary" (click)="openEditModal(null)" style="margin-right: 5px;">Add Recipe</button>
     </div>
-     
-    <div *ngIf="isCompact" class="day-nav-row">
-      <button class="btn btn-sm btn-outline-primary" (click)="previousDay()">&#8592;</button>
-      <span>{{ days[selectedDayIndex] }}</span>
-      <button class="btn btn-sm btn-outline-primary" (click)="nextDay()">&#8594;</button>
-    </div>
-
-    
-    <div class="meal-grid">
-      <div class="header">
-        <div class="cell empty"></div>
-        <div class="cell" *ngFor="let day of visibleDays">{{ day }}</div>
-      </div>
-
-      <div class="meal-row" *ngFor="let meal of meals">
-        <div class="cell meal-type">{{ meal }}</div>
-        <div
-          class="cell"
-          *ngFor="let day of visibleDays"
-        >
-          <div 
-            *ngFor="let entry of mealData[day]?.[meal] || []" 
-            [style.color]="USER_COLORS[entry.uid] || 'inherit'"
-            (click)="editMeal(day, meal, entry)"
-            style="cursor: pointer;">
-            {{ entry.name }}
-          </div>
-          <div (click)="openEventModal(day, meal)" class="text-muted small" style="cursor:pointer;">
-            + Add
-          </div>
-          
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-<!-- modal -->
-<!-- Meal Planner Modal -->
-<div
-  class="modal fade"
-  tabindex="-1"
-  [class.show]="showModal"
-  [style.display]="showModal ? 'block' : 'none'"
-  [style.opacity]="showModal ? '1' : '0'"
-  role="dialog"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h5 class="modal-title">
-          {{ editingIndex !== null ? 'Edit Meal' : 'Add Meal' }} – {{ selectedDay }} / {{ selectedMeal }}
-        </h5>
-        <button type="button" class="btn-close" aria-label="Close" (click)="showModal = false"></button>
-      </div>
-
-      <!-- Modal Body -->
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="mealInput" class="form-label">Meal Name</label>
-          <input
-            id="mealInput"
-            class="form-control"
-            [(ngModel)]="mealInput.name"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="userSelect" class="form-label">Who's Meal?</label>
-          <select
-            id="userSelect"
-            class="form-select"
-            [(ngModel)]="mealInput.uid"
-          >
-            <option [ngValue]="null" disabled>Select a person</option>
-            <option *ngFor="let user of familyMembers" [ngValue]="user.id">
-              {{ user.name }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="deleteMeal()">Delete Meal</button>
-        <button type="button" class="btn btn-secondary" (click)="showModal = false">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="saveMeal()">
-          {{ editingIndex !== null ? 'Update Meal' : 'Save Meal' }}
-        </button>
-      </div>
-      
-    </div>
-  </div>
 </div>
+
+<!-- Top: Meal Grid -->
+<div class="meal-grid-wrapper">
+    <div class="meal-grid">
+        <div class="header-cell empty"></div>
+        <div class="header-cell" *ngFor="let day of daysOfWeek">{{ day }}</div>
+
+        <ng-container *ngFor="let meal of mealTypes">
+            <div class="meal-type">{{ meal }}</div>
+            <div class="meal-cell" *ngFor="let day of daysOfWeek">
+                <div 
+                    class="meal-slot"
+                    cdkDropList
+                    [cdkDropListData]="getRecipesForCell(day, meal)"
+                    [cdkDropListConnectedTo]="connectedDropLists"
+                    [id]="day + '-' + meal"
+                    (cdkDropListDropped)="handleDrop($event, day, meal)"
+                >
+                    <div
+                        *ngFor="let recipe of getRecipesForCell(day, meal)"
+                        cdkDrag
+                        [cdkDragData]="recipe"
+                        class="recipe-card-wrapper"
+                    >
+                        <app-recipe-card
+                            [recipe]="recipe"
+                            (edit)="openEditModal(recipe)"
+                        ></app-recipe-card>
+                    </div>
+                    
+                
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+
+<!-- Bottom: Unassigned Recipes -->
+<div class="unassigned-recipe-house">
+    <h3>Recipes</h3>
+    <div
+        id="unassigned-recipe-list"
+        cdkDropList
+        [cdkDropListData]="getUnassignedRecipes()"
+        [cdkDropListConnectedTo]="connectedDropLists"
+        (cdkDropListDropped)="handleUnassignDrop($event)"
+        class="unassigned-container"
+    >
+        <div *ngIf="getUnassignedRecipes().length === 0" class="empty-message">
+            No Recipes
+        </div>
+
+        <div
+            *ngFor="let recipe of getUnassignedRecipes()"
+            cdkDrag
+            [cdkDragData]="recipe"
+            class="recipe-card-wrapper"
+        >
+            <app-recipe-card
+                [recipe]="recipe"
+                (edit)="openEditModal(recipe)"
+            ></app-recipe-card>
+        </div>
+    </div>
+</div>
+
+<app-recipe-modal
+    *ngIf="openModal"
+    [recipe]="selectedRecipe"
+    (close)="openModal = false"
+>
+</app-recipe-modal>
+
+
 

@@ -1,3 +1,10 @@
+export interface FamilyMember {
+    id: string;
+    name: string;
+    color: string;
+    points: number;
+}
+
 export interface CalendarEvent {
   id?: string;
   title: string;
@@ -32,25 +39,10 @@ export const MONTHS: MonthOption[] = [
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-export interface FamilyMember {
-    id: string;
-    name: string;
-    color: string;
-    points: number;
-}
-
 export interface Reward {
   id: string;
   title: string;
   points: number;
-}
-
-export interface WeekGoal {
-  id?: string;
-  title: string;
-  uid: string;
-  completed?: boolean;
-  userColor?: string;
 }
 
 export interface ShoppingItem {
@@ -60,13 +52,11 @@ export interface ShoppingItem {
   completed: boolean;
 }
 
-export interface MealEntry {
-  name: string;
-  uid: string;
-}
-
 export interface Recipe {
-  id?: string;
+  id: string;
   title: string;
   ingredients: string[];
+  directions: string;
+  day?: string;
+  mealType?: string;
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FavMealsComponent } from './fav-meals.component';
+import { RecipeCardComponent } from './recipe-card.component';
 
-describe('FavMealsComponent', () => {
-  let component: FavMealsComponent;
-  let fixture: ComponentFixture<FavMealsComponent>;
+describe('RecipeCardComponent', () => {
+  let component: RecipeCardComponent;
+  let fixture: ComponentFixture<RecipeCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FavMealsComponent]
+      imports: [RecipeCardComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FavMealsComponent);
+    fixture = TestBed.createComponent(RecipeCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
