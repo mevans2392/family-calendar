@@ -1,10 +1,16 @@
-<div class="container-fluid">
-  <app-nav></app-nav>
+<div class="fixed-top bg-white">
+  <div class="row">
+    <div class="col-lg-6"><app-nav></app-nav></div>
+  </div>
+</div>
+
+<div class="calendar">
+  
   <!-- view switcher -->
-  <div class="btn-group mb-3" role="group">
-    <button type="button" class="switch-view-button" (click)="switchView('month')">Month</button>
-    <button type="button" class="switch-view-button" (click)="switchView('week')">Week</button>
-    <button type="button" class="switch-view-button" (click)="switchView('day')">Day</button>
+  <div class="btn-group mb-3" role="group" style="margin-left: 1rem;">
+    <button type="button" class="btn btn-outline-secondary" (click)="switchView('month')">Month</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="switchView('week')">Week</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="switchView('day')">Day</button>
   </div>
   <!-- Calendar View -->
   <app-month-view
@@ -44,8 +50,4 @@
     (delete)="deleteEvent($event)"
     (close)="showEventModal.set(false)"
   ></app-calendar-event-modal>
-
 </div>
-
-
-

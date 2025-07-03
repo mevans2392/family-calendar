@@ -36,6 +36,18 @@
     }
 
     .day-cell {
-        height: 100px;
+        height: 125px;
+    }
+    .event-pill {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 5px 0;
+        gap: 4px;
+    }
+    .user-bubble {
+        height: 12px;
+        width: 100%;
+        border-radius: 4px;
     }
 }

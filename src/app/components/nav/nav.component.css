@@ -79,5 +79,8 @@ a {
         min-width: 120px;
         width: max-content;
     }
+    button {
+        height: 50px;
+    }
 
 }

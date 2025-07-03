@@ -7,9 +7,14 @@
 
 <!-- Top: Meal Grid -->
 <div class="meal-grid-wrapper">
-    <div class="meal-grid">
+    <div class="head-container">
         <div class="header-cell empty"></div>
         <div class="header-cell" *ngFor="let day of daysOfWeek">{{ day }}</div>
+    </div>
+    
+    
+    <div class="meal-grid">
+        
 
         <ng-container *ngFor="let meal of mealTypes">
             <div class="meal-type">{{ meal }}</div>

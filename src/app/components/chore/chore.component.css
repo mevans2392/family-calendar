@@ -7,6 +7,8 @@
 .columns-scroll-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .columns-scroll {
@@ -18,11 +20,11 @@
     padding-bottom: 1rem;
     justify-content: center;
     min-width: max-content;
-
-    scrollbar-width: none;
-    -ms-overflow-style: none;
 }
 
-.columns-scroll::-webkit-scrollbar {
+.columns-scroll-wrapper::-webkit-scrollbar {
     display: none;
+    height: 0px !important;
+    width: 0px !important;
+    background: transparent !important;
 }
