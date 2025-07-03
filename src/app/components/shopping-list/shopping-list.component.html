@@ -1,6 +1,9 @@
+<div class="row justify-content-between align-items-center">
+  <div class="col-lg-6"><app-nav></app-nav></div>
+</div>
+
 <div class="container-fluid mt-2">
-    <button routerLink="/home" class="btn btn-primary">Back to Calendar</button>
-    <button routerLink="/meals" class="btn btn-primary" style="margin-left: .5em;">Meal Prep</button>
+    
     <div class="itemContainer">
         <h2 style="text-align: center;">Shopping List</h2>
         <div *ngFor="let items of item" class="items" (click)="editItem(items)">
@@ -11,7 +14,7 @@
         </div>
         <div class="row mt-3 align-items-center">
             <div class="col-4">
-                <button class="btn btn-primary w-100" (click)="openModal()">Add Item</button>
+                <button class="btn btn-secondary w-100" (click)="openModal()">Add Item</button>
             </div>
             <div class="col-8 d-flex justify-content-end">
                 <button class="btn btn-danger" (click)="deleteShoppingItems()">Delete Selected Items</button>

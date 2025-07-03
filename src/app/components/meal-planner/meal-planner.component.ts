@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RecipeModalComponent } from './recipe-modal/recipe-modal.component';
 import { Recipe } from '../../shared/shared-interfaces';
 import { RecipeService } from '../../services/recipe.service';
-import { Observable } from 'rxjs';
-import { CdkDragDrop, CdkDropListGroup, CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 
 @Component({

@@ -39,4 +39,9 @@ export const appRoutes: Routes = [
         loadComponent: () =>
             import('./components/meal-planner/meal-planner.component').then(m => m.MealPlannerComponent)
     },
+    {
+        path: 'shopping',
+        loadComponent: () =>
+            import('./components/shopping-list/shopping-list.component').then(m => m.ShoppingListComponent)
+    }
 ];

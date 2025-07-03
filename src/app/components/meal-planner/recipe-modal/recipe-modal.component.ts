@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Recipe } from '../../../shared/shared-interfaces';
 import { FormsModule } from '@angular/forms';
 import { RecipeService } from '../../../services/recipe.service';
+import { ShoppingListService } from '../../../services/shopping.service';
 
 @Component({
   standalone: true,
@@ -23,6 +24,7 @@ export class RecipeModalComponent {
     directions: '',
   };
   private recipeService = inject(RecipeService);
+  private shoppingService = inject(ShoppingListService);
 
   ngOnInit() {
     this.formRecipe = {
@@ -49,7 +51,7 @@ export class RecipeModalComponent {
     }
   }
 
-  async deleteChore() {
+  async deleteRecipe() {
     if(!this.formRecipe?.id) return;
 
     const confirmed = confirm("Are you sure you want to delete this recipe?");
@@ -74,5 +76,15 @@ export class RecipeModalComponent {
 
   onClose() {
     this.close.emit();
+  }
+
+  addToShoppingList(ingredient: string) {
+    this.shoppingService.itemExists(ingredient).then(exists => {
+      if(!exists) {
+        this.shoppingService.addItem(ingredient);
+      } else {
+        console.log('Already on shopping list');
+      }
+    })
   }
 }

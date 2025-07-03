@@ -1,13 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { ShoppingListService } from '../../services/shopping.service';
 import { ShoppingItem } from '../../shared/shared-interfaces';
+import { NavComponent } from '../nav/nav.component';
 
 @Component({
   selector: 'app-shopping-list',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, NavComponent],
   templateUrl: './shopping-list.component.html',
   styleUrl: './shopping-list.component.css'
 })
