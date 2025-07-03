@@ -18,13 +18,26 @@
         <div *ngFor="let member of members.controls; let i = index" [formGroupName]="i" class="card mb-2 p-3">
             <div class="row g-3 align-items-center">
                 <div class="col-md-5">
-                    <input type="text" class="form-control" formControlName="name" placeholder="Family Member Name" />
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        formControlName="name" 
+                        placeholder="Family Member Name"
+                        [readonly]="member.get('name')?.value === 'Anyone'" />
                 </div>
                 <div class="col-md-5">
-                    <input type="text" class="form-control" formControlName="color" placeholder="Family Member Color" />
+                    <div class="color-picker">
+                        <div
+                            *ngFor="let color of presetColors"
+                            class="color-swatch"
+                            [style.backgroundColor]="color"
+                            [class.selected]="color === member.get('color')?.value"
+                            (click)="member.get('color')?.setValue(color)"
+                        ></div>
+                    </div>
                 </div>
                 <div class="col-md-2 text-end">
-                    <button type="button" (click)="removeMember(i)" class="btn btn-outline-danger">Remove</button>
+                    <button type="button" (click)="removeMember(i)" class="btn btn-outline-danger" [disabled]="member.get('name')?.value === 'Anyone'">Remove</button>
                 </div>
             </div>
         </div>

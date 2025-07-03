@@ -31,21 +31,25 @@ export class RegisterFamilyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addMember();
+    this.addMember('Anyone');
   }  
 
   get members(): FormArray {
     return this.registerForm.get('members') as FormArray;
   }
 
-  addMember(): void {
-    this.members.push(this.fb.group({
-      name: ['', Validators.required],
-      color: ['', Validators.required]
-    }));
+  addMember(defaultName: string = ''): void {
+    const memberGroup = this.fb.group({
+      name: [defaultName, Validators.required],
+      color: [this.presetColors[0], Validators.required]
+    });
+    this.members.push(memberGroup);
   }
 
   removeMember(index: number): void {
+    const member = this.members.at(index);
+    if(member.get('name')?.value === 'Anyone') return;
+
     this.members.removeAt(index);
   }
 
@@ -64,5 +68,8 @@ export class RegisterFamilyComponent implements OnInit {
       this.errorMessage = err.message || 'Registration failed.';
     }
   }
+
+  readonly presetColors = ['#f94144', '#f3722c', '#f9844a', '#f9c74f', '#90be6d', '#43aa8b', '#577590'];
+  selectedColor: string = this.presetColors[0];
 
 }
