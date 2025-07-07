@@ -1,3 +1,15 @@
+export interface Family {
+  id: string;
+  familyName: string;
+  createdBy: string;
+  createdAt: any;
+  subStatus: 'free' | 'trial' | 'paid' | 'expired';
+  trialStart: string;
+  trialLength: number;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+}
+
 export interface FamilyMember {
     id: string;
     name: string;

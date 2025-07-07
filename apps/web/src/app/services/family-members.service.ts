@@ -3,6 +3,7 @@ import { Firestore, collection, collectionData, doc, getDoc, updateDoc } from '@
 import { Auth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { FamilyMember } from '../shared/shared-interfaces';
+import { FamilyService } from './family.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,36 +11,36 @@ import { FamilyMember } from '../shared/shared-interfaces';
 export class FamilyMembersService {
   private firestore: Firestore = inject(Firestore);
   private auth: Auth = inject(Auth);
+  private familyService = inject(FamilyService);
 
   async getFamilyId(): Promise<string> {
-    const auth = this.auth;
-
-    const uid = await new Promise<string>((resolve, reject) => {
-      const unsubscribe = auth.onAuthStateChanged(user => {
-        unsubscribe(); // stop listening once auth is ready
-        if (user?.uid) {
-          resolve(user.uid);
-        } else {
-          reject('User not authenticated');
-        }
+      const auth = this.auth;
+  
+      const uid = await new Promise<string>((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+          unsubscribe(); // stop listening once auth is ready
+          if (user?.uid) {
+            resolve(user.uid);
+          } else {
+            reject('User not authenticated');
+          }
+        });
       });
-    });
-
-    const userDoc = await getDoc(doc(this.firestore, 'users', uid));
-    const data = userDoc.data();
-    if (!data?.['familyId']) throw new Error('Family ID not found');
-    return data['familyId'];
-  }
-
+  
+      const userDoc = await getDoc(doc(this.firestore, 'users', uid));
+      const data = userDoc.data();
+      if (!data?.['familyId']) throw new Error('Family ID not found');
+      return data['familyId'];
+    }
 
   async getMembers(): Promise<Observable<FamilyMember[]>> {
-    const familyId = await this.getFamilyId();
+    const familyId = await this.familyService.getFamilyId();
     const membersRef = collection(this.firestore, `families/${familyId}/users`);
     return collectionData(membersRef, { idField: 'id' }) as Observable<FamilyMember[]>;
   }
 
   async addPointsToMember(memberId: string, points: number): Promise<void> {
-    const familyId = await this.getFamilyId();
+    const familyId = await this.familyService.getFamilyId();
     const memberRef = doc(this.firestore, `families/${familyId}/users/${memberId}`);
     const snapshot = await getDoc(memberRef);
 
@@ -50,7 +51,7 @@ export class FamilyMembersService {
   }
 
   async updatePoints(memberId: string, newPoints: number): Promise<void> {
-    const familyId = await this.getFamilyId();
+    const familyId = await this.familyService.getFamilyId();
     const ref = doc(this.firestore, `families/${familyId}/users/${memberId}`);
     await updateDoc(ref, { points: newPoints });
   }

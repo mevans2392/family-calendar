@@ -17,7 +17,14 @@
     </div>
 
     <div class="tab" routerLinkActive="active">
-        <button class="button" routerLink="/chore">Chores</button>
+        <button 
+            class="button" 
+            routerLink="/chore"
+            [disabled]="(subStatus$ | async) === 'free' || (subStatus$ | async) === 'expired'"
+            [class.disabled]="(subStatus$ | async) === 'free' || (subStatus$ | async) === 'expired'"    
+        >
+            Chores
+        </button>
     </div>
 
     <div class="tab" routerLinkActive="active">

@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { LoginComponent } from "./components/login/login.component";
+import { subscriptionGuard } from "./guards/subscription.guard";
 
 
 export const appRoutes: Routes = [
@@ -19,16 +20,19 @@ export const appRoutes: Routes = [
     //routes to chores component
     {
         path: 'chore',
+        canActivate: [subscriptionGuard],
         loadComponent: () =>
             import('./components/chore/chore.component').then(m => m.ChoreComponent)
     },
     {
         path: 'annual-chore',
+        canActivate: [subscriptionGuard],
         loadComponent: () =>
             import('./components/chore/annual-chores/annual-chores.component').then(m => m.AnnualChoresComponent)
     },
     {
         path: 'rewards',
+        canActivate: [subscriptionGuard],
         loadComponent: () =>
             import('./components/chore/rewards/rewards.component').then(m => m.RewardsComponent)
     },
