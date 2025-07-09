@@ -5,12 +5,15 @@ h2 {
 }
 
 .itemContainer {
-  border: 1px solid #ccc;
+  border: 1px solid #eee;
   padding: 10px;
-  border-radius: 6px;
+  border-radius: 10px;
   max-width: 600px;
   margin: auto;
   margin-top: 60px;
+  box-shadow: 
+        -2px -2px 5px #F3E8FF,
+        2px 2px 5px #C9F2E3;
 }
 
 .items {

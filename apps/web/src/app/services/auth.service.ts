@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, setPersistence, browserLocalPersistence, browserSessionPersistence, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, setPersistence, browserLocalPersistence, browserSessionPersistence, signInWithEmailAndPassword, signOut, getAuth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -22,7 +22,12 @@ export class AuthService {
       .then(() => this.router.navigate(['/login']));
   }
 
-  getCurrentUser() {
-    return this.auth.currentUser;
+  getCurrentUserAsync(): Promise<User | null> {
+    return new Promise((resolve) => {
+      const unsubscribe = onAuthStateChanged(this.auth, (user) => {
+        unsubscribe();
+        resolve(user);
+      })
+    })
   }
 }

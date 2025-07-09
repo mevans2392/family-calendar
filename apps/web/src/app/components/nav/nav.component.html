@@ -1,4 +1,4 @@
-
+<div class="tab-content"></div>
 <div class="tab-container">
     
     <div 
@@ -7,6 +7,22 @@
     >
         <button class="button" (click)="logout()">Logout</button>
     </div>
+
+    <div 
+        class="tab"
+        *ngIf="(subStatus$ | async) === 'free' || (subStatus$ | async) === 'trial' || (subStatus$ | async) === 'expired'"
+    >
+        <button 
+            class="button" 
+            [disabled]="loading"
+            (click)="startCheckout()"
+            [class.loading]="loading"
+        >
+            {{ loading ? 'Redirecting...' : 'Subscribe'}}
+        </button>
+    </div>
+
+    <div class="spinner" *ngIf="loading"></div>
 
     <div
         class="tab"
@@ -35,7 +51,7 @@
         <button class="button" routerLink="/shopping">Groceries</button>
     </div>
 </div>
-<div class="tab-content"></div>
+
 
 
 

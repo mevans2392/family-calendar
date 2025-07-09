@@ -1,3 +1,16 @@
+.btn-outline-secondary {
+    color: #6C5A78;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 
+        -2px -2px 5px #F3E8FF,
+        2px 2px 5px #C9F2E3;
+}
+
+#nav-container {
+  margin-left: 20px;
+}
+
 .day-scroll-container {
   overflow-x: auto;
   width: 100%;
@@ -14,7 +27,6 @@
     grid-auto-rows: 60px;
     position: relative;
     text-align: center;
-    border-bottom: 1px solid #eee;
     font-weight: bold;
     align-items: center;
 }
@@ -23,12 +35,17 @@
   display: grid;
   grid-auto-rows: 60px; /* each hour = 60px */
   position: relative;
+  gap: 8px;
 }
 
 .member-cell {
   position: relative;
-  border-right: 1px solid #eee; 
   height: 60px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 
+      -2px -2px 5px #F3E8FF,
+      2px 2px 5px #C9F2E3;
 }
 
 .time-column {
@@ -37,7 +54,6 @@
   max-width: 60px;
   text-align: right;
   padding: 0.25em;
-  border-right: 1px solid #ddd;
 }
 
 .event-block {
@@ -50,5 +66,6 @@
   color: white;
   z-index: 2;
 }
+
 
 

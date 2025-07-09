@@ -47,5 +47,17 @@ export const appRoutes: Routes = [
         path: 'shopping',
         loadComponent: () =>
             import('./components/shopping-list/shopping-list.component').then(m => m.ShoppingListComponent)
+    },
+
+    //routes for checkout session 
+    {
+        path: 'success',
+        loadComponent: () =>
+            import('./components/stripe/success/success.component').then(m => m.SuccessComponent)
+    },
+    {
+        path: 'cancel',
+        loadComponent: () =>
+            import('./components/stripe/cancel/cancel.component').then(m => m.CancelComponent)
     }
 ];

@@ -25,7 +25,11 @@ app.post("/", async (req, res) => {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig!, endpointSecret);
+    console.log("Stripe signature header:", sig);
+    console.log("Is raw body a buffer:",
+      Buffer.isBuffer((req as any).rawBody));
+    const payload = (req as any).rawBody ?? req.body;
+    event = stripe.webhooks.constructEvent(payload, sig!, endpointSecret);
   } catch (err: any) {
     console.error("Webhook Error:", err.message);
     res.status(400).send(`Webhook Error: ${err.message}`);

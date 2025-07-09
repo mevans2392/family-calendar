@@ -3,6 +3,8 @@
 body {
     scrollbar-width: none;
     -ms-overflow-style: none;
+    font-family: "Comfortaa", cursive;
+    color: #6C5A78;
 }
 
 body::-webkit-scrollbar {
@@ -15,3 +17,75 @@ html, body {
     height: 100%;
     overflow-y: auto;
 }
+.btn-outline-secondary {
+    color: #6C5A78;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 
+        -2px -2px 5px #F3E8FF,
+        2px 2px 5px #C9F2E3;
+}
+.btn-outline-secondary:hover {
+    background-color: #F3E8FF;
+    border: #F3E8FF;
+}
+.btn-danger {
+    color: #6C5A78;
+    background: rgba(255, 0, 0, 0.25);
+    border: 1px solid rgba(255, 0, 0, 0.05);
+    border-radius: 10px;
+    box-shadow:
+        -2px -2px 5px rgba(255, 0, 0, 0.1),
+        2px 2px 5px rgba(255, 0, 0, 0.25);
+}
+.btn-danger:hover {
+    background: rgba(255, 0, 0, 0.5);
+    border: 1px solid rgba(255, 0, 0, 0.05);
+}
+.btn-outline-danger {
+    color: #6C5A78;
+    border: 1px solid rgba(255, 0, 0, 0.25);
+    border-radius: 10px;
+    box-shadow:
+        -2px -2px 5px rgba(255, 0, 0, 0.1),
+        2px 2px 5px rgba(255, 0, 0, 0.25);
+}
+.btn-outline-danger:hover {
+    background: rgba(255, 0, 0, 0.5);
+    border: 1px solid rgba(255, 0, 0, 0.05);
+}
+.btn-secondary {
+    color: #6C5A78;
+    background-color: #F3E8FF;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    box-shadow: 
+        -2px -2px 5px #FAF8FF,
+        2px 2px 5px #F3E8FF;
+}
+.btn-secondary:hover {
+    background: #DBD1E6;
+    border: 1px solid #eee;
+}
+.btn-primary {
+    color: #6C5A78;
+    background: #C9F2E3;
+    border: 1px solid #C9F2E3;
+    border-radius: 10px;
+    box-shadow: 
+        -2px -2px 5px #DDFFF9,
+        2px 2px 5px #C9F2E3;
+}
+.btn-primary:hover {
+    background: #B5D9CC;
+    border: 1px solid #B5D9CC;
+}
+
+
+
+/* 
+lavendar: #F3E8FF;
+soft white base: #FAF8FF;
+mint: #C9F2E3;
+text color: #6C5A78;
+*/

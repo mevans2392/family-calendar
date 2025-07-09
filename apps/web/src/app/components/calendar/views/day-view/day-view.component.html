@@ -1,13 +1,16 @@
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3" id="nav-container">
     <h4 class="mb-0">{{  this.selectedDate | date: 'EEE, MMMM d' }}</h4>
     <div class="btn-group">
         <div class="btn btn-outline-secondary" (click)="goToPreviousDay()">&lt;</div>
         <div class="btn btn-outline-secondary" (click)="goToToday()">Jump to Today</div>
         <div class="btn btn-outline-secondary" (click)="goToNextDay()">&gt;</div>
     </div>
+    </div>
 </div>
 
-<div class="day-scroll-container">
+
+<div class="container-fluid day-scroll-container">
   <!-- Family Header Row -->
     <div class="header" 
         [style.gridTemplateColumns]="columnCount"

@@ -36,7 +36,6 @@
   cursor: pointer;
   line-height: 1;
 }
-
 .ingredients {
   display: flex;
   flex-direction: column;
@@ -46,9 +45,21 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-
+.form-control {
+  color: #6C5A78;
+}
 .ingredients::-webkit-scrollbar {
   width: 0px;
   height: 0px;
   background: transparent;
+}
+#ingredients {
+  margin-right: 5px;
+}
+#ing-button {
+  margin-right: 5px;
+}
+button {
+  color: #6C5A78;
+  margin-right: 5px;
 }

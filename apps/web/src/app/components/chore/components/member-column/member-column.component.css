@@ -4,13 +4,16 @@
   min-width: 14rem;       /* 👈 fallback for smaller screens */
   max-width: 90vw;        /* 👈 prevent overflow on mobile */
   min-height: 500px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid #eee;
+  border-radius: 10px;
   padding: 1rem;
-  background-color: #fff;
+  background-color: white;
   display: flex;
   flex-direction: column;
   overflow-x: auto;
+  box-shadow: 
+        -2px -2px 5px #F3E8FF,
+        2px 2px 5px #C9F2E3;
 }
 
 .member-header {
@@ -39,7 +42,6 @@
   flex-grow: 1;
   min-height: 100px;
   padding-top: 0.25rem;
-  border-top: 1px solid #eee;
 }
 
 .chore-card-wrapper {

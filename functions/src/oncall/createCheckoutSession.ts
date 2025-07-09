@@ -14,12 +14,16 @@ export const createCheckoutSession = onCall(
     secrets: [STRIPE_SECRET_TEST],
     region: "us-central1", // or your preferred region
   },
-  async (data, context: any): Promise<{ url: string | null }> => {
-    if (!context.auth) {
+  async (request): Promise<{ url: string | null }> => {
+    const {auth} = request;
+
+    console.log("Function triggered. Auth:", auth);
+
+    if (!auth) {
       throw new HttpsError("unauthenticated", "User must be logged in");
     }
 
-    const uid = context.auth.uid;
+    const uid = auth.uid;
     const familySnap = await db
       .collection("families")
       .where("createdBy", "==", uid)

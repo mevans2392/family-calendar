@@ -15,11 +15,11 @@
         <label for="ingredients" class="form-label">Ingredients</label>
         <div *ngFor="let ingredient of formRecipe.ingredients || []; let i = index; trackBy: trackByIndex" class="d-flex mb-2 align-items-center">
             <input id="ingredients" class="form-control" [(ngModel)]="formRecipe.ingredients[i]" />
-            <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeIngredient(i)">🗑️</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="addToShoppingList(ingredient)">🛒</button>
+            <button id="ing-button" type="button" class="btn btn-sm btn-outline-danger" (click)="removeIngredient(i)">🗑️</button>
+            <button id="ing-button" type="button" class="btn btn-sm btn-outline-secondary" (click)="addToShoppingList(ingredient)">🛒</button>
         </div>
       </div>
-      <button class="btn btn-sm btn-outline-primary" type="button" (click)="addIngredient()">Add Ingredient</button>
+      <button class="btn btn-sm btn-outline-secondary mb-3" type="button" (click)="addIngredient()">Add Ingredient</button>
 
       <div class="mb-3">
         <label for="directions" class="form-label">Instructions</label>

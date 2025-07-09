@@ -1,3 +1,16 @@
+.btn-outline-secondary {
+    color: #6C5A78;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 
+        -2px -2px 5px #F3E8FF,
+        2px 2px 5px #C9F2E3;
+}
+
+#nav-container {
+  margin-left: 20px;
+}
+
 .week-scroll-container {
   overflow-x: auto;
   width: 100%;
@@ -14,17 +27,19 @@
   display: grid;
   grid-template-columns: 60px repeat(7, 1fr); /* 1 time column, 7 day columns */
   align-items: start;
+  gap: 8px;
+}
+.week-row {
+  min-height: 60px; /* or whatever you want per hour */
+  position: relative;
 }
 
 .week-header {
-    align-items: start;
     height: 60px;
-    border-bottom: 1px solid #eee;
 }
 
 .time-column {
   text-align: left;
-  border-right: 1px solid #eee;
   height: 60px;
   font-size: 0.75rem;
   padding-left: 8px;
@@ -38,19 +53,17 @@
   /* border: 1px solid #eee; */
 }
 
-.week-row {
-  display: grid;
-  grid-template-columns: 60px repeat(7, 1fr);
-  min-height: 60px; /* or whatever you want per hour */
-  position: relative;
-}
-
 .day-cell {
   position: relative;
   border-right: 1px solid #eee;
   padding: 0; /* important */
   overflow: visible;
   height: 60px; /* or same as .week-row height */
+  
+  border-radius: 10px;
+  box-shadow: 
+      -2px -2px 5px #F3E8FF,
+      2px 2px 5px #C9F2E3;
 }
 
 .event-block {

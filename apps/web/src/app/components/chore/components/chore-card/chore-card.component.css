@@ -4,11 +4,15 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem;
-    border: 2px outset #ddd;
-    border-radius: 6px;
-    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background-color: white;
     width: 14rem;
     height: 100px;
+    box-shadow: 
+      -2px -2px 5px #FAF8FF,
+      2px 2px 5px #F3E8FF;
+    color: #6C5A78;
 }
 
 .chore-checkbox {

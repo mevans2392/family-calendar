@@ -1,20 +1,33 @@
+
 .month-view {
     display: flex;            
     flex-direction: column;
-    font-family: sans-serif;
+}
+#nav-container {
+    margin-left: 20px;
 }
 .header-row, .week-row {
     display: grid;
     grid-template-columns: repeat(7, 1fr); /* sets the number of columns for display - changing to 8 creates a blank column on the right. */
                                            /* used in conjuction with for days in week in the month-view.component.ts file */
+    gap: 8px;
 }
-.day-name, .day-cell {
+.day-cell {
     padding: 8px;
     text-align: center;
     border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 
+        -2px -2px 5px #F3E8FF,
+        2px 2px 5px #C9F2E3;
+}
+.day-name {
+    border: none;
+    text-align: center;
 }
 .day-cell {
     height: 150px;
+    cursor: pointer;
 }
 .date-number {
     text-align: right;
@@ -22,17 +35,16 @@
 .event-pill {
     text-align: left;
 }
-.day-cell {
-    cursor: pointer;
-}
+
 .day-cell.today{
-    background-color: #d1e7dd;
+    background-color: #C9F2E3;
     font-weight: bold;
 }
 
+
 @media (max-width: 767px) {
     .day-name, .day-cell {
-        width: 60px;
+        width: 50px;
     }
 
     .day-cell {

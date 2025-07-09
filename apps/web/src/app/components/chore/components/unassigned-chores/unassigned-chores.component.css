@@ -2,13 +2,17 @@
   margin-top: 2rem;
   min-height: 175px;
   padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 
+        -2px -2px 5px #F3E8FF,
+        2px 2px 5px #C9F2E3;
 }
 
 .bucket-title {
   font-weight: bold;
+  color: #6C5A78;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
 }

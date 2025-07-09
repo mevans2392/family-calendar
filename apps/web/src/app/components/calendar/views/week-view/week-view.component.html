@@ -1,15 +1,16 @@
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0">{{ weekEndingLabel }}</h4>
-    <div class="btn-group">
-        <div class="btn btn-outline-secondary" (click)="goToPreviousWeek()">&lt;</div>
-        <div class="btn btn-outline-secondary" (click)="goToThisWeek()">Jump to Current Week</div>
-        <div class="btn btn-outline-secondary" (click)="goToNextWeek()">&gt;</div>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3" id="nav-container">
+        <h4 class="mb-0">{{ weekEndingLabel }}</h4>
+        <div class="btn-group">
+            <div class="btn btn-outline-secondary" (click)="goToPreviousWeek()">&lt;</div>
+            <div class="btn btn-outline-secondary" (click)="goToThisWeek()">Jump to Current Week</div>
+            <div class="btn btn-outline-secondary" (click)="goToNextWeek()">&gt;</div>
+        </div>
     </div>
-    
-    
 </div>
 
-<div class="week-scroll-container">
+
+<div class="container-fluid week-scroll-container">
     <!-- Week Header -->
     <div class="week-header">
         <div class="time-column"></div>
