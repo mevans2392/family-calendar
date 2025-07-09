@@ -28,3 +28,7 @@
     width: 0px !important;
     background: transparent !important;
 }
+
+#button-container {
+    padding-top: 20px;
+}
