@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, inject, HostListener } from '@angular/core';
 import { DateUtils } from '../../../../shared/date-utils';
 import { FamilyMember, CalendarEvent } from '../../../../shared/shared-interfaces';
+import { ScreenSizeService } from '../../../../services/screen-size.service';
 
 @Component({
   selector: 'app-month-view',
@@ -22,10 +23,10 @@ export class MonthViewComponent implements OnChanges {
 
   weeks: Date[][] = [];
   showBubbleOnly: boolean = false;
+  screenSizeService = inject(ScreenSizeService);
 
   ngOnInit(): void {
     this.setViewMode();
-    window.addEventListener('resize', this.setViewMode.bind(this));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -60,7 +61,14 @@ export class MonthViewComponent implements OnChanges {
   }
 
   setViewMode(): void {
-    this.showBubbleOnly = window.innerWidth <= 767;
+    console.log(window.innerWidth);
+    this.showBubbleOnly = window.innerWidth <= 1024;
+    console.log(this.showBubbleOnly);
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.setViewMode();
   }
 
   isToday(date: Date): boolean {
@@ -100,10 +108,6 @@ export class MonthViewComponent implements OnChanges {
 
   formatTime(time: string): string {
     return DateUtils.formatTime12Hour(time);
-  }
-
-  ngOnDestroy(): void {
-    window.removeEventListener('resize', this.setViewMode.bind(this));
   }
 
 }

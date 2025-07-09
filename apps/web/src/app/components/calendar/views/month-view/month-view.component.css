@@ -14,6 +14,8 @@
 }
 .day-cell {
     padding: 8px;
+    height: 175px;
+    cursor: pointer;
     text-align: center;
     border: 1px solid #eee;
     border-radius: 10px;
@@ -24,10 +26,6 @@
 .day-name {
     border: none;
     text-align: center;
-}
-.day-cell {
-    height: 150px;
-    cursor: pointer;
 }
 .date-number {
     text-align: right;
@@ -41,7 +39,24 @@
     font-weight: bold;
 }
 
-
+@media (max-width: 1024px) {
+    .day-name, .day-cell {
+        width: 100px;
+    }
+    .event-pill {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 7px 0;
+        gap: 8px;
+    }
+    .user-bubble {
+        height: 12px;
+        width: 100%;
+        border-radius: 4px;
+    }
+    
+}
 @media (max-width: 767px) {
     .day-name, .day-cell {
         width: 50px;
@@ -63,3 +78,4 @@
         border-radius: 4px;
     }
 }
+

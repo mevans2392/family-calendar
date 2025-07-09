@@ -59,6 +59,10 @@ export class MealPlannerComponent {
   handleDrop(event: CdkDragDrop<Recipe[]>, day: string, mealType: string) {
     const original = event.item.data as Recipe;
 
+    if(original.day === day && original.mealType === mealType) {
+      return;
+    }
+
     if(!original.day && !original.mealType) {
       const clone: Recipe = {
         ...original,
@@ -68,6 +72,14 @@ export class MealPlannerComponent {
       };
 
       this.recipeService.saveRecipe(clone).then(() => this.loadRecipes());
+    } else {
+      const updated = {
+        ...original,
+        day,
+        mealType
+      };
+
+      this.recipeService.saveRecipe(updated).then(() => this.loadRecipes());
     }
   }
 

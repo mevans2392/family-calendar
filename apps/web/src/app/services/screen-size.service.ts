@@ -31,7 +31,7 @@ export class ScreenSizeService {
    }
 
    isTabletOrSmaller(): boolean {
-    return this.isTablet() || this.isMobile();
+    return this.screenSize$.value < 1024;
    }
 
    get screenSizeChanges() {
