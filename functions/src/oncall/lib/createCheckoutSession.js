@@ -45,6 +45,13 @@ exports.createCheckoutSession = (0, https_1.onCall)({
             stripeCustomerId: customerId,
         });
     }
+    const isLocal = request.rawRequest.headers.origin?.includes("localhost");
+    const successUrl = isLocal ?
+        "http://localhost:4200/success" :
+        "https://familycalendar-2a3ec.web.app/success";
+    const cancelUrl = isLocal ?
+        "http://localhost:4200/home" :
+        "https://familycalendar-2a3ec.web.app/home";
     const session = await stripe.checkout.sessions.create({
         mode: "subscription",
         payment_method_types: ["card"],
@@ -55,8 +62,8 @@ exports.createCheckoutSession = (0, https_1.onCall)({
                 quantity: 1,
             },
         ],
-        success_url: "http://localhost:4200/success",
-        cancel_url: "http://localhost:4200/cancel",
+        success_url: successUrl,
+        cancel_url: cancelUrl,
     });
     return {
         url: session.url,

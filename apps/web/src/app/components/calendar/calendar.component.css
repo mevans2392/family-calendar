@@ -4,7 +4,16 @@
 }
 
 .calendar {
-  padding-top: 100px;
+  padding-top: 120px;
+}
+
+#to-do {
+  padding-top: 120px;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
 }
 
 @media (max-width: 768px) {

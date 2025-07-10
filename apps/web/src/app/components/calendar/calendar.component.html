@@ -1,3 +1,25 @@
+<div
+  class="modal"
+  tabindex="-1"
+  [class.show]="showTrialMessage"
+  [style.display]="showTrialMessage ? 'block' : 'none'"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- <div class="modal-header" style="justify-content:end; height: 40px;">
+        <button class="btn close" (click)="onClose()">x</button>
+      </div> -->
+      <div class="modal-body">
+        <div style="text-align: right;">
+          <button class="btn close" (click)="onClose()">x</button>
+        </div><br>
+        You have {{ trialDaysLeft }} day(s) until your trial is over.<br>
+        Please subscribe to keep full features.
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="fixed-top bg-white">
     <div class="container-fluid">
       <div class="row">
@@ -7,44 +29,60 @@
   
 </div>
 
-<div class="calendar">
-  
-  <!-- view switcher -->
-  <div class="btn-group mb-3" role="group" style="margin-left: 1rem;">
-    <button type="button" class="btn btn-outline-secondary" (click)="switchView('month')">Month</button>
-    <button type="button" class="btn btn-outline-secondary" (click)="switchView('week')">Week</button>
-    <button type="button" class="btn btn-outline-secondary" (click)="switchView('day')">Day</button>
+<ng-container *ngIf="subStatus$ | async as subStatus">
+  <div class="row">
+    <div 
+      class="calendar"
+      [ngClass]="{
+        'col-lg-12': subStatus === 'paid' || subStatus === 'trial',
+        'col-lg-8': subStatus === 'free' || subStatus === 'expired'
+      }"
+    >
+      <!-- view switcher -->
+      <div class="btn-group mb-3" role="group" style="margin-left: 1rem;">
+        <button type="button" class="btn btn-outline-secondary" (click)="switchView('month')">Month</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="switchView('week')">Week</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="switchView('day')">Day</button>
+      </div>
+      <!-- Calendar View -->
+      <app-month-view
+        *ngIf="currentView() === 'month'"
+        [selectedDate]="selectedDate()"
+        [events]="calendarEvents()"
+        [familyMembers]="familyMembers()"
+        (dateClicked)="handleDateClick($event)"
+        (editClicked)="handleEventEdit($event)"
+        (dateChanged)="selectedDate.set($event)"  
+      ></app-month-view>
+      <app-week-view
+        *ngIf="currentView() === 'week'"
+        [selectedDate]="selectedDate()"
+        [events]="calendarEvents()"
+        [familyMembers]="familyMembers()"
+        (dateClicked)="handleDateClick($event)"
+        (editClicked)="handleEventEdit($event)"
+        (dateChanged)="selectedDate.set($event)" 
+      ></app-week-view>
+      <app-day-view
+        *ngIf="currentView() === 'day'"
+        [selectedDate]="selectedDate()"
+        [events]="calendarEvents()"
+        [familyMembers]="familyMembers()"
+        (dateClicked)="handleDateClick($event)"
+        (editClicked)="handleEventEdit($event)"
+        (dateChanged)="selectedDate.set($event)" 
+      ></app-day-view>
+    </div>
+    <div id="to-do" class="col-lg-4" *ngIf="subStatus === 'free' || subStatus === 'expired'">
+      <app-to-do></app-to-do>
+    </div>
+
   </div>
-  <!-- Calendar View -->
-  <app-month-view
-    *ngIf="currentView() === 'month'"
-    [selectedDate]="selectedDate()"
-    [events]="calendarEvents()"
-    [familyMembers]="familyMembers()"
-    (dateClicked)="handleDateClick($event)"
-    (editClicked)="handleEventEdit($event)"
-    (dateChanged)="selectedDate.set($event)"  
-  ></app-month-view>
-  <app-week-view
-    *ngIf="currentView() === 'week'"
-    [selectedDate]="selectedDate()"
-    [events]="calendarEvents()"
-    [familyMembers]="familyMembers()"
-    (dateClicked)="handleDateClick($event)"
-    (editClicked)="handleEventEdit($event)"
-    (dateChanged)="selectedDate.set($event)" 
-  ></app-week-view>
-  <app-day-view
-    *ngIf="currentView() === 'day'"
-    [selectedDate]="selectedDate()"
-    [events]="calendarEvents()"
-    [familyMembers]="familyMembers()"
-    (dateClicked)="handleDateClick($event)"
-    (editClicked)="handleEventEdit($event)"
-    (dateChanged)="selectedDate.set($event)" 
-  ></app-day-view>
-  <!-- event modal -->
-  <app-calendar-event-modal
+</ng-container>
+
+
+<!-- event modal -->
+<app-calendar-event-modal
     [show]="showEventModal()"
     [selectedDate]="selectedDate()"
     [familyMembers]="familyMembers()"
@@ -52,5 +90,4 @@
     (save)="saveEvent($event)"
     (delete)="deleteEvent($event)"
     (close)="showEventModal.set(false)"
-  ></app-calendar-event-modal>
-</div>
+></app-calendar-event-modal>

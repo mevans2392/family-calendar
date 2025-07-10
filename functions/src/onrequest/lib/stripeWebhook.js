@@ -47,6 +47,24 @@ app.post("/", async (req, res) => {
             }
             break;
         }
+        case "checkout.session.completed": {
+            const session = data;
+            const customerId = session.customer;
+            const subscriptionId = session.subscription;
+            if (!customerId || !subscriptionId)
+                break;
+            const familiesSnapshot = await init_1.db
+                .collection("families")
+                .where("stripeCustomerId", "==", customerId)
+                .get();
+            for (const docRef of familiesSnapshot.docs) {
+                await docRef.ref.update({
+                    stripeSubscriptionId: subscriptionId,
+                    subStatus: "paid",
+                });
+            }
+            break;
+        }
         case "invoice.payment_failed":
         case "customer.subscription.deleted": {
             const customerId = data.customer;

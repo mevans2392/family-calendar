@@ -30,26 +30,29 @@
     <!-- Time Labels (down the side) -->
     <ng-container *ngFor="let hour of hours">
         <div class="time-column">{{ formatHour(hour) }}</div>
+
         <ng-container *ngFor="let member of getFamilyColumns()">
             <div class="member-cell" (click)="onCellClick(member.id, hour)">
+                
                 <ng-container *ngIf="hour === 6">
                     <ng-container *ngFor="let event of getAllDayEventsForUser(member.id)">
                         <div
                             class="event-block all-day"
                             [style.backgroundColor]="getColorForUid(event.uid)"
-                            [style.height.px]="getEventDuration(event) * 60"
+                            [style.height.px]="getEventDuration(event) * 50"
                             (click)="onEventClick(event, $event)"
                         >
                             {{  event.title }}
                         </div>
                     </ng-container>
+                
 
                     <ng-container *ngFor="let event of getEventsForUser(member.id)">
                         <div
                             class="event-block"
                             [style.backgroundColor]="getColorForUid(event.uid)"
                             [style.top.px]="getEventOffset(event)"
-                            [style.height.px]="getEventDuration(event) * 60"
+                            [style.height.px]="getEventDuration(event) * 50"
                             (click)="onEventClick(event, $event)"
                         >
                             <span *ngIf="event.startTime">{{ formatTime(event.startTime) }}: </span>{{ event.title }}

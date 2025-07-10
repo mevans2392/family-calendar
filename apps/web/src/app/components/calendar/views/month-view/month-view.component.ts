@@ -61,9 +61,9 @@ export class MonthViewComponent implements OnChanges {
   }
 
   setViewMode(): void {
-    console.log(window.innerWidth);
+    
     this.showBubbleOnly = window.innerWidth <= 1024;
-    console.log(this.showBubbleOnly);
+    
   }
 
   @HostListener('window:resize')

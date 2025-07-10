@@ -4,26 +4,29 @@
       <h5 class="modal-title">{{ formChore.id ? 'Edit Chore' : 'Add Chore' }}</h5>
       <button type="button" class="btn-close" (click)="onClose()">×</button>
     </div>
+    
+    <ng-container *ngIf="subStatus$ | async as subStatus">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="choreTitle" class="form-label">Title</label>
+            <input id="choreTitle" class="form-control" [(ngModel)]="formChore.title" />
+          </div>
 
-    <div class="modal-body">
-      <div class="mb-3">
-        <label for="choreTitle" class="form-label">Title</label>
-        <input id="choreTitle" class="form-control" [(ngModel)]="formChore.title" />
-      </div>
+          <div class="mb-3" *ngIf="subStatus === 'paid' || subStatus === 'trial'">
+            <label for="points" class="form-label">Points</label>
+            <input type="number" id="points" class="form-control" [(ngModel)]="formChore.points" />
+          </div>
 
-      <div class="mb-3">
-        <label for="points" class="form-label">Points</label>
-        <input type="number" id="points" class="form-control" [(ngModel)]="formChore.points" />
-      </div>
-
-      <div class="mb-3">
-        <label for="month" class="form-label">Month (optional)</label>
-        <select id="month" class="form-select" [(ngModel)]="formChore.month">
-          <option value="">(Unscheduled)</option>
-          <option *ngFor="let m of MONTHS" [value]="m">{{ m }}</option>
-        </select>
-      </div>
-    </div>
+          <div class="mb-3" *ngIf="subStatus === 'paid' || subStatus === 'trial'">
+            <label for="month" class="form-label">Month (optional)</label>
+            <select id="month" class="form-select" [(ngModel)]="formChore.month">
+              <option value="">(Unscheduled)</option>
+              <option *ngFor="let m of MONTHS" [value]="m">{{ m }}</option>
+            </select>
+          </div>
+        </div>
+    </ng-container>
+    
 
     <div class="modal-footer">
       <button class="btn btn-secondary" (click)="onClose()">Cancel</button>

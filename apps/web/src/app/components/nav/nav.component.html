@@ -1,56 +1,67 @@
 <div class="tab-content"></div>
-<div class="tab-container">
-    
-    <div 
-        class="tab"
-        style="background: rgba(255, 0, 0, 0.25);"
-    >
-        <button class="button" (click)="logout()">Logout</button>
-    </div>
-
-    <div 
-        class="tab"
-        *ngIf="(subStatus$ | async) === 'free' || (subStatus$ | async) === 'trial' || (subStatus$ | async) === 'expired'"
-    >
-        <button 
-            class="button" 
-            [disabled]="loading"
-            (click)="startCheckout()"
-            [class.loading]="loading"
+<ng-container *ngIf="subStatus$ | async as subStatus">
+    <div class="tab-container">
+        
+        <!-- logout button -->
+        <div 
+            class="tab"
+            style="background: rgba(255, 0, 0, 0.25);"
         >
-            {{ loading ? 'Redirecting...' : 'Subscribe'}}
-        </button>
-    </div>
+            <button class="button" (click)="logout()">Logout</button>
+        </div>
 
-    <div class="spinner" *ngIf="loading"></div>
+        <!-- subscribe button -->
+        <div class="tab" routerLinkActive="active">
+            <button class="button" routerLink="/manage">Manage Family</button>
+        </div>
 
-    <div
-        class="tab"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-    >
-        <button class="button" routerLink="/home">Calendar</button>
-    </div>
+        <div class="spinner" *ngIf="loading"></div>
 
-    <div class="tab" routerLinkActive="active">
-        <button 
-            class="button" 
-            routerLink="/chore"
-            [disabled]="(subStatus$ | async) === 'free' || (subStatus$ | async) === 'expired'"
-            [class.disabled]="(subStatus$ | async) === 'free' || (subStatus$ | async) === 'expired'"    
+        <!-- calendar button -->
+        <div
+            class="tab"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
         >
-            Chores
-        </button>
-    </div>
+            <button class="button" routerLink="/home">Calendar</button>
+        </div>
 
-    <div class="tab" routerLinkActive="active">
-        <button class="button" routerLink="/meal-planner" >Meal Prep</button>
-    </div>
+        <!-- chore button -->
+        <div class="tab" routerLinkActive="active">
+            <button 
+                class="button" 
+                routerLink="/chore"
+                [disabled]="subStatus === 'free' || subStatus === 'expired'"
+                [class.disabled]="subStatus === 'free' || subStatus === 'expired'"    
+            >
+                Chores
+            </button>
+        </div>
 
-    <div class="tab" routerLinkActive="active">
-        <button class="button" routerLink="/shopping">Groceries</button>
+        <!-- meal-planner button -->
+        <div class="tab" routerLinkActive="active">
+            <button 
+                class="button" 
+                routerLink="/meal-planner" 
+                [disabled]="subStatus === 'free' || subStatus === 'expired'"
+                [class.disabled]="subStatus === 'free' || subStatus === 'expired'" 
+            >
+                Meal Prep
+            </button>
+        </div>
+
+        <div class="tab" routerLinkActive="active">
+            <button 
+                class="button" 
+                routerLink="/shopping"
+                [disabled]="subStatus === 'free' || subStatus === 'expired'"
+                [class.disabled]="subStatus === 'free' || subStatus === 'expired'" 
+            >
+                Groceries
+            </button>
+        </div>
     </div>
-</div>
+</ng-container>
 
 
 

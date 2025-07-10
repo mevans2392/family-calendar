@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Chore, MonthOption, MONTHS } from '../../../../shared/shared-interfaces';
 import { ChoreService } from '../../../../services/chore.service';
+import { Observable, map } from 'rxjs';
+import { Firestore, doc, docData } from '@angular/fire/firestore';
+import { FamilyService } from '../../../../services/family.service';
 
 @Component({
   selector: 'app-chore-modal',
@@ -19,6 +22,9 @@ export class ChoreModalComponent implements OnInit {
   formChore: Partial<Chore> = {};
   MONTHS: (MonthOption | '')[] = ['', ...MONTHS];
   private choreService = inject(ChoreService);
+  private firestore = inject(Firestore);
+  private familyService = inject(FamilyService);
+  subStatus$!: Observable<'free' | 'trial' | 'paid' | 'expired' | undefined>;
 
   ngOnInit() {
     // Initialize local formChore so template bindings are always safe
@@ -30,7 +36,17 @@ export class ChoreModalComponent implements OnInit {
       lastCompletedAt: '',
       month: ''
     };
+    this.loadSubStatus();
   }
+
+  async loadSubStatus() {
+      const familyId = await this.familyService.getFamilyId();
+      const familyRef = doc(this.firestore, `families/${familyId}`);
+  
+      this.subStatus$ = docData(familyRef).pipe(
+        map((data: any) => data?.subStatus ?? 'free')
+      );
+    }
 
   async save() {
     const choreToSave = {

@@ -40,11 +40,13 @@ export const appRoutes: Routes = [
     //routes to meal planner component
     {
         path: 'meal-planner',
+        canActivate: [subscriptionGuard],
         loadComponent: () =>
             import('./components/meal-planner/meal-planner.component').then(m => m.MealPlannerComponent)
     },
     {
         path: 'shopping',
+        canActivate: [subscriptionGuard],
         loadComponent: () =>
             import('./components/shopping-list/shopping-list.component').then(m => m.ShoppingListComponent)
     },
@@ -59,5 +61,12 @@ export const appRoutes: Routes = [
         path: 'cancel',
         loadComponent: () =>
             import('./components/stripe/cancel/cancel.component').then(m => m.CancelComponent)
+    },
+
+    //manage family
+    {
+        path: 'manage',
+        loadComponent: () =>
+            import('./components/register-family/register-family.component').then(m => m.RegisterFamilyComponent)
     }
 ];

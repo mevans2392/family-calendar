@@ -20,7 +20,7 @@ export class DayViewComponent {
   @Output() editClicked = new EventEmitter<CalendarEvent>();
   @Output() dateChanged = new EventEmitter<Date>();
 
-  readonly hours = Array.from({ length: 30}, (_, i) => 6 + i);
+  readonly hours = Array.from({ length: 15}, (_, i) => 6 + i);
 
   getEventsForUser(uid: string): CalendarEvent[] {
     const dateStr = this.selectedDate.toISOString().substring(0, 10);
@@ -61,6 +61,12 @@ export class DayViewComponent {
   getColor(uid: string): string {
     return this.familyMembers.find(f => f.id === uid)?.color || 'gray';
   }
+
+  getColumnIndex(uid: string): string {
+    const index = this.familyMembers.findIndex(m => m.id === uid);
+    return index >= 0 ? `${index + 2} / ${index + 3}` : 'auto'; // +2 accounts for time column
+  }
+
 
   onCellClick(uid: string, hour: number): void {
     const start = `${hour.toString().padStart(2, '0')}:00`;

@@ -1,53 +1,76 @@
 <form [formGroup]="registerForm" (ngSubmit)="submit()" class="container mt-4">
-    <div class="mb-3">
-        <label class="form-label">Email: </label>
-        <input type="email" formControlName="email" class="form-control" />
-    </div>
+  <div *ngIf="!isManagingExistingFamily" class="mb-3">
+    <label class="form-label">Email: </label>
+    <input type="email" formControlName="email" class="form-control" />
+  </div>
 
-    <div class="mb-3">
-        <label class="form-label">Password: </label>
-        <input type="password" formControlName="password" class="form-control" />
-    </div>
+  <div *ngIf="!isManagingExistingFamily" class="mb-3">
+    <label class="form-label">Password: </label>
+    <input type="password" formControlName="password" class="form-control" />
+  </div>
 
-    <div class="mb-3">
-        <label class="form-label">Family Name: </label>
-        <input type="text" formControlName="familyName" class="form-control" />
-    </div>
+  <div class="mb-3">
+    <label class="form-label">Family Name: </label>
+    <input type="text" formControlName="familyName" class="form-control" />
+  </div>
 
-    <div formArrayName="members">
-        <div *ngFor="let member of members.controls; let i = index" [formGroupName]="i" class="card mb-2 p-3">
-            <div class="row g-3 align-items-center">
-                <div class="col-md-5">
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        formControlName="name" 
-                        placeholder="Family Member Name"
-                        [readonly]="member.get('name')?.value === 'Anyone'" />
-                </div>
-                <div class="col-md-5">
-                    <div class="color-picker">
-                        <div
-                            *ngFor="let color of presetColors"
-                            class="color-swatch"
-                            [style.backgroundColor]="color"
-                            [class.selected]="color === member.get('color')?.value"
-                            (click)="member.get('color')?.setValue(color)"
-                        ></div>
-                    </div>
-                </div>
-                <div class="col-md-2 text-end">
-                    <button type="button" (click)="removeMember(i)" class="btn btn-outline-danger" [disabled]="member.get('name')?.value === 'Anyone'">Remove</button>
-                </div>
-            </div>
+  <div formArrayName="members">
+    <div *ngFor="let member of members.controls; let i = index" [formGroupName]="i" class="card mb-2 p-3">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-5">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Family Member Name"
+            [readonly]="member.get('name')?.value === 'Anyone'" />
         </div>
+        <div class="col-md-5">
+          <div class="color-picker">
+            <div
+              *ngFor="let color of presetColors"
+              class="color-swatch"
+              [style.backgroundColor]="color"
+              [class.selected]="color === member.get('color')?.value"
+              (click)="member.get('color')?.setValue(color)"
+            ></div>
+          </div>
+        </div>
+        <div class="col-md-2 text-end">
+          <button type="button" (click)="removeMember(i)" class="btn btn-outline-danger" [disabled]="member.get('name')?.value === 'Anyone'">Remove</button>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="mb-3">
-        <button type="button" (click)="addMember()" class="btn btn-secondary">+ Add Member</button>
-    </div>
+  <div class="mb-3">
+    <button type="button" (click)="addMember()" class="btn btn-secondary">+ Add Member</button>
+  </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Register Family</button>
+  <!-- Show Register button if in registration mode -->
+  <button *ngIf="!isManagingExistingFamily" type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
+    Register Family
+  </button>
 
-    <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+  <!-- Show subscription controls if in manage mode -->
+  <div *ngIf="isManagingExistingFamily" class="mt-4">
+      <p><strong>Subscription Status:</strong> {{ subStatus }}</p>
+    
+      <div *ngIf="subStatus === 'free' || subStatus === 'expired' || subStatus === 'trial'">
+        <button type="button" class="btn btn-primary me-2" (click)="startCheckout()">Subscribe</button>
+      </div>
+
+      <div *ngIf="subStatus === 'paid'">
+        <button type="button" class="btn btn-outline-danger me-2" (click)="cancelSubscription()">Cancel Subscription</button>
+      </div>
+
+      <button type="button" class="btn btn-outline-secondary mt-2" routerLink="/home">Back to Calendar</button>
+    
+      
+  </div>
+
+  
+
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
 </form>
+

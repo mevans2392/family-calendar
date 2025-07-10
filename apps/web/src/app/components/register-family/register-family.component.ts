@@ -4,6 +4,9 @@ import { Router, RouterModule } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { FamilyService } from '../../services/family.service';
 import { CommonModule } from '@angular/common';
+import { SubscriptionService } from '../../services/subscription.service';
+import { FamilyMembersService } from '../../services/family-members.service';
+import { httpsCallable, Functions } from '@angular/fire/functions';
 
 @Component({
   selector: 'app-register-family',
@@ -15,12 +18,18 @@ import { CommonModule } from '@angular/common';
 export class RegisterFamilyComponent implements OnInit {
   registerForm: FormGroup;
   errorMessage = '';
+  isManagingExistingFamily = false;
+  subStatus: 'free' | 'trial' | 'paid' | 'expired' = 'free';
+  familyId: string | null = null;
 
   constructor (
     private fb: FormBuilder,
     private auth: Auth,
     private router: Router,
-    private familyService: FamilyService
+    private familyService: FamilyService,
+    private subscriptionService: SubscriptionService,
+    private familyMembersService: FamilyMembersService,
+    private functions: Functions
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -31,8 +40,45 @@ export class RegisterFamilyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addMember('Anyone');
+    this.familyId = localStorage.getItem('familyId');
+    if(this.familyId) {
+      this.isManagingExistingFamily = true;
+      this.loadFamilyData(this.familyId);
+    } else {
+      this.addMember('Anyone');
+    }
   }  
+
+  loadFamilyData(familyId: string): void {
+    this.subscriptionService.getFamilyData().subscribe(family => {
+      if(family) {
+        this.subStatus = family.subStatus;
+
+        this.registerForm.patchValue({
+          familyName: family.familyName
+        });
+
+        this.members.clear();
+
+        this.familyMembersService.getMembers().then(members$ => {
+          members$.subscribe(members => {
+            members.forEach(member => {
+              const memberGroup = this.fb.group({
+                name: [member.name, Validators.required],
+                color: [member.color, Validators.required]
+              });
+
+              if(member.name === 'Anyone') {
+                memberGroup.get('name')?.disable();
+              }
+
+              this.members.push(memberGroup);
+            });
+          });
+        });
+      }
+    });
+  }
 
   get members(): FormArray {
     return this.registerForm.get('members') as FormArray;
@@ -71,5 +117,44 @@ export class RegisterFamilyComponent implements OnInit {
 
   readonly presetColors = ['#f94144', '#f3722c', '#f9844a', '#f9c74f', '#90be6d', '#43aa8b', '#577590'];
   selectedColor: string = this.presetColors[0];
+
+  loading = false;
+  
+  async startCheckout() {
+    this.loading = true;
+
+    const createCheckoutSession = httpsCallable(
+      this.functions,
+      'createCheckoutSessionCallable'
+    );
+
+    createCheckoutSession({})
+      .then((result: any) => {
+        const url = result.data.url;
+        if(url) {
+          window.location.href = url;
+        }
+      })
+      .catch((err) => {
+        console.error('Stripe checkout error:', err);
+        this.loading = false;
+      });
+  }
+
+  async cancelSubscription() {
+    const confirmed = confirm("Are you sure you want to cancel your subscription?");
+
+    if(!confirmed) return;
+    
+    try{
+      const cancel = httpsCallable(this.functions, 'cancelSubscription');
+      await cancel({});
+      this.subscriptionService.getFamilyData().subscribe(family => {
+        if(family) this.subStatus = family.subStatus;
+      });
+    } catch(error) {
+      console.error('Failed to cancel subscription:', error);
+    }
+  }
 
 }

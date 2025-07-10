@@ -1,7 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ScreenSizeService } from '../../services/screen-size.service';
 import { CalendarEvent, FamilyMember } from '../../shared/shared-interfaces';
 import { CalendarService } from '../../services/calendar.service';
 import { FamilyMembersService } from '../../services/family-members.service';
@@ -10,6 +9,10 @@ import { CalendarEventModalComponent } from './calendar-event-modal/calendar-eve
 import { WeekViewComponent } from './views/week-view/week-view.component';
 import { NavComponent } from "../nav/nav.component";
 import { DayViewComponent } from "./views/day-view/day-view.component";
+import { SubscriptionService } from '../../services/subscription.service';
+import { Observable, map } from 'rxjs';
+import { Firestore, doc, docData } from '@angular/fire/firestore';
+import { ToDoComponent } from '../to-do/to-do.component';
 
 @Component({
   selector: 'app-calendar',
@@ -22,7 +25,8 @@ import { DayViewComponent } from "./views/day-view/day-view.component";
     DayViewComponent,
     CalendarEventModalComponent,
     NavComponent,
-    DayViewComponent
+    DayViewComponent,
+    ToDoComponent
 ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
@@ -30,6 +34,8 @@ import { DayViewComponent } from "./views/day-view/day-view.component";
 export class CalendarComponent implements OnInit {
   private calendarService = inject(CalendarService);
   private familyService = inject(FamilyMembersService);
+  private subscriptionService = inject(SubscriptionService);
+  private firestore = inject(Firestore);
 
   calendarEvents = signal<CalendarEvent[]>([]);
   familyMembers = signal<FamilyMember[]>([]);
@@ -45,10 +51,48 @@ export class CalendarComponent implements OnInit {
   monthLabel = computed(() =>
     this.selectedDate().toLocaleString('default', {month: 'long', year: 'numeric'})
   );
+  showTrialMessage = false;
+  trialDaysLeft: number = 0;
+  subStatus$!: Observable<'free' | 'trial' | 'paid' | 'expired' | undefined>;
   
 
   ngOnInit(): void {
+    this.showTrialAlert();
+    this.loadSubStatus();
     this.loadData();
+  }
+
+  showTrialAlert() {
+    const justLoggedIn = sessionStorage.getItem('justLoggedIn');
+
+    if(!justLoggedIn) return;
+
+    this.subscriptionService.getFamilyData().subscribe(family => {
+      if (
+        family &&
+        family.subStatus === 'trial'
+      ) {
+
+        this.trialDaysLeft = this.subscriptionService.getTrialDaysLeft(family.trialStart);
+        
+        // setTimeout(() => {
+        //   alert(`You have ${this.trialDaysLeft} day(s) left until you trial is over`);
+        // }, 0);
+
+        this.showTrialMessage = true;
+      }
+    });
+
+    sessionStorage.removeItem('justLoggedIn');
+  }
+
+  async loadSubStatus() {
+    const familyId = await this.familyService.getFamilyId();
+    const familyRef = doc(this.firestore, `families/${familyId}`);
+
+    this.subStatus$ = docData(familyRef).pipe(
+      map((data: any) => data?.subStatus ?? 'free')
+    );
   }
 
   async loadData() {
@@ -87,6 +131,10 @@ export class CalendarComponent implements OnInit {
   deleteEvent(eventId: string) {
     this.calendarService.deleteEvent(eventId);
     this.showEventModal.set(false);
+  }
+
+  onClose() {
+    this.showTrialMessage = false;
   }
 
 
