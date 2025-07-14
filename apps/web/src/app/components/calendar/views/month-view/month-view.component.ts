@@ -52,8 +52,17 @@ export class MonthViewComponent implements OnChanges {
   }
 
   getEventsForDay(date: Date): CalendarEvent[] {
-    const dateStr = date.toISOString().substring(0, 10);
-    return this.events.filter(e => e.date === dateStr);
+    const dateStr = date.toISOString().substring(0, 10); 
+    return this.events
+      .filter(e => e.date === dateStr)
+      .sort((a, b) => {
+        if(a.isAllDay && !b.isAllDay) return -1;
+        if(!a.isAllDay && b.isAllDay) return 1;
+
+        const aTime = a.startTime ?? '';
+        const bTime = b.startTime ?? '';
+        return aTime.localeCompare(bTime);
+      });
   }
 
   getColorForUid(uid: string): string {
