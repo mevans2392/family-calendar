@@ -106,7 +106,13 @@ export class CalendarComponent implements OnInit {
   handleDateClick(date: Date): void {
     this.selectedDate.set(date);
     this.editingEvent.set(null);
-    this.showEventModal.set(true);
+
+    if(window.innerWidth <= 768) {
+      this.switchView('day');
+    } else {
+      this.showEventModal.set(true);
+    }
+    
   }
 
   handleEventEdit(event: CalendarEvent): void {

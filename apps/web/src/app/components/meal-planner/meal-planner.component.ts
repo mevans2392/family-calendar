@@ -39,6 +39,17 @@ export class MealPlannerComponent {
     return this.recipes.filter(r => r.day === day && r.mealType === mealType);
   }
 
+  async clearRecipesFromCell(): Promise<void> {
+    const recipesToDelete = this.recipes.filter(r => r.day && r.mealType);
+
+    const deletePromises = recipesToDelete.map(recipe =>
+      this.recipeService.deleteRecipe(recipe.id)
+    );
+
+    await Promise.all(deletePromises);
+    await this.loadRecipes();
+  }
+
   getUnassignedRecipes(): Recipe[] {
     return this.recipes.filter(r => !r.day || !r.mealType);
   }

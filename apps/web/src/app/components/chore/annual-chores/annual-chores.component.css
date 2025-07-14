@@ -1,6 +1,6 @@
 .chore-container {
     overflow-y: auto;
-    padding-top: 100px;
+    padding-top: 120px;
 }
 
 .month-bucket {
@@ -31,4 +31,13 @@
 .chore-card-wrapper {
     flex: 0 1 150px;
     cursor: grab;
+}
+
+@media (max-width: 767px) {
+    #nav-buttons {
+        margin-top: 20px;
+    }
+    .chore-container {
+        padding-top: 180px;
+    }
 }

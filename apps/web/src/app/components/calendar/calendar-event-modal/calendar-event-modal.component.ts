@@ -27,7 +27,6 @@ export class CalendarEventModalComponent {
   
   @Input()
   set editingEvent(event: CalendarEvent | null) {
-    console.log('Modal received editingEvent:', event);
     this._editingEvent = event;
 
     if(event) {

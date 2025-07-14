@@ -1,3 +1,7 @@
+#nav-buttons {
+    padding-top: 20px;
+}
+
 .reward-screen {
     padding: 1rem;
 }
@@ -11,13 +15,19 @@
 }
 
 .member-card {
-    background-color: #f7f7f7;
-    border: 1px solid #ccc;
+    background-color: white;
+    border: 1px solid #eee;
     padding: 1rem;
-    border-radius: 8px;
-    min-width: 120px;
+    border-radius: 10px;
+    min-width: 250px;
+    height: 175px;
+    padding: 1rem;
+    position: relative;
+    z-index: 0;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 
+        -2px -2px 5px #F3E8FF,
+        2px 2px 5px #C9F2E3;
 }
 
 .member-name {
@@ -29,27 +39,35 @@
     font-size: 0.9rem;
     color: #666;
 }
+.reward-container {
+    height: 200px;
+    border: 1px solid #eee;
+    box-shadow: 
+        -2px -2px 5px #F3E8FF,
+        2px 2px 5px #C9F2E3;
+    margin: 20px;
+    padding: 20px;
 
+}
 .reward-list {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 1rem;
 }
 
 .reward-card {
-    background-color: #fff;
-    border: 1px solid #bbb;
+    background-color: white;
+    border: 1px solid #eee;
     padding: 1rem;
-    border-radius: 6px;
+    width: 225px;
+    border-radius: 10px;
+    box-shadow: 
+      -2px -2px 5px #FAF8FF,
+      2px 2px 5px #F3E8FF;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: box-shadow 0.2s ease;
-}
-
-.reward-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .reward-title {
@@ -59,4 +77,10 @@
 .reward-points {
     font-size: 0.85rem;
     color: #333;
+}
+
+@media (max-width: 767px) {
+    #annual-chores {
+        margin-top: 10px;
+    }
 }

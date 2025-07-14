@@ -57,20 +57,6 @@ export class RewardModalComponent implements OnInit {
     }
   }
 
-  async giveRewardtoMember() {
-    if(!this.selectedMember || !this.formReward?.points) return;
-
-    if(this.selectedMember.points < this.formReward.points) {
-      alert(`${this.selectedMember.name} does not have enough points for this reward`);
-      return;
-    }
-
-    const newPoints = (this.selectedMember.points || 0) - this.formReward.points;
-    await this.familyService.updatePoints(this.selectedMember.id!, newPoints);
-
-    this.close.emit();
-  }
-
   onClose() {
     this.close.emit();
   }

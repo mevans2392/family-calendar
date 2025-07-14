@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, collection, doc, getDoc, setDoc, updateDoc, serverTimestamp } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, doc, getDoc, setDoc, updateDoc, serverTimestamp, collectionChanges, getDocs, deleteDoc, query, where } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 
 @Injectable({
@@ -64,5 +64,47 @@ export class FamilyService {
       const data = userDoc.data();
       if (!data?.['familyId']) throw new Error('Family ID not found');
       return data['familyId'];
+    }
+
+    async updateFamily(familyName: string, updatedMembers: { name: string; color: string }[]): Promise<void> {
+      console.log('Updating family with:', updatedMembers);
+      const familyId = await this.getFamilyId();
+      const familyRef = doc(this.firestore, `families/${familyId}`);
+      const usersCollection = collection(this.firestore, `families/${familyId}/users`);
+
+      await updateDoc(familyRef, { familyName });
+
+      const currentSnapshot = await getDocs(usersCollection);
+      const currentMembers = currentSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data() as { name: string; color: string; points: number }
+      }));
+
+      const updatedNames = updatedMembers.map(m => m.name);
+      const currentNames = currentMembers.map(m => m.name);
+
+      const removed = currentMembers.filter(m => !updatedNames.includes(m.name) && m.name !== 'Anyone');
+      for(const member of removed) {
+        await deleteDoc(doc(usersCollection, member.id));
+      }
+
+      for(const member of updatedMembers) {
+        const existing = currentMembers.find(m => m.name === member.name);
+
+        if(existing) {
+          if(existing.color !== member.color) {
+            await updateDoc(doc(usersCollection, existing.id), {
+              color: member.color
+            });
+          }
+        } else {
+          await addDoc(usersCollection, {
+            name: member.name,
+            color: member.color,
+            points: 0
+          });
+        }
+      }
+
     }
 }

@@ -43,6 +43,8 @@ export class RegisterFamilyComponent implements OnInit {
     this.familyId = localStorage.getItem('familyId');
     if(this.familyId) {
       this.isManagingExistingFamily = true;
+      this.registerForm.removeControl('email');
+      this.registerForm.removeControl('password');
       this.loadFamilyData(this.familyId);
     } else {
       this.addMember('Anyone');
@@ -100,14 +102,41 @@ export class RegisterFamilyComponent implements OnInit {
   }
 
   async submit(): Promise<void> {
-    if(this.registerForm.invalid) return;
+    console.log('Submit called');
+    console.log('isManagingExistingFamily:', this.isManagingExistingFamily);
+    console.log('Form status:', this.registerForm.status);
+    if(!this.registerForm.valid) {
+      console.log('Form is invalid', this.registerForm.errors, this.registerForm); 
 
-    const { email, password, familyName, members } = this.registerForm.value;
+      this.members.controls.forEach((control, index) => {
+        console.log(`Member ${index}`, {
+          name: control.get('name')?.value,
+          color: control.get('color')?.value,
+          valid: control.valid,
+          errors: {
+            name: control.get('name')?.errors,
+            color: control.get('color')?.errors
+          }
+        });
+      });
+
+      return;
+    }
+
+    const rawForm = this.registerForm.getRawValue();
+    const { email, password, familyName, members } = rawForm;
+
     try {
-      const credential = await createUserWithEmailAndPassword(this.auth, email, password);
-      const uid = credential.user.uid;
+      if(this.isManagingExistingFamily) {
+        console.log('Calling updateFamily with:', familyName, members);
+        await this.familyService.updateFamily(familyName, members);
+      } else {
+        const credential = await createUserWithEmailAndPassword(this.auth, email, password);
+        const uid = credential.user.uid;
 
-      await this.familyService.registerFamily(uid, email, familyName, members);
+        await this.familyService.registerFamily(uid, email, familyName, members);
+      }
+      
       this.router.navigate(['home']);
     } catch (err: any) {
       console.error(err);

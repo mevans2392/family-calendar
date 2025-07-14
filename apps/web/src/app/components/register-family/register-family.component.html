@@ -48,8 +48,8 @@
   </div>
 
   <!-- Show Register button if in registration mode -->
-  <button *ngIf="!isManagingExistingFamily" type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
-    Register Family
+  <button type="submit" class="btn btn-primary">
+    {{ isManagingExistingFamily ? 'Update Family' : 'Register Family'}}
   </button>
 
   <!-- Show subscription controls if in manage mode -->

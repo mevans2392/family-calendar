@@ -43,17 +43,13 @@ export class CalendarService {
         const snapshot = await getDocs(q);
         const deletePromises = snapshot.docs.map(docSnap => deleteDoc(docSnap.ref));
         await Promise.all(deletePromises);
-        console.log(`Deleted entire event series with seriesId: ${seriesId}`);
       } catch (err) {
-        console.error('Error deleting event series:', err);
       }
 
     } else {
       try {
         await deleteDoc(doc(eventsRef, eventId));
-        console.log(`Deleted single event with id: ${eventId}`);
       } catch (err) {
-        console.error('Error deleting single event:', err);
       }
     }
   }
