@@ -1,6 +1,7 @@
 {
-  "hosting": 
+  "hosting": [
     {
+      "target": "main",
       "public": "dist/family-calendar/browser",
       "ignore": [
         "firebase.json",
@@ -14,6 +15,15 @@
         }
       ]
     },
+    {
+      "target": "business",
+      "public": "apps/business-page/dist",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {"source": "/business/**", "destination": "/business/index.html"}
+      ]
+    }
+  ],
   "functions": [
     {
       "source": "functions/src/oncall",
