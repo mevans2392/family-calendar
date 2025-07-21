@@ -1,0 +1,67 @@
+/* src/components/Nav.css */
+.tab-container {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin-left: 10px;
+}
+
+.tab {
+  padding: 0.5rem 1.2rem;
+  background: #FAF8FF;
+  border-radius: 10px 10px 0 0;
+  position: relative;
+  z-index: 1;
+  border: 2px solid #F3E8FF;
+}
+
+.tab.active {
+  background: #FAF8FF;
+  border-bottom: none;
+  
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: #FAF8FF;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  z-index: -1;
+}
+
+.button {
+  border: none;
+  background: #FAF8FF;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+}
+
+.button.active {
+  border: none;
+  background: #FAF8FF;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #6C5A78;
+}
+a:hover {
+  text-decoration: none;
+  color: #6C5A78;
+}
+
+@media (max-width: 768px) {
+  .tab-container {
+    width: 100%;
+  }
+}

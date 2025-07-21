@@ -1,0 +1,12 @@
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+body {
+  font-family: 'Comfortaa', sans-serif;
+  background-color: #F3E8FF;
+  color: #6C5A78;
+  padding: 1rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
