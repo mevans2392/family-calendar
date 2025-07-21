@@ -11,61 +11,52 @@
 
 
 <div class="container-fluid day-scroll-container">
-  <!-- Family Header Row -->
-    <div class="header" 
-        [style.gridTemplateColumns]="columnCount"
-    >
+    <!-- member header -->
+    <div class="header" [style.gridTemplateColumns]="columnCount">
         <div class="time-column"></div>
-        <div 
-            *ngFor="let member of getFamilyColumns()" 
-            class="member-header"
-            [style.color]="getColorForUid(member.id)"
-        >
+        <div *ngFor="let member of getFamilyColumns()" class="member-header">
             {{ member.name }}
         </div>
     </div>
 
-  <!-- Hour Grid -->
-  <div class="day-grid" [style.gridTemplateColumns]="columnCount">
-    <!-- Time Labels (down the side) -->
-    <ng-container *ngFor="let hour of hours">
-        <div class="time-column">{{ formatHour(hour) }}</div>
-
-        <ng-container *ngFor="let member of getFamilyColumns()">
-            <div class="member-cell" (click)="onCellClick(member.id, hour)">
-                
-                <ng-container *ngIf="hour === 6">
-                    <ng-container *ngFor="let event of getAllDayEventsForUser(member.id)">
-                        <div
-                            class="event-block all-day"
-                            [style.backgroundColor]="getColorForUid(event.uid)"
-                            [style.height.px]="getEventDuration(event) * 50"
-                            (click)="onEventClick(event, $event)"
-                        >
-                            {{  event.title }}
-                        </div>
-                    </ng-container>
-                
-
-                    <ng-container *ngFor="let event of getEventsForUser(member.id)">
-                        <div
-                            class="event-block"
-                            [style.backgroundColor]="getColorForUid(event.uid)"
-                            [style.top.px]="getEventOffset(event)"
-                            [style.height.px]="getEventDuration(event) * 50"
-                            (click)="onEventClick(event, $event)"
-                        >
-                            <span *ngIf="event.startTime">{{ formatTime(event.startTime) }}: </span>{{ event.title }}
-                        </div>
-                    </ng-container>
-                </ng-container>
-
-                
+    <!-- all day row -->
+    <div class="all-day-row" [style.gridTemplateColumns]="columnCount">
+        <div class="time-column">All Day</div>
+        <div class="all-day-cell" *ngFor="let member of getFamilyColumns()" (click)="onAllDayClick(member.id)">
+            <div
+                *ngFor="let event of getAllDayEventsForUser(member.id)"
+                class="event-block all-day"
+                [style.backgroundColor]="getColorForUid(member.id)"
+                [style.height.px]="getEventDuration(event) * 60"
+                (click)="onEventClick(event, $event)"
+            >
+                {{ event.title }}
             </div>
-        </ng-container>
-    </ng-container>
 
-  </div>
+        </div>
+    </div>
+
+    <!-- Hour Rows -->
+    <div class="day-row" *ngFor="let hour of hours" [style.gridTemplateColumns]="columnCount">
+        <div class="time-column">
+            {{ formatHour(hour) }}
+        </div>
+
+        <div
+            *ngFor="let member of getFamilyColumns()"
+            class="member-cell"
+            (click)="onCellClick(member.id, hour)"
+        >
+            <div
+                *ngFor="let event of getEventsForUser(member.id, hour)"
+                class="event-block"
+                [style.backgroundColor]="getColorForUid(member.id)"
+                [style.height.px]="getEventDuration(event) * 60"
+                (click)="onEventClick(event, $event)"
+            >
+                <span *ngIf="!event.isAllDay && event.startTime">{{ formatTime(event.startTime) }}</span>
+                {{event.title}}
+            </div>
+        </div>
+    </div>
 </div>
-
-

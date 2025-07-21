@@ -50,7 +50,7 @@
         [selectedDate]="selectedDate()"
         [events]="calendarEvents()"
         [familyMembers]="familyMembers()"
-        (dateClicked)="handleDateClick($event)"
+        (dateClicked)="handleDateClick($event, currentView())"
         (editClicked)="handleEventEdit($event)"
         (dateChanged)="selectedDate.set($event)"  
       ></app-month-view>
@@ -59,7 +59,7 @@
         [selectedDate]="selectedDate()"
         [events]="calendarEvents()"
         [familyMembers]="familyMembers()"
-        (dateClicked)="handleDateClick($event)"
+        (dateClicked)="handleDateClick($event, currentView())"
         (editClicked)="handleEventEdit($event)"
         (dateChanged)="selectedDate.set($event)" 
       ></app-week-view>
@@ -68,7 +68,7 @@
         [selectedDate]="selectedDate()"
         [events]="calendarEvents()"
         [familyMembers]="familyMembers()"
-        (dateClicked)="handleDateClick($event)"
+        (dateClicked)="handleDateClick($event, currentView())"
         (editClicked)="handleEventEdit($event)"
         (dateChanged)="selectedDate.set($event)" 
       ></app-day-view>

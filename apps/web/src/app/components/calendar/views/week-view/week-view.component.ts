@@ -161,6 +161,18 @@ export class WeekViewComponent {
     this.dateClicked.emit(date);
   }
 
+  onAllDayClick(date: Date): void {
+    const newEvent: CalendarEvent = {
+      title: '',
+      uid: '',
+      date: this.selectedDate.toISOString().substring(0, 10),
+      startTime: '',
+      endTime: '',
+      isAllDay: true,
+    };
+    this.editClicked.emit(newEvent);
+  }
+
   onEventClick(event: CalendarEvent, e: MouseEvent): void {
     e.stopPropagation();
     this.editClicked.emit(event);

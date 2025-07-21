@@ -37,6 +37,22 @@
 .week-header {
     height: 60px;
 }
+.all-day-row {
+  height: 200px;
+  display: grid;
+  grid-template-columns: 60px repeat(7, 3fr);
+  align-items: start;
+  gap: 8px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 
+      -2px -2px 5px #F3E8FF,
+      2px 2px 5px #C9F2E3;
+}
+.all-day-cell {
+  height: 200px;
+}
+
 
 .time-column {
   text-align: left;

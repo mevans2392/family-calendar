@@ -19,6 +19,22 @@
         </div>
     </div>
 
+    <!-- all day row -->
+    <div class="week-row all-day-row">
+        <div class="time-column">All Day</div>
+        <div class="all-day-cell" *ngFor="let day of getWeekDates()" (click)="onAllDayClick(day)">
+                <div
+                    *ngFor="let event of getAllDayEventsForDay(day)"
+                    class="event-block all-day"
+                    [style.backgroundColor]="getColorForUid(event.uid)"
+                    [style.height.px]="getEventDuration(event) * 60"
+                    (click)="onEventClick(event, $event)"
+                >
+                    {{ event.title }}
+                </div>
+        </div>
+    </div>
+
     <!-- Hour Rows -->
     <div *ngFor="let hour of hours" class="week-row">
         <div class="time-column">
@@ -31,17 +47,6 @@
             class="day-cell"
             (click)="onDateClick(day)"    
         >
-            <div *ngIf="hour === 6" class="day-cell">
-                <div
-                    *ngFor="let event of getAllDayEventsForDay(day)"
-                    class="event-block all-day"
-                    [style.backgroundColor]="getColorForUid(event.uid)"
-                    [style.height.px]="getEventDuration(event) * 60"
-                    (click)="onEventClick(event, $event)"
-                >
-                    {{ event.title }}
-                </div>
-            </div>
             <div
                 *ngFor="let event of getEventsForSlot(day, hour)"
                 class="event-block"
