@@ -157,15 +157,26 @@ export class WeekViewComponent {
     return DateUtils.isSameDay(date, this.selectedDate);
   }
 
-  onDateClick(date: Date): void {
-    this.dateClicked.emit(date);
+  onDateClick(date: Date, hour: number): void {
+    const start = `${hour.toString().padStart(2, '0')}:00`;
+
+    const newEvent: CalendarEvent = {
+      title: '',
+      uid: '',
+      date: date.toISOString().substring(0, 10),
+      startTime: start,
+      endTime: '',
+      isAllDay: false,
+    };
+
+    this.editClicked.emit(newEvent);
   }
 
   onAllDayClick(date: Date): void {
     const newEvent: CalendarEvent = {
       title: '',
       uid: '',
-      date: this.selectedDate.toISOString().substring(0, 10),
+      date: date.toISOString().substring(0, 10),
       startTime: '',
       endTime: '',
       isAllDay: true,
