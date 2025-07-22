@@ -13,6 +13,7 @@ import { SubscriptionService } from '../../services/subscription.service';
 import { Observable, map } from 'rxjs';
 import { Firestore, doc, docData } from '@angular/fire/firestore';
 import { ToDoComponent } from '../to-do/to-do.component';
+import { DateUtils } from '../../shared/date-utils';
 
 @Component({
   selector: 'app-calendar',
@@ -43,6 +44,7 @@ export class CalendarComponent implements OnInit {
   currentView = signal<'month' | 'week' | 'day'>('month');
 
   showEventModal = signal(false);
+  showDetailModal = signal(false); //Adding detail view before opening the event modal.
   editingEvent = signal<CalendarEvent | null>(null);
   newEventTitle = signal('');
   selectedUserId = signal<string | null>(null);
@@ -103,6 +105,11 @@ export class CalendarComponent implements OnInit {
     events$.subscribe(events => this.calendarEvents.set(events));
   }
 
+  getMemberName(uid: string): string {
+    const member = this.familyMembers().find(m => m.id === uid);
+    return member ? member.name : 'Unknown';
+  }
+
   handleDateClick(date: Date, view: string): void {
     this.selectedDate.set(date);
     this.editingEvent.set(null);
@@ -118,6 +125,11 @@ export class CalendarComponent implements OnInit {
   handleEventEdit(event: CalendarEvent): void {
     this.editingEvent.set({...event});
     this.showEventModal.set(true);
+  }
+
+  handleDetailClick(event: CalendarEvent): void {
+    this.editingEvent.set({...event});
+    this.showDetailModal.set(true);
   }
 
   switchView(view: 'month' | 'week' | 'day') {
@@ -141,6 +153,14 @@ export class CalendarComponent implements OnInit {
 
   onClose() {
     this.showTrialMessage = false;
+  }
+
+  deleteModalClose() {
+    this.showDetailModal.set(false);
+  }
+
+  formatTime(time24: string): string  {
+    return DateUtils.formatTime12Hour(time24);
   }
 
 

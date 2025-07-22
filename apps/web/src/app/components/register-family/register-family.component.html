@@ -54,6 +54,12 @@
 
   <!-- Show subscription controls if in manage mode -->
   <div *ngIf="isManagingExistingFamily" class="mt-4">
+      <!-- remove this when we go live -->
+      <p *ngIf="subStatus === 'free' || subStatus === 'expired' || subStatus === 'trial'">
+        We are still testing. Please do not enter credit card information.
+        Email mike&#64;simplizitylife.com for more information.
+      </p>
+
       <p><strong>Subscription Status:</strong> {{ subStatus }}</p>
     
       <div *ngIf="subStatus === 'free' || subStatus === 'expired' || subStatus === 'trial'">
