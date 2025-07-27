@@ -1,5 +1,24 @@
 {
   "projects": {
     "default": "familycalendar-2a3ec"
-  }
+  },
+  "targets": {
+    "familycalendar-2a3ec": {
+      "hosting": {
+        "simplizityorganizer": [
+          "business"
+        ],
+        "business": [
+          "simplizityorganizer"
+        ],
+        "default": [
+          "main"
+        ],
+        "main": [
+          "familycalendar-2a3ec"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

@@ -70,9 +70,30 @@ export class CalendarEventModalComponent {
       return;
     }
 
+    if(this.isEditing && this.editingEvent?.seriesId) {
+      const updatedSingleEvent: CalendarEvent = {
+        id: this.editingEvent.id,
+        title: this.newEventTitle,
+        date: this.editingEvent.date,
+        uid: this.selectedUserId!,
+        isAllDay: this.isAllDay,
+        startTime: this.isAllDay ? '' : this.startTime.trim(),
+        endTime: this.isAllDay ? '' : this.endTime.trim(),
+        seriesId: this.editingEvent.seriesId,
+        isException: true,
+        repeat: this.repeatOption as 'daily' | 'weekly' | 'monthly' || '',
+        repeatUntil: this.repeatUntil,
+      };
+
+      this.save.emit(updatedSingleEvent);
+      this.resetForm();
+      return;
+    }
+
     const baseDateStr = this.editingEvent?.date || this.selectedDate.toISOString().substring(0, 10);
     const baseDate = new Date(baseDateStr);
     const repeatEndDate = this.repeatUntil ? new Date(this.repeatUntil) : null;
+    
 
     const incrementMap = {
       daily: (d: Date) => d.setDate(d.getDate() + 1),

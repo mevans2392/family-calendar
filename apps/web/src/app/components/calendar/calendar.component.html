@@ -51,7 +51,7 @@
         [events]="calendarEvents()"
         [familyMembers]="familyMembers()"
         (dateClicked)="handleDateClick($event, currentView())"
-        (editClicked)="handleEventEdit($event)"
+        (editClicked)="handleDetailClick($event)"
         (dateChanged)="selectedDate.set($event)"  
       ></app-month-view>
       <app-week-view
@@ -79,6 +79,32 @@
 
   </div>
 </ng-container>
+
+<div 
+  *ngIf="showDetailModal()"
+  class="modal-overlay"
+  (click)="showDetailModal.set(false)"
+>
+  
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>{{ editingEvent()?.title }}</h5>
+          <button (click)="showDetailModal.set(false)" class="btn-close"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Who's Doing It:</strong> {{ getMemberName(editingEvent()!.uid)  }}</p>
+          <p><strong>Start Time: </strong> <span *ngIf="editingEvent()?.startTime">{{ formatTime(editingEvent()?.startTime || '') }}</span></p>
+          
+          <p><strong>End Time: </strong> <span *ngIf="editingEvent()?.endTime">{{ formatTime(editingEvent()!.endTime || '') }}</span></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" (click)="handleEventEdit(editingEvent()!)" (click)="deleteModalClose()">Edit</button>
+        </div>
+      </div>
+    </div>
+  
+</div>
 
 
 <!-- event modal -->

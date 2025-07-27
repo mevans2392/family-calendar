@@ -29,6 +29,7 @@ export interface CalendarEvent {
   startTime?: string;
   endTime?: string;
   seriesId?: string;
+  isException?: boolean;
 }
 
 export interface Chore {
