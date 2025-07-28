@@ -9,10 +9,11 @@ const params_1 = require("firebase-functions/params");
 const stripe_1 = __importDefault(require("stripe"));
 const init_1 = require("./init");
 // Securely reference the Stripe secret key from Firebase Secret Manager
-const STRIPE_SECRET_TEST = (0, params_1.defineSecret)("STRIPE_SECRET_TEST");
+// const STRIPE_SECRET_TEST = defineSecret("STRIPE_SECRET_TEST");
+const STRIPE_SECRET = (0, params_1.defineSecret)("STRIPE_SECRET");
 // Initialize Stripe with the secret injected at runtime
 exports.createCheckoutSession = (0, https_1.onCall)({
-    secrets: [STRIPE_SECRET_TEST],
+    secrets: [STRIPE_SECRET],
     region: "us-central1", // or your preferred region
 }, async (request) => {
     const { auth } = request;
@@ -32,7 +33,7 @@ exports.createCheckoutSession = (0, https_1.onCall)({
     const familyDoc = familySnap.docs[0];
     const familyId = familyDoc.id;
     const familyData = familyDoc.data();
-    const stripe = new stripe_1.default(process.env.STRIPE_SECRET_TEST, {
+    const stripe = new stripe_1.default(process.env.STRIPE_SECRET, {
         apiVersion: "2025-06-30.basil",
     });
     let customerId = familyData.stripeCustomerId;
@@ -58,10 +59,11 @@ exports.createCheckoutSession = (0, https_1.onCall)({
         customer: customerId,
         line_items: [
             {
-                price: "price_1RhUjmD7X1eeHlBhKVPz42Fj",
+                price: "price_1RpXS9Dcl5SOzIQaXhVIyJaR",
                 quantity: 1,
             },
         ],
+        allow_promotion_codes: true,
         success_url: successUrl,
         cancel_url: cancelUrl,
     });

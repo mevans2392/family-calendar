@@ -1,0 +1,9 @@
+#links a {
+  color: blue;
+}
+#links a:hover {
+  text-decoration: underline;
+}
+.footer {
+  margin-left: 10px;
+}

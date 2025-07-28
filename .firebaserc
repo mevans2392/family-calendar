@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "familycalendar-2a3ec"
+    "default": "familycalendar-2a3ec",
+    "calendar": "familycalendar-2a3ec"
   },
   "targets": {
     "familycalendar-2a3ec": {

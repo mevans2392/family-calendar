@@ -5,7 +5,8 @@ import {onRequest} from "firebase-functions/v2/https";
 import {defineSecret} from "firebase-functions/params";
 
 // Securely reference Stripe secrets
-const STRIPE_SECRET_TEST = defineSecret("STRIPE_SECRET_TEST");
+// const STRIPE_SECRET_TEST = defineSecret("STRIPE_SECRET_TEST");
+const STRIPE_SECRET = defineSecret("STRIPE_SECRET");
 const STRIPE_WEBHOOK_SECRET = defineSecret("STRIPE_WEBHOOK_SECRET");
 
 // Initialize Stripe using runtime-injected secret
@@ -18,7 +19,7 @@ app.post("/", async (req, res) => {
   const sig = req.headers["stripe-signature"];
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_TEST!, {
+  const stripe = new Stripe(process.env.STRIPE_SECRET!, {
     apiVersion: "2025-06-30.basil" as const,
   });
 
@@ -65,10 +66,28 @@ app.post("/", async (req, res) => {
       .where("stripeCustomerId", "==", customerId)
       .get();
 
+    const subscription = await stripe.subscriptions.retrieve(
+      subscriptionId as string
+    );
+
+    let isTester = false;
+    const discount = subscription.discounts?.[0] as Stripe.Discount | undefined;
+
+    if (
+      discount?.promotion_code && typeof discount.promotion_code === "string") {
+      const promo = await stripe.promotionCodes
+        .retrieve(discount.promotion_code);
+
+      if (promo.code === "TESTER2025") {
+        isTester = true;
+      }
+    }
+
     for (const docRef of familiesSnapshot.docs) {
       await docRef.ref.update({
         stripeSubscriptionId: subscriptionId,
         subStatus: "paid",
+        ...(isTester && {isTester: true}),
       });
     }
 
@@ -103,7 +122,7 @@ export const handleStripeWebhook = onRequest(
     region: "us-central1",
     memory: "256MiB",
     timeoutSeconds: 30,
-    secrets: [STRIPE_SECRET_TEST, STRIPE_WEBHOOK_SECRET],
+    secrets: [STRIPE_SECRET, STRIPE_WEBHOOK_SECRET],
   },
   app
 );

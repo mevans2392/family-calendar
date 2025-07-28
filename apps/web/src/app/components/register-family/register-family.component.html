@@ -1,3 +1,7 @@
+<div class="container" *ngIf="!isManagingExistingFamily">
+  <a href="https://familycalendar-2a3ec.web.app/login">Back to Login</a>
+</div>
+
 <form [formGroup]="registerForm" (ngSubmit)="submit()" class="container mt-4">
   <div *ngIf="!isManagingExistingFamily" class="mb-3">
     <label class="form-label">Email: </label>
@@ -15,6 +19,7 @@
   </div>
 
   <div formArrayName="members">
+    <p>"Anyone" is used for family activities and/or anything that is not currently assigned to a family member. Currently, it cannot be removed.</p>
     <div *ngFor="let member of members.controls; let i = index" [formGroupName]="i" class="card mb-2 p-3">
       <div class="row g-3 align-items-center">
         <div class="col-md-5">
@@ -36,7 +41,7 @@
             ></div>
           </div>
         </div>
-        <div class="col-md-2 text-end">
+        <div *ngIf="member.get('name')?.value !== 'Anyone'" class="col-md-2 text-end">
           <button type="button" (click)="removeMember(i)" class="btn btn-outline-danger" [disabled]="member.get('name')?.value === 'Anyone'">Remove</button>
         </div>
       </div>
@@ -54,14 +59,9 @@
 
   <!-- Show subscription controls if in manage mode -->
   <div *ngIf="isManagingExistingFamily" class="mt-4">
-      <!-- remove this when we go live -->
-      <p *ngIf="subStatus === 'free' || subStatus === 'expired' || subStatus === 'trial'">
-        We are still testing. Please do not enter credit card information.
-        Email mike&#64;simplizitylife.com for more information.
-      </p>
 
       <p><strong>Subscription Status:</strong> {{ subStatus }}</p>
-    
+
       <div *ngIf="subStatus === 'free' || subStatus === 'expired' || subStatus === 'trial'">
         <button type="button" class="btn btn-primary me-2" (click)="startCheckout()">Subscribe</button>
       </div>
@@ -71,11 +71,15 @@
       </div>
 
       <button type="button" class="btn btn-outline-secondary mt-2" routerLink="/home">Back to Calendar</button>
-    
-      
   </div>
 
-  
+  <div class="terms">
+    <p>
+      By signing up and using this app, you agree to our <a href="https://simplizitylife.com/privacy">Privacy Policy</a>
+      and <a href="https://simplizitylife.com/terms">Terms of Use</a></p>
+  </div>
+
+
 
   <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
 </form>

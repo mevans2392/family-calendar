@@ -3,11 +3,12 @@ import {defineSecret} from "firebase-functions/params";
 import Stripe from "stripe";
 import {db} from "./init";
 
-const STRIPE_SECRET_TEST = defineSecret("STRIPE_SECRET_TEST");
+// const STRIPE_SECRET_TEST = defineSecret("STRIPE_SECRET_TEST");
+const STRIPE_SECRET = defineSecret("STRIPE_SECRET");
 
 export const cancelSubscription = onCall(
   {
-    secrets: [STRIPE_SECRET_TEST],
+    secrets: [STRIPE_SECRET],
     region: "us-central1",
   },
   async (request): Promise<{success: boolean}> => {
@@ -37,7 +38,7 @@ export const cancelSubscription = onCall(
       throw new HttpsError("failed-precondition", "No subscription found");
     }
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_TEST!, {
+    const stripe = new Stripe(process.env.STRIPE_SECRET!, {
       apiVersion: "2025-06-30.basil" as const,
     });
 

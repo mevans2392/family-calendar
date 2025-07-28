@@ -8,9 +8,10 @@ const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 const stripe_1 = __importDefault(require("stripe"));
 const init_1 = require("./init");
-const STRIPE_SECRET_TEST = (0, params_1.defineSecret)("STRIPE_SECRET_TEST");
+// const STRIPE_SECRET_TEST = defineSecret("STRIPE_SECRET_TEST");
+const STRIPE_SECRET = (0, params_1.defineSecret)("STRIPE_SECRET");
 exports.cancelSubscription = (0, https_1.onCall)({
-    secrets: [STRIPE_SECRET_TEST],
+    secrets: [STRIPE_SECRET],
     region: "us-central1",
 }, async (request) => {
     const { auth } = request;
@@ -32,7 +33,7 @@ exports.cancelSubscription = (0, https_1.onCall)({
     if (!subscriptionId) {
         throw new https_1.HttpsError("failed-precondition", "No subscription found");
     }
-    const stripe = new stripe_1.default(process.env.STRIPE_SECRET_TEST, {
+    const stripe = new stripe_1.default(process.env.STRIPE_SECRET, {
         apiVersion: "2025-06-30.basil",
     });
     try {
