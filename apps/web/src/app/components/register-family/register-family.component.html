@@ -15,6 +15,7 @@
   </div>
 
   <div formArrayName="members">
+    <p>"Anyone" is used for family activities and/or anything that is not currently assigned to a family member.</p>
     <div *ngFor="let member of members.controls; let i = index" [formGroupName]="i" class="card mb-2 p-3">
       <div class="row g-3 align-items-center">
         <div class="col-md-5">
@@ -61,7 +62,7 @@
       </p>
 
       <p><strong>Subscription Status:</strong> {{ subStatus }}</p>
-    
+
       <div *ngIf="subStatus === 'free' || subStatus === 'expired' || subStatus === 'trial'">
         <button type="button" class="btn btn-primary me-2" (click)="startCheckout()">Subscribe</button>
       </div>
@@ -71,11 +72,11 @@
       </div>
 
       <button type="button" class="btn btn-outline-secondary mt-2" routerLink="/home">Back to Calendar</button>
-    
-      
+
+
   </div>
 
-  
+
 
   <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
 </form>

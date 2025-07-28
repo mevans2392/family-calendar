@@ -10,16 +10,17 @@ const init_1 = require("./init");
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 // Securely reference Stripe secrets
-const STRIPE_SECRET_TEST = (0, params_1.defineSecret)("STRIPE_SECRET_TEST");
+// const STRIPE_SECRET_TEST = defineSecret("STRIPE_SECRET_TEST");
+const STRIPE_SECRET = (0, params_1.defineSecret)("STRIPE_SECRET");
 const STRIPE_WEBHOOK_SECRET = (0, params_1.defineSecret)("STRIPE_WEBHOOK_SECRET");
 // Initialize Stripe using runtime-injected secret
 const app = (0, express_1.default)();
 app.use(express_1.default.raw({ type: "application/json" }));
 app.post("/", async (req, res) => {
-    var _a;
+    var _a, _b;
     const sig = req.headers["stripe-signature"];
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-    const stripe = new stripe_1.default(process.env.STRIPE_SECRET_TEST, {
+    const stripe = new stripe_1.default(process.env.STRIPE_SECRET, {
         apiVersion: "2025-06-30.basil",
     });
     let event;
@@ -57,11 +58,18 @@ app.post("/", async (req, res) => {
                 .collection("families")
                 .where("stripeCustomerId", "==", customerId)
                 .get();
+            const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+            let isTester = false;
+            const discount = (_b = subscription.discounts) === null || _b === void 0 ? void 0 : _b[0];
+            if ((discount === null || discount === void 0 ? void 0 : discount.promotion_code) && typeof discount.promotion_code === "string") {
+                const promo = await stripe.promotionCodes
+                    .retrieve(discount.promotion_code);
+                if (promo.code === "TESTER2025") {
+                    isTester = true;
+                }
+            }
             for (const docRef of familiesSnapshot.docs) {
-                await docRef.ref.update({
-                    stripeSubscriptionId: subscriptionId,
-                    subStatus: "paid",
-                });
+                await docRef.ref.update(Object.assign({ stripeSubscriptionId: subscriptionId, subStatus: "paid" }, (isTester && { isTester: true })));
             }
             break;
         }
@@ -87,6 +95,6 @@ exports.handleStripeWebhook = (0, https_1.onRequest)({
     region: "us-central1",
     memory: "256MiB",
     timeoutSeconds: 30,
-    secrets: [STRIPE_SECRET_TEST, STRIPE_WEBHOOK_SECRET],
+    secrets: [STRIPE_SECRET, STRIPE_WEBHOOK_SECRET],
 }, app);
 //# sourceMappingURL=stripeWebhook.js.map

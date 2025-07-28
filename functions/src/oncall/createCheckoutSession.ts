@@ -4,14 +4,15 @@ import Stripe from "stripe";
 import {db} from "./init";
 
 // Securely reference the Stripe secret key from Firebase Secret Manager
-const STRIPE_SECRET_TEST = defineSecret("STRIPE_SECRET_TEST");
+// const STRIPE_SECRET_TEST = defineSecret("STRIPE_SECRET_TEST");
+const STRIPE_SECRET = defineSecret("STRIPE_SECRET");
 
 // Initialize Stripe with the secret injected at runtime
 
 
 export const createCheckoutSession = onCall(
   {
-    secrets: [STRIPE_SECRET_TEST],
+    secrets: [STRIPE_SECRET],
     region: "us-central1", // or your preferred region
   },
   async (request): Promise<{ url: string | null }> => {
@@ -38,7 +39,7 @@ export const createCheckoutSession = onCall(
     const familyId = familyDoc.id;
     const familyData = familyDoc.data();
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_TEST!, {
+    const stripe = new Stripe(process.env.STRIPE_SECRET!, {
       apiVersion: "2025-06-30.basil" as const,
     });
 
@@ -72,10 +73,11 @@ export const createCheckoutSession = onCall(
       customer: customerId,
       line_items: [
         {
-          price: "price_1RhUjmD7X1eeHlBhKVPz42Fj",
+          price: "price_1RpXS9Dcl5SOzIQaXhVIyJaR",
           quantity: 1,
         },
       ],
+      allow_promotion_codes: true,
       success_url: successUrl,
       cancel_url: cancelUrl,
     });
