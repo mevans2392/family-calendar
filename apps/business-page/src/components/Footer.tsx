@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useAdminAuth } from '../AdminAuthContext'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { Link } from 'react-router-dom'
+import './Footer.css'
 
 export default function Footer() {
     const [email, setEmail] = useState('');
@@ -17,7 +19,9 @@ export default function Footer() {
     }
 
     return (
-        <footer>
+      <div className="footer">
+        <div className="row">
+          <div className="col-10">
             <p>Admin Login:</p>
             {isAdmin ? (
                 <button className="btn btn-primary" onClick={logout}>Logout</button>
@@ -42,7 +46,14 @@ export default function Footer() {
                 <button className="btn btn-primary" onClick={login}>Login</button>
                 </div>
             )}
-        </footer>
+          </div>
+          <div className="col-2" id="links">
+            <p>Links:</p>
+            <a><Link to="privacy">Privacy Policy</Link></a><br/>
+            <a><Link to="terms">Terms of Use</Link></a>
+          </div>
+        </div>
+      </div>
     )
 
 }

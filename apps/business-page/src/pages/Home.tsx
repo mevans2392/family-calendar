@@ -19,7 +19,7 @@ export default function Home() {
                 const messages = ['update1', 'update2', 'update3']
                     .map((key) => data[key])
                     .filter((msg): msg is string => Boolean(msg));
-                
+
                 setUpdates(messages);
             }
         };
@@ -33,14 +33,14 @@ export default function Home() {
                 <div className="content-header">
                     <img src="../images/logo.webp" alt="title" />
                 </div>
-                
+
                 <div className="content-section">
                     <div className="content">
                         <h5>Welcome to Simplizity.</h5>
                         <p>
                             Whether you're planting the first seeds of independence, building a bustling household, or embracing a slower,
                             wiser season; Simplizity is here to help you organize your life.<br/>
-                            Like the Tree of Life, we believe that every branch matters. From solo schedules to shared calendars and long-term 
+                            Like the Tree of Life, we believe that every branch matters. From solo schedules to shared calendars and long-term
                             goals, Simplizity grows with you. It's your digital canopy of calm; helping you stay grounded, connected, and
                             prepared no matter where you are in life's journey.<br/>
                             Life doesn't have to be chaotic to be full. Simplizity is not about doing more, it's about doing what matters,
