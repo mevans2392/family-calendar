@@ -16,3 +16,9 @@
 .color-swatch.selected {
   border-color: #000;
 }
+.terms {
+  margin-top: 10px;
+}
+.container {
+  margin-top: 20px;
+}
