@@ -20,7 +20,7 @@
       "public": "apps/business-page/dist",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
-        {"source": "/business/**", "destination": "/business/index.html"}
+        {"source": "**", "destination": "/index.html"}
       ]
     }
   ],
@@ -55,5 +55,5 @@
       ]
     }
   ]
-  
+
 }
