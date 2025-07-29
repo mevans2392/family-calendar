@@ -18,7 +18,7 @@ export default function Features() {
 
           {/* calendar */}
           <div className="carousel-item active">
-            <img src="./public/images/month-events.webp" className="carousel-image img-fluid mx-auto d-block" alt="calendar" />
+            <img src="/images/month-events.webp" className="carousel-image img-fluid mx-auto d-block" alt="calendar" />
             <div className="carousel-text mt-3">
               <h5>Organize Simply</h5>
               <p>
@@ -30,7 +30,7 @@ export default function Features() {
 
           {/* chores */}
           <div className="carousel-item">
-            <img src="./public/images/chores.webp" className="carousel-image img-fluid mx-auto d-block" alt="chores" />
+            <img src="/images/chores.webp" className="carousel-image img-fluid mx-auto d-block" alt="chores" />
             <div className="carousel-text mt-3">
               <h5>Who's Chore is it?</h5>
               <p>
@@ -42,7 +42,7 @@ export default function Features() {
 
           {/* rewards */}
           <div className="carousel-item">
-            <img src="./public/images/rewards.webp" className="carousel-image img-fluid mx-auto d-block" alt="rewards" />
+            <img src="/images/rewards.webp" className="carousel-image img-fluid mx-auto d-block" alt="rewards" />
             <div className="carousel-text mt-3">
               <h5>Pick Something Fun</h5>
               <p>
@@ -55,7 +55,7 @@ export default function Features() {
 
           {/* annual chores */}
           <div className="carousel-item">
-            <img src="./public/images/annual-chores.webp" className="carousel-image img-fluid mx-auto d-block" alt="annual-chores" />
+            <img src="/images/annual-chores.webp" className="carousel-image img-fluid mx-auto d-block" alt="annual-chores" />
             <div className="carousel-text mt-3">
               <h5>Chores by Month</h5>
               <p>
@@ -68,7 +68,7 @@ export default function Features() {
 
           {/* meal planner */}
           <div className="carousel-item">
-            <img src="./public/images/meal-planner.webp" className="carousel-image img-fluid mx-auto d-block" alt="meals" />
+            <img src="/images/meal-planner.webp" className="carousel-image img-fluid mx-auto d-block" alt="meals" />
             <div className="carousel-text mt-3">
               <h5>Meal Planner</h5>
               <p>
@@ -81,7 +81,7 @@ export default function Features() {
 
           {/* shopping list */}
           <div className="carousel-item">
-            <img src="./public/images/shopping-list.webp" className="carousel-image img-fluid mx-auto d-block" alt="shopping" />
+            <img src="/images/shopping-list.webp" className="carousel-image img-fluid mx-auto d-block" alt="shopping" />
             <div className="carousel-text mt-3">
               <h5>Going Shopping?</h5>
               <p>

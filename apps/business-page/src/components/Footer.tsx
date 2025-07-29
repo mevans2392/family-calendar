@@ -53,6 +53,9 @@ export default function Footer() {
             <a><Link to="terms">Terms of Use</Link></a>
           </div>
         </div>
+        <div className="row" id="contact">
+          <p>2025 SimplizityLife &middot; Built with &#10084;&#65039; for real families. Contact us at <a href="mailto:support@simplizitylife.com">support@simplizitylife.com</a></p>
+        </div>
       </div>
     )
 
