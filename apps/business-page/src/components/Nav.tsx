@@ -12,6 +12,11 @@ export default function Nav() {
                     <Link to="/">Home</Link>
                 </button>
             </div>
+            <div className={`tab ${isActive('/features') ? 'active' : ''}`}>
+                <button className={`button ${isActive('/features') ? 'active' : ''}`}>
+                    <Link to="features">Features</Link>
+                </button>
+            </div>
             <div className="tab">
                 <button className="button"><a href="https://familycalendar-2a3ec.web.app/login">Calendar</a></button>
             </div>
