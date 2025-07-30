@@ -1,0 +1,20 @@
+.carousel-control-prev,
+.carousel-control-next {
+  background: none;
+  border: none;
+}
+.bi-chevron-left,
+.bi-chevron-right {
+  color: #C9F2E3;
+  font-size: 2rem;
+}
+.carousel {
+  background: #FAF8FF;
+}
+.feature-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+  background: #FAF8FF;
+}
