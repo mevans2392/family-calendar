@@ -4,16 +4,18 @@
 #links a:hover {
   text-decoration: underline;
 }
-.footer {
-  margin-left: 10px;
-}
-#contact {
-  justify-content: end;
-  margin-right: 20px;
-}
 #contact a {
   color: blue;
 }
 #contact a:hover {
   text-decoration: underline;
+}
+.footer {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#contact {
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }

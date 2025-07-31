@@ -1,82 +1,48 @@
 import './Home.css'
 import CommentBox from '../components/CommentBox';
 import Footer from '../components/Footer';
-import { useEffect, useState } from 'react';
-import { getDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase';
+// import { useEffect, useState } from 'react';
+// import { getDoc, doc } from 'firebase/firestore';
+// import { db } from '../firebase';
 
 export default function Home() {
-    const [updates, setUpdates] = useState<string[]>([]);
+    // const [updates, setUpdates] = useState<string[]>([]);
 
-    useEffect(() => {
-        const fetchUpdates = async () => {
-            const docRef = doc(db, 'publicSettings', 'homepageUpdates');
-            const docSnap = await getDoc(docRef);
+    // useEffect(() => {
+    //     const fetchUpdates = async () => {
+    //         const docRef = doc(db, 'publicSettings', 'homepageUpdates');
+    //         const docSnap = await getDoc(docRef);
 
-            if(docSnap.exists()) {
-                const data = docSnap.data();
+    //         if(docSnap.exists()) {
+    //             const data = docSnap.data();
 
-                const messages = ['update1', 'update2', 'update3']
-                    .map((key) => data[key])
-                    .filter((msg): msg is string => Boolean(msg));
+    //             const messages = ['update1', 'update2', 'update3']
+    //                 .map((key) => data[key])
+    //                 .filter((msg): msg is string => Boolean(msg));
 
-                setUpdates(messages);
-            }
-        };
+    //             setUpdates(messages);
+    //         }
+    //     };
 
-        fetchUpdates();
-    }, []);
+    //     fetchUpdates();
+    // }, []);
 
     return (
-        <div>
-            <div className="wrapper">
-                <div className="content-header">
-                    <img src="../images/logo.webp" alt="title" />
-                </div>
+      <div>
+        <main className="wrapper">
+          <section className="hero-section" id="hero-section">
+            <h3>Welcome to SimplizityLife</h3>
+            <p></p>
+          </section>
 
-                <div className="content-section">
-                    <div className="content">
-                        <h5>Welcome to Simplizity.</h5>
-                        <p>
-                            Whether you're planting the first seeds of independence, building a bustling household, or embracing a slower,
-                            wiser season; Simplizity is here to help you organize your life.<br/>
-                            Like the Tree of Life, we believe that every branch matters. From solo schedules to shared calendars and long-term
-                            goals, Simplizity grows with you. It's your digital canopy of calm; helping you stay grounded, connected, and
-                            prepared no matter where you are in life's journey.<br/>
-                            Life doesn't have to be chaotic to be full. Simplizity is not about doing more, it's about doing what matters,
-                            simply.
-                        </p>
-                        <p id="price-tag">
-                            Simplizity is only $19.99/year. <a href="https://familycalendar-2a3ec.web.app/register">Register </a> today and start your 14 day free trial.
-                        </p>
-                    </div>
-                    <h5>How to:</h5>
-                    <div className="videos">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/fGvXIaVCyRc?si=9kSFgg4UUMp89Oui" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/fjB7r2OmjLo?si=g6eAg9kQbR8m-pYi" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-                    </div>
-                    <div className="what-next">
-                        <h5>What's coming next:</h5>
-                        <div className="updates-container">
-                            {updates.length > 0 ? (
-                                updates.map((msg, index) => (
-                                    <div key={index} className="update-message">
-                                        {msg}
-                                    </div>
-                                ))
-                            ) : ('')}
-                        </div>
-                    </div>
-                </div>
+          <section className="comment-section" id="comment-section">
+            <CommentBox />
+          </section>
+        </main>
 
-                <div className="comment-section">
-                    <CommentBox />
-                </div>
-            </div>
-
-            <div className="footer">
-                <Footer />
-            </div>
-        </div>
+        <footer className="footer">
+          <Footer />
+        </footer>
+      </div>
     );
 }
