@@ -1,5 +1,6 @@
 import './App.css'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import Nav from './components/Nav'
 import Home from './pages/Home'
 import { AdminAuthProvider } from './AdminAuthContext'
@@ -11,10 +12,29 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function App() {
 
+  function AnalyticsListener() {
+    const location = useLocation();
+
+    useEffect(() => {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'page_view', {
+          page_path: location.pathname,
+          page_title: document.title,
+        });
+      }
+    }, [location]);
+
+    return null;
+  }
+
   return (
     <AdminAuthProvider>
-        <Nav />
-        <div className="tab-content">
+        <nav>
+          <Nav />
+        </nav>
+
+        <AnalyticsListener />
+        <div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="privacy" element={<Privacy />} />

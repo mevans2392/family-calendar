@@ -1,67 +1,77 @@
-/* src/components/Nav.css */
-.tab-container {
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  margin-left: 10px;
+img {
+  width: 120px;
 }
-
-.tab {
-  padding: 0.5rem 1.2rem;
+.navbar {
   background: #FAF8FF;
-  border-radius: 10px 10px 0 0;
-  position: relative;
-  z-index: 1;
-  border: 2px solid #F3E8FF;
-}
-
-.tab.active {
-  background: #FAF8FF;
-  border-bottom: none;
-  
-}
-
-.tab.active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 10px;
-  background: #FAF8FF;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  z-index: -1;
-}
-
-.button {
-  border: none;
-  background: #FAF8FF;
-  font-weight: bold;
   padding: 0.5rem 1rem;
 }
-
-.button.active {
+.nav-container {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  width: 100%;
+}
+.hamburger {
+  font-size: 1.5rem;
+  background: none;
   border: none;
-  background: #FAF8FF;
-}
-
-.button:hover {
   cursor: pointer;
+  color: #6C5A78;
+  display: block;
+}
+.register-btn {
+  margin-left: auto;
+}
+.nav-links {
+  list-style: none;
+  display: none;
+  flex-direction: column;
+  background: #FAF8FF;
+  padding: 1rem;
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  border: 1px solid #F3E8FF;
+  border-radius: 10px;
+}
+.nav-links.open {
+  display: flex;
+}
+.nav-links li {
+  margin: 0.5rem 0;
+}
+.nav-links a {
+  color: #6C5A78;
+  text-decoration: none;
 }
 
-a {
-  text-decoration: none;
-  color: #6C5A78;
-}
-a:hover {
-  text-decoration: none;
-  color: #6C5A78;
-}
+@media (min-width: 768px) {
+  /* adjust both img and .register-btn to keep links in the middle of the page */
+  img {
+    width: 150px;
+  }
+  .register-btn {
+    width: 150px;
+  }
 
-@media (max-width: 768px) {
-  .tab-container {
-    width: 100%;
+  .hamburger {
+    display: none;
+  }
+  .register-btn {
+    margin-left: 0;
+  }
+  .nav-links {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    position: static;
+    background: none;
+    padding: 0;
+    border: none;
+  }
+  .nav-links li {
+    margin: 0 1rem;
   }
 }

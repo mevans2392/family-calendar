@@ -1,25 +1,38 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './Nav.css'
+import { useState } from 'react';
 
 export default function Nav() {
-    const location = useLocation();
-    const isActive = (path: string) => location.pathname === path;
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="tab-container">
-            <div className={`tab ${isActive('/') ? 'active' : ''}`}>
-                <button className={`button ${isActive('/') ? 'active' : ''}`}>
-                    <Link to="/">Home</Link>
-                </button>
-            </div>
-            <div className={`tab ${isActive('/features') ? 'active' : ''}`}>
-                <button className={`button ${isActive('/features') ? 'active' : ''}`}>
-                    <Link to="features">Features</Link>
-                </button>
-            </div>
-            <div className="tab">
-                <button className="button"><a href="https://familycalendar-2a3ec.web.app/login">Calendar</a></button>
-            </div>
+      <div className="navbar">
+        <div className="nav-container">
+          <div className="brand">
+            <img src="/images/logo.webp" />
+          </div>
+
+
+
+          {/* menu links */}
+          <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="features">Features</Link></li>
+          </ul>
+
+          <button className="btn btn-primary register-btn"><a href="https://calendar.simplizitylife.com/register">Register</a></button>
+
+          {/* toggle menu */}
+          <button
+            className="hamburger"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle Menu"
+          >
+            ☰
+          </button>
         </div>
+
+      </div>
+
     );
 }

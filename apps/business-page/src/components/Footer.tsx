@@ -20,8 +20,8 @@ export default function Footer() {
 
     return (
       <div className="footer">
-        <div className="row">
-          <div className="col-10">
+        <div className="row" id="admin">
+          <div className="col">
             <p>Admin Login:</p>
             {isAdmin ? (
                 <button className="btn btn-primary" onClick={logout}>Logout</button>
@@ -47,14 +47,14 @@ export default function Footer() {
                 </div>
             )}
           </div>
-          <div className="col-2" id="links">
+          <div id="links" className="col text-right">
             <p>Links:</p>
             <a><Link to="privacy">Privacy Policy</Link></a><br/>
             <a><Link to="terms">Terms of Use</Link></a>
           </div>
         </div>
-        <div className="row" id="contact">
-          <p>2025 SimplizityLife &middot; Built with &#10084;&#65039; for real families. Contact us at <a href="mailto:support@simplizitylife.com">support@simplizitylife.com</a></p>
+        <div className="row mt-3" id="contact">
+          <p>2025 SimplizityLife &middot; Built with &#10084;&#65039; for real families &middot; Contact us at <a href="mailto:support@simplizitylife.com">support@simplizitylife.com</a></p>
         </div>
       </div>
     )

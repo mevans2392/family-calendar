@@ -22,7 +22,7 @@ form {
   font-size: 1rem;
   margin-top: 1rem;
   border-radius: 10px;
-  box-shadow: 
+  box-shadow:
         -2px -2px 5px #F3E8FF,
         2px 2px 5px #C9F2E3;
 }
@@ -41,6 +41,7 @@ button {
     border-left: 4px solid #F3E8FF;
     border-radius: 10px;
     padding-left: 20px;
+    padding-right: 20px;
     margin-bottom: 10px;
 }
 .comment.admin-comment {
@@ -48,6 +49,7 @@ button {
     border-left: 4px solid #F3E8FF;
     border-radius: 10px;
     padding-left: 20px;
+    padding-right: 20px;
     margin-left: 50px;
     margin-bottom: 10px;
     width: 90%;
@@ -66,7 +68,7 @@ button {
     background: #C9F2E3;
     border: 1px solid #C9F2E3;
     border-radius: 10px;
-    box-shadow: 
+    box-shadow:
         -2px -2px 5px #DDFFF9,
         2px 2px 5px #C9F2E3;
 }
