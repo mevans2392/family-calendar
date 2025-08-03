@@ -9,7 +9,7 @@ export default function Nav() {
       <div className="navbar">
         <div className="nav-container">
           <div className="brand">
-            <img src="/images/logo.webp" />
+            <Link to="/"><img src="/images/logo.webp" /></Link>
           </div>
 
 
@@ -20,7 +20,7 @@ export default function Nav() {
             <li><Link to="features">Features</Link></li>
           </ul>
 
-          <button className="btn btn-primary register-btn"><a href="https://calendar.simplizitylife.com/register">Register</a></button>
+          <button className="btn btn-outline-secondary register-btn"><a href="https://calendar.simplizitylife.com/register">Try the App</a></button>
 
           {/* toggle menu */}
           <button

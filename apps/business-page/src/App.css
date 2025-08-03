@@ -1,1 +1,12 @@
-
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+a {
+    color: #6C5A78;
+}
+a:hover {
+    color: #6C5A78;
+    text-decoration: none;
+}

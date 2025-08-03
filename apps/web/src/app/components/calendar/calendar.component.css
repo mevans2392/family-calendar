@@ -4,7 +4,7 @@
 }
 
 .calendar {
-  padding-top: 120px;
+  padding-top: 80px;
 }
 
 #to-do {
@@ -43,12 +43,6 @@
   justify-content: space-between;
   margin-bottom: 10px;
   border-bottom: 1px solid #eee;
-}
-
-@media (max-width: 768px) {
-  .calendar {
-    padding-top: 120px;
-  }
 }
 
 

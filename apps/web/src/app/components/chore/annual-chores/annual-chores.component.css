@@ -1,6 +1,6 @@
 .chore-container {
     overflow-y: auto;
-    padding-top: 120px;
+    padding-top: 20px;
 }
 
 .month-bucket {
@@ -32,12 +32,6 @@
     flex: 0 1 150px;
     cursor: grab;
 }
-
-@media (max-width: 767px) {
-    #nav-buttons {
-        margin-top: 20px;
-    }
-    .chore-container {
-        padding-top: 180px;
-    }
+#nav-buttons {
+    padding-top: 80px;
 }

@@ -1,59 +1,56 @@
-# FamilyCalendar
+# SimplizityLife Calendar
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.7.
+SimplizityLife is a subscription-based family organization app that keeps schedules, chores, meals, and shopping lists in one place. It is accessible on any device with a web browser, including desktop, mobile, tablets, and even the Amazon Echo Show.
 
-## Development server
+## Live Demo
+**[https://familycalendar-2a3ec.web.app](https://familycalendar-2a3ec.web.app)**
 
-To start a local development server, run:
+## Marketing Page
+**[https://simplizitylife.com](https://simplizitylife.com)**
 
-```bash
-ng serve
-```
+---
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Features
+- **Shared Family Calendar** – Color-coded by family member with month/week/day views
+- **Chores & Rewards** – Assign chores, track points, and redeem rewards
+- **Meal Planning** – Weekly planner with shopping list integration
+- **Shopping List** – Real-time updates for shared grocery lists
+- **Annual Chores View** – Plan recurring seasonal tasks
+- **PWA Support** – Install on any device with a browser
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Tech Stack
+- **Frontend:** Angular 19, React (marketing site), TypeScript, Tailwind CSS
+- **Backend & Auth:** Firebase, Firestore
+- **Payments:** Stripe integration
+- **Hosting:** Firebase Hosting
+- **Other Tools:** Angular CDK (Drag & Drop), Canva (marketing visuals), Figma (design)
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Documentation
+All planning, technical, and marketing documentation is available in the [`simplizity-docs`](./simplizity-docs) folder.
 
-```bash
-ng generate --help
-```
+**Highlights:**
+- Problem statement & requirements
+- UML and ERD diagrams
+- Technical dev documentation
+- Marketing strategy & campaign results
 
-## Building
+---
 
-To build the project run:
+## Marketing Snapshot
+This wasn’t just code — I took it to market.
+- Initial outreach via local Facebook groups
+- Content testing: images vs. short videos
+- Organic engagement tracking (reach, impressions, bounce rate)
+- Lessons learned about early-stage product adoption
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## My Role
+This is a **solo project**:
+- Designed, developed, and deployed the application
+- Created and executed the marketing plan
+- Managed ongoing feature updates and bug fixes

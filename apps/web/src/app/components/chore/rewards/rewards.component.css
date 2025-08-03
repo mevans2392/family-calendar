@@ -1,5 +1,12 @@
+#top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 #nav-buttons {
     padding-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .reward-screen {
@@ -40,7 +47,7 @@
     color: #666;
 }
 .reward-container {
-    height: 200px;
+    min-height: 200px;
     border: 1px solid #eee;
     box-shadow: 
         -2px -2px 5px #F3E8FF,
@@ -52,6 +59,7 @@
 .reward-list {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 

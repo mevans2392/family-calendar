@@ -1,120 +1,54 @@
-.tab-container {
-    display: flex;
-    gap: 0.5rem;
-    border-bottom: 1px solid #F3E8FF;
-    margin-bottom: -1px; /* So tab connects to tab-content smoothly */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-.tab-container::-webkit-scrollbar {
-    display: none;
-}
-
-.tab {
-    padding: 0.5rem 1.2rem;
+.main-nav {
     background: white;
-    border: 1px solid #F3E8FF;
-    border-radius: 10px 10px 0 0;
-    position: relative;
-    z-index: 1;
-    transition: background 0.3s ease;
+    border-bottom: 1px solid #ddd;
+}
+.main-nav ul {
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.main-nav li {
+    flex: 1;
     text-align: center;
 }
-
-.tab:hover {
-    background-color: #F3E8FF;
-    border: 1px solid #F3E8FF;
-}
-
-button:hover {
-    cursor: pointer;
-}
-
-.button {
-    border: none;
-    background: none;
-    color: black;
-    font-weight: bold;
+.main-nav a,
+.main-nav button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
     color: #6C5A78;
+    font-weight: bold;
+    background: none;
+    border: none;
+    text-decoration: none;
 }
-
-.button.disabled {
+.main-nav i {
+    font-size: 1.2rem;
+}
+.main-nav span {
+    display: none;
+}
+.main-nav li.active a,
+.main-nav li.active button {
+    color: #1E6B5E;
+    border-bottom: 3px solid #1E6B5E;
+}
+.disabled {
     opacity: 0.5;
     pointer-events: none;
-    cursor: not-allowed;
 }
 
-.button.loading {
-    cursor: wait;
-    opacity: 0.7;
-}
-
-.spinner {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 32px;
-    height: 32px;
-    border: 4px solid #ccc;
-    border-top-color: #333;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    z-index: 999;
-}
-
-a {
-    text-decoration: none;
-    color: black;
-}
-
-.tab.active {
-    background: #C9F2E3;
-    border: 1px solid #C9F2E3;
-}
-
-.tab.active .button {
-    background: #C9F2E3;
-}
-
-.tab-content {
-    background: white;
-    padding: 1rem;
-    position: relative;
-    z-index: 0;
-    border-top: 2px solid #eee;
-}
-
-.tab.active::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 10px;
-    background: white;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    z-index: -1;
-    bottom: -10px;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
+@media (min-width: 768px) {
+    .main-nav a,
+    .main-nav button {
+        flex-direction: row;
+        gap: 0.5rem;
+        justify-content: center;
     }
-}
-
-@media (max-width: 767px) {
-    .tab-container {
-        overflow-x: auto;
-        width: 100%;
+    .main-nav span {
+        display: inline;
     }
-    .tab {
-        min-width: 120px;
-        width: max-content;
-    }
-    button {
-        height: 50px;
-    }
-
 }

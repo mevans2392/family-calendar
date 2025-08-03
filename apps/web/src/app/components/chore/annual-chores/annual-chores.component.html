@@ -1,11 +1,12 @@
-<div class="row justify-content-between align-items-center fixed-top bg-white" style="z-index: 1000;">
-    <div class="col-lg-6"><app-nav></app-nav></div>
-    <div id="nav-buttons" class="col-lg-6" style="text-align: center;">
-        <button class="btn btn-outline-secondary" (click)="editChore(null)" style="margin-right: 5px;">Add Chore</button>
-        <button class="btn btn-outline-secondary" routerLink="/chore" style="margin-right: 5px;">Back to Chores</button>
-        <button class="btn btn-outline-secondary" routerLink="/rewards" style="margin-right: 5px;">Rewards</button>
-    </div>
+<div class="row fixed-top" style="z-index: 1000;">
+    <app-nav></app-nav>
 </div>
+<div id="nav-buttons" style="text-align: center;">
+    <button class="btn btn-outline-secondary" (click)="editChore(null)" style="margin-right: 5px;">Add Chore</button>
+    <button class="btn btn-outline-secondary" routerLink="/chore" style="margin-right: 5px;">Back to Chores</button>
+    <button class="btn btn-outline-secondary" routerLink="/rewards" style="margin-right: 5px;">Rewards</button>
+</div>
+
 
 <div class="chore-container">
     <h5 style="text-align: center;">Annual Chores</h5>

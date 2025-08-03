@@ -1,11 +1,12 @@
-<div class="row justify-content-between align-items-center">
-    <div class="col-lg-6"><app-nav></app-nav></div>
-    <div id="button-container" class="col-lg-6" style="text-align: center;">
-        <button class="btn btn-outline-secondary" (click)="openModal = true; selectedChore = null" style="margin-right: 5px;">Add Chore</button>
-        <button class="btn btn-outline-secondary" style="margin-right: 5px;" routerLink="/annual-chore">Annual Chores</button>
-        <button class="btn btn-outline-secondary" style="margin-right: 5px;" routerLink="/rewards">Rewards</button>
-    </div>
+<div class="row fixed-top">
+    <app-nav></app-nav>
 </div>
+<div id="button-container" class="button-container" style="text-align: center;">
+    <button class="btn btn-outline-secondary" (click)="openModal = true; selectedChore = null" style="margin-right: 5px;">Add Chore</button>
+    <button class="btn btn-outline-secondary" style="margin-right: 5px;" routerLink="/annual-chore">Annual Chores</button>
+    <button class="btn btn-outline-secondary" style="margin-right: 5px;" routerLink="/rewards">Rewards</button>
+</div>
+
     
 
 <div class="chore-screen">
