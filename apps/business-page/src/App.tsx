@@ -29,7 +29,7 @@ function App() {
 
   return (
     <AdminAuthProvider>
-        <nav>
+        <nav className="sticky-nav">
           <Nav />
         </nav>
 
