@@ -35,6 +35,7 @@ export class RegisterFamilyComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       familyName: ['', Validators.required],
+      planType: ['family', Validators.required],
       members: this.fb.array([])
     });
   }
@@ -57,7 +58,8 @@ export class RegisterFamilyComponent implements OnInit {
         this.subStatus = family.subStatus;
 
         this.registerForm.patchValue({
-          familyName: family.familyName
+          familyName: family.familyName,
+          planType: family.planType || 'family'
         });
 
         this.members.clear();
@@ -102,11 +104,7 @@ export class RegisterFamilyComponent implements OnInit {
   }
 
   async submit(): Promise<void> {
-    console.log('Submit called');
-    console.log('isManagingExistingFamily:', this.isManagingExistingFamily);
-    console.log('Form status:', this.registerForm.status);
-    if(!this.registerForm.valid) {
-      console.log('Form is invalid', this.registerForm.errors, this.registerForm); 
+    if(!this.registerForm.valid) { 
 
       this.members.controls.forEach((control, index) => {
         console.log(`Member ${index}`, {
@@ -124,17 +122,16 @@ export class RegisterFamilyComponent implements OnInit {
     }
 
     const rawForm = this.registerForm.getRawValue();
-    const { email, password, familyName, members } = rawForm;
+    const { email, password, familyName, planType, members } = rawForm;
 
     try {
       if(this.isManagingExistingFamily) {
-        console.log('Calling updateFamily with:', familyName, members);
-        await this.familyService.updateFamily(familyName, members);
+        await this.familyService.updateFamily(familyName, members, planType);
       } else {
         const credential = await createUserWithEmailAndPassword(this.auth, email, password);
         const uid = credential.user.uid;
 
-        await this.familyService.registerFamily(uid, email, familyName, members);
+        await this.familyService.registerFamily(uid, email, familyName, members, planType);
       }
       
       this.router.navigate(['home']);

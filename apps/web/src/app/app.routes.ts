@@ -17,22 +17,23 @@ export const appRoutes: Routes = [
             import('./components/calendar/calendar.component').then(m => m.CalendarComponent) 
     },
 
+    // **family plan routes **
     //routes to chores component
     {
         path: 'chore',
-        canActivate: [subscriptionGuard],
+        canActivate: [subscriptionGuard('family')],
         loadComponent: () =>
             import('./components/chore/chore.component').then(m => m.ChoreComponent)
     },
     {
         path: 'annual-chore',
-        canActivate: [subscriptionGuard],
+        canActivate: [subscriptionGuard('family')],
         loadComponent: () =>
             import('./components/chore/annual-chores/annual-chores.component').then(m => m.AnnualChoresComponent)
     },
     {
         path: 'rewards',
-        canActivate: [subscriptionGuard],
+        canActivate: [subscriptionGuard('family')],
         loadComponent: () =>
             import('./components/chore/rewards/rewards.component').then(m => m.RewardsComponent)
     },
@@ -49,6 +50,15 @@ export const appRoutes: Routes = [
         canActivate: [subscriptionGuard],
         loadComponent: () =>
             import('./components/shopping-list/shopping-list.component').then(m => m.ShoppingListComponent)
+    },
+
+    // ** individual plan routes **
+    //to-do route
+    {
+        path: 'to-do',
+        canActivate: [subscriptionGuard('individual')],
+        loadComponent: () =>
+            import('./components/to-do/to-do.component').then(m => m.ToDoComponent)
     },
 
     //routes for checkout session 

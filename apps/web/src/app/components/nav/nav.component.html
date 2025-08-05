@@ -1,4 +1,4 @@
-<nav class="main-nav" *ngIf="subStatus$ | async as subStatus">
+<nav class="main-nav">
     <ul>
         <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <a routerLink="/home">
@@ -6,20 +6,26 @@
                 <span>Calendar</span>
             </a>
         </li>
-        <li routerLinkActive="active">
-            <a routerLink="/chore" [class.disabled]="subStatus === 'free' || subStatus ==='expired'">
+        <li *ngIf="famVisible$ | async" routerLinkActive="active">
+            <a routerLink="/chore" [class.disabled]="!(canAccess$ | async)">
                 <i class="fas fa-broom"></i>
                 <span>Chores</span>
             </a>
         </li>
+        <li *ngIf="indVisible$ | async" routerLinkActive="active">
+            <a routerLink="/to-do" [class.disabled]="!(canAccess$ | async)">
+                <i class="fas fa-clipboard-list"></i>
+                <span>To-Do List</span>
+            </a>
+        </li>
         <li routerLinkActive="active">
-            <a routerLink="/meal-planner" [class.disabled]="subStatus === 'free' || subStatus === 'expired'">
+            <a routerLink="/meal-planner">
                 <i class="fas fa-utensils"></i>
                 <span>Meal Planner</span>
             </a>
         </li>
         <li routerLinkActive="active">
-            <a routerLink="/shopping" [class.disabled]="subStatus === 'free' || subStatus === 'expired'">
+            <a routerLink="/shopping">
                 <i class="fas fa-shopping-cart"></i>
                 <span>Groceries</span>
             </a>

@@ -55,6 +55,10 @@ export class ShoppingListComponent implements OnInit {
     this.newItemTitle = item.title;
     this.showModal = true;
   }
+  toggleComplete(item: ShoppingItem) {
+      if(!item.id) return;
+      this.shoppingService.updateItem(item.id, { completed: item.completed });
+  }
 
   async updateItem() {
     if (!this.editingItem || !this.editingItem.id || !this.newItemTitle) {
@@ -62,7 +66,7 @@ export class ShoppingListComponent implements OnInit {
       return;
     }
 
-    await this.shoppingService.updateItem(this.editingItem.id, this.newItemTitle);
+    await this.shoppingService.updateItem(this.editingItem.id, { title: this.newItemTitle });
     this.closeModal();
   }
 

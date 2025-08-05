@@ -52,6 +52,14 @@
     <button type="button" (click)="addMember()" class="btn btn-secondary">+ Add Member</button>
   </div>
 
+  <div class="mb-3">
+    <label for="planType">Plan Type</label>
+    <select id="planType" class="form-select" formControlName="planType">
+      <option value="family">Family Plan</option>
+      <option value="individual">Individual Plan</option>
+    </select>
+  </div>
+
   <!-- Show Register button if in registration mode -->
   <button type="submit" class="btn btn-primary">
     {{ isManagingExistingFamily ? 'Update Family' : 'Register Family'}}

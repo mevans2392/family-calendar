@@ -7,7 +7,7 @@ import { NavComponent } from '../../nav/nav.component';
 import { RouterModule } from '@angular/router';
 import { RewardModalComponent } from './reward-modal/reward-modal.component';
 import { map, Observable } from 'rxjs';
-import { CdkDragDrop, CdkDragEnd, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragEnd, CdkDragMove, CdkDragStart, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-rewards',
@@ -27,6 +27,8 @@ export class RewardsComponent {
 
   private rewardService = inject(RewardService);
   private familyService = inject(FamilyMembersService);
+
+  private scrollingInterval: any;
 
   async ngOnInit() {
     await this.loadRewards();
@@ -78,6 +80,70 @@ export class RewardsComponent {
     setTimeout(() => {
       this.isDragging = false;
     });
+  }
+
+  onRewardDragMoved(event: CdkDragMove) {
+    const pointerY = event.pointerPosition.y;
+    const pointerX = event.pointerPosition.x;
+    const threshold = 80;
+    const speed = 15;
+
+    const columnsWrapper = document.querySelector('.scroll-container') as HTMLElement;
+    const containerRect = columnsWrapper.getBoundingClientRect();
+
+    // ----- Vertical scroll (window) -----
+    if (pointerY < containerRect.top + threshold) {
+      this.startVerticalScroll(columnsWrapper, -speed);
+    } else if (pointerY > containerRect.bottom - threshold) {
+      this.startVerticalScroll(columnsWrapper, speed);
+    }
+    else {
+      this.stopScrolling();
+    }
+
+    //TODO: change this to match Vertical Scroll if Horizontal scroll ends up being needed.
+    // ----- Horizontal scroll (columns wrapper) -----
+    const columnsRect = columnsWrapper.getBoundingClientRect();
+    if (pointerX < columnsRect.left + threshold) {
+      this.startHorizontalScroll(columnsWrapper, -speed);
+    } else if (pointerX > columnsRect.right - threshold) {
+      this.startHorizontalScroll(columnsWrapper, speed);
+    }
+  }
+
+  private currentScrollDirection: 'up' | 'down' | 'left' | 'right' | null = null;
+
+  private startVerticalScroll(container: HTMLElement | Window, speed: number) {
+    const dir = speed > 0 ? 'down' : 'up';
+    if (this.currentScrollDirection !== dir) {
+      this.stopScrolling();
+      this.currentScrollDirection = dir;
+    }
+    if(this.scrollingInterval) return;
+    this.scrollingInterval = setInterval(() => {
+      container.scrollBy(0,speed);
+    }, 16);
+  }
+
+  //TODO: change this to match Vertical Scroll if Horizontal scroll ends up being needed.
+  private startHorizontalScroll(container: HTMLElement, speed: number) {
+    const dir = speed > 0 ? 'right' : 'left';
+    if(this.currentScrollDirection !== dir) {
+      this.stopScrolling();
+      this.currentScrollDirection = dir;
+    }
+    if (this.scrollingInterval) return;
+    this.scrollingInterval = setInterval(() => {
+      container.scrollBy(speed, 0);
+    }, 16);
+  }
+
+  public stopScrolling() {
+    if (this.scrollingInterval) {
+      clearInterval(this.scrollingInterval);
+      this.scrollingInterval = null;
+    }
+    this.currentScrollDirection = null;
   }
 
   openRewardModal(reward: Reward | null) {

@@ -1,3 +1,9 @@
+.scroll-grid {
+    overflow-x: auto;
+    overflow-y: auto;
+    height: 100vh;
+    z-index: 1000;
+}
 .meal-grid-wrapper {
     overflow-x: auto;
     scrollbar-width: none;

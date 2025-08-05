@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
-import { CdkDragDrop, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragMove, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 import { Chore } from '../../../../shared/shared-interfaces';
 import { ChoreService } from '../../../../services/chore.service';
 import { CommonModule } from '@angular/common';
@@ -19,6 +19,8 @@ export class UnassignedChoresComponent {
   
   @Output() choreUpdated = new EventEmitter<void>();
   @Output() editChoreRequested = new EventEmitter<Chore>();
+  @Output() dragMoved = new EventEmitter<CdkDragMove>();
+  @Output() dragEnded = new EventEmitter<void>();
 
   private choreService = inject(ChoreService);
 

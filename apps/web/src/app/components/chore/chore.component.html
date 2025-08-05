@@ -22,6 +22,8 @@
                         (choreUpdated)="loadChores()"
                         (editChoreRequested)="openEditModal($event)"
                         [connectedDropLists]="getDropListIds(members)"
+                        (dragMoved)="onChoreDragMoved($event)"
+                        (dragEnded)="stopScrolling()"
                     ></app-member-column>
                 </div>
             </div>
@@ -31,6 +33,8 @@
                 (choreUpdated)="loadChores()"
                 (editChoreRequested)="openEditModal($event)"
                 [connectedDropLists]="getDropListIds(members)"
+                (dragMoved)="onChoreDragMoved($event)"
+                (dragEnded)="stopScrolling()"
             ></app-unassigned-chores>
 
             <app-chore-modal

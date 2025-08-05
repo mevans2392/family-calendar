@@ -4,6 +4,7 @@ export interface Family {
   createdBy: string;
   createdAt: any;
   subStatus: 'free' | 'trial' | 'paid' | 'expired';
+  planType: 'individual' | 'family';
   trialStart: string;
   trialLength: number;
   stripeCustomerId?: string;

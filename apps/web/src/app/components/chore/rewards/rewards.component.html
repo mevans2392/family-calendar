@@ -2,54 +2,58 @@
 <div class="row" id="top-nav">
     <app-nav></app-nav>
 </div>
-<div class="nav-buttons" id="nav-buttons">
-    <button class="btn btn-outline-secondary" (click)="openRewardModal(null)" style="margin-right: 5px;">Add Reward</button>
-    <button class="btn btn-outline-secondary" routerLink="/chore" style="margin-right: 5px;">Back to Chores</button>
-    <button id="annual-chores" class="btn btn-outline-secondary" routerLink="/annual-chore" style="margin-right: 5px;">Annual Chores</button>
-</div>
 
 
-<!-- Top Member Summary Row -->
-<div class="reward-members">
-    <div 
-        class="member-card" 
-        *ngFor="let member of filteredMembers; let i = index"
-        [cdkDropListData]="member"
-        cdkDropList
-        [cdkDropListConnectedTo]="[rewardsList]"
-        [id]="memberDropIds[i]"
-        (cdkDropListDropped)="handleDrop($event)"
-    >
-        <div class="member-name">{{ member.name }}</div>
-        <div class="member-points">{{ member.points || 0 }} pts</div>
+<div class="scroll-container">
+    <div class="nav-buttons" id="nav-buttons">
+        <button class="btn btn-outline-secondary" (click)="openRewardModal(null)" style="margin-right: 5px;">Add Reward</button>
+        <button class="btn btn-outline-secondary" routerLink="/chore" style="margin-right: 5px;">Back to Chores</button>
+        <button id="annual-chores" class="btn btn-outline-secondary" routerLink="/annual-chore" style="margin-right: 5px;">Annual Chores</button>
     </div>
-</div>
-
-<!-- Reward List Section -->
-<div class="reward-container">
-    <h5>Rewards</h5>
-    <div 
-        class="reward-list"
-        cdkDropList
-        [cdkDropListData]="rewards"
-        [cdkDropListSortingDisabled]="true"
-        #rewardsList="cdkDropList"
-        [cdkDropListConnectedTo]="memberDropIds"
-    >
-        <div
-            class="reward-card"
-            *ngFor="let reward of rewards"
-            [cdkDragData]="reward"
-            cdkDrag
-            (cdkDragStarted)="onDragStarted()"
-            (cdkDragEnded)="onDragEnded($event)"
-            (click)="!isDragging && openRewardModal(reward)"
+    <!-- Top Member Summary Row -->
+    <div class="reward-members">
+        <div 
+            class="member-card" 
+            *ngFor="let member of filteredMembers; let i = index"
+            [cdkDropListData]="member"
+            cdkDropList
+            [cdkDropListConnectedTo]="[rewardsList]"
+            [id]="memberDropIds[i]"
+            (cdkDropListDropped)="handleDrop($event)"
         >
-            <div class="reward-title">{{ reward.title }}</div>
-            <div class="reward-points">{{ reward.points }} pts</div>
+            <div class="member-name">{{ member.name }}</div>
+            <div class="member-points">{{ member.points || 0 }} pts</div>
+        </div>
+    </div>
+
+    <!-- Reward List Section -->
+    <div class="reward-container">
+        <h5>Rewards</h5>
+        <div 
+            class="reward-list"
+            cdkDropList
+            [cdkDropListData]="rewards"
+            [cdkDropListSortingDisabled]="true"
+            #rewardsList="cdkDropList"
+            [cdkDropListConnectedTo]="memberDropIds"
+        >
+            <div
+                class="reward-card"
+                *ngFor="let reward of rewards"
+                [cdkDragData]="reward"
+                cdkDrag
+                (cdkDragStarted)="onDragStarted()"
+                (cdkDragEnded)="onDragEnded($event)"
+                (cdkDragMoved)="onRewardDragMoved($event)"
+                (click)="!isDragging && openRewardModal(reward)"
+            >
+                <div class="reward-title">{{ reward.title }}</div>
+                <div class="reward-points">{{ reward.points }} pts</div>
+            </div>
         </div>
     </div>
 </div>
+
 
 <!-- Reward Modal -->
 <app-reward-modal
