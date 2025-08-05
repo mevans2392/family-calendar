@@ -3,7 +3,7 @@
 SimplizityLife is a subscription-based family organization app that keeps schedules, chores, meals, and shopping lists in one place. It is accessible on any device with a web browser, including desktop, mobile, tablets, and even the Amazon Echo Show.
 
 ## Live Demo
-**[https://familycalendar-2a3ec.web.app](https://familycalendar-2a3ec.web.app)**
+**[https://calendar.simplizitylife.com](https://calendar.simplizitylife.com)**
 
 ## Marketing Page
 **[https://simplizitylife.com](https://simplizitylife.com)**
