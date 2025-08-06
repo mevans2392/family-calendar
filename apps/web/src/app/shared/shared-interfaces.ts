@@ -74,3 +74,15 @@ export interface Recipe {
   day?: string;
   mealType?: string;
 }
+
+export interface JournalItem {
+  id?: string;
+  text: string
+  categoryIds: string[];
+  //complete: boolean;
+}
+
+export interface JournalCategory {
+  id?: string;
+  title: string;
+}

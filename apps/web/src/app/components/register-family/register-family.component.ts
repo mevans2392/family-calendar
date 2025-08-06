@@ -48,8 +48,31 @@ export class RegisterFamilyComponent implements OnInit {
       this.registerForm.removeControl('password');
       this.loadFamilyData(this.familyId);
     } else {
-      this.addMember('Anyone');
+      const planType = this.registerForm.get('planType')?.value;
+
+      if(planType === 'family') {
+        this.addMember('Anyone');
+      }
     }
+
+    //add or remove 'Anyone' based on selected plan type
+    this.registerForm.get('planType')?.valueChanges.subscribe(planType => {
+      if(planType === 'family') {
+        const hasAnyone = this.members.value.some(
+          (m: { name: string }) => m.name === 'Anyone'
+        );
+        if(!hasAnyone) {
+          this.addMember('Anyone');
+        }
+      } else if(planType === 'individual') {
+        const anyoneIndex = this.members.value.findIndex(
+          (m: { name: string }) => m.name === 'Anyone'
+        );
+        if(anyoneIndex > -1) {
+          this.members.removeAt(anyoneIndex);
+        }
+      }
+    });
   }  
 
   loadFamilyData(familyId: string): void {
@@ -105,24 +128,21 @@ export class RegisterFamilyComponent implements OnInit {
 
   async submit(): Promise<void> {
     if(!this.registerForm.valid) { 
-
-      this.members.controls.forEach((control, index) => {
-        console.log(`Member ${index}`, {
-          name: control.get('name')?.value,
-          color: control.get('color')?.value,
-          valid: control.valid,
-          errors: {
-            name: control.get('name')?.errors,
-            color: control.get('color')?.errors
-          }
-        });
-      });
-
       return;
     }
 
     const rawForm = this.registerForm.getRawValue();
-    const { email, password, familyName, planType, members } = rawForm;
+    let { email, password, familyName, planType, members } = rawForm;
+
+    if(planType === 'individual') {
+      members = [
+        { name: familyName, color: this.presetColors[0] }
+      ];
+    }
+
+    if(planType === 'family' && !members.find((m: { name: string; color: string }) => m.name === 'Anyone')) {
+      members.push({ name: 'Anyone', color: this.presetColors[0] });
+    }
 
     try {
       if(this.isManagingExistingFamily) {

@@ -1,0 +1,59 @@
+<nav class="sticky-top" style="z-index: 1000;">
+    <app-nav></app-nav>
+</nav>
+<div class="everything">
+    <div class="heading-container">
+        <h2>Entries</h2>
+        <div class="journal-categories">
+            <h2>Categories</h2>
+            <select *ngIf="!addingCategory" (change)="onCategoryChange($event)">
+                <option value="">All</option>
+                <option *ngFor="let category of categories" [value]="category.id">{{ category.title }}</option>
+            </select>
+
+            <div *ngIf="selectedCategoryId">
+                <button (click)="deleteCategory(selectedCategoryId)">🗑</button>
+            </div>
+
+            <div *ngIf="addingCategory">
+                <input type="text" [(ngModel)]="newCategoryTitle" placeholder="New category" />
+                <button (click)="saveCategory()">✔</button>
+                <button (click)="cancelAddCategory()">✖</button>
+            </div>
+
+            <button *ngIf="!addingCategory" (click)="addingCategory = true" style="margin-top: 10px;">+</button>
+        </div>
+    </div>
+
+
+    <div *ngFor="let entry of journalEntries" class="journal-entries">
+        <div class="entry-text">
+            <p>{{ entry.text }}</p>
+        </div>
+        <div class="entry-category">
+            <p *ngIf="entry.categoryIds?.length">{{ getCategoryTitle(entry) }}</p>
+        </div>
+        
+    </div> 
+
+    <div class="add-entry">
+        <button (click)="addEntry()">Add Entry</button>
+
+        <div *ngIf="addingEntry" class="add-entry-form">
+            <textarea [(ngModel)]="newEntryText" placeholder="What do you have to say?"></textarea>
+
+            <select [(ngModel)]="newEntryCategoryId">
+                <option value="">No Category</option>
+                <option *ngFor="let category of categories" [value]="category.id">
+                    {{ category.title }}
+                </option>
+            </select>
+
+            <button (click)="saveEntry()">✔</button>
+            <button (click)="cancelAddEntry()">✖</button>
+        </div>
+    </div>
+</div>
+
+
+
