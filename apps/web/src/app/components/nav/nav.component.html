@@ -35,6 +35,12 @@
                 <span>Journal</span>
             </a>
         </li>
+        <li *ngIf="indVisible$ | async" routerLinkActive="active">
+            <a routerLink="/to-do" [class.disabled]="!(canAccess$ | async)">
+                <i class="fas fa-clipboard-list"></i>
+                <span>To-Do List</span>
+            </a>
+        </li>
 
         <!-- everyone can manage their family and logout -->
         <li routerLinkActive="active">

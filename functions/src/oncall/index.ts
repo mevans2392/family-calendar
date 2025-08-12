@@ -4,6 +4,8 @@
 export {createCheckoutSession as createCheckoutSessionCallable}
   from "./createCheckoutSession";
 
+export {testCheckoutSession} from "./testCheckoutSession";
+
 export {checkTrialStatus} from "./checkTrialStatus";
 export {cancelSubscription} from "./cancelSubscription";
 

@@ -55,6 +55,13 @@ export const appRoutes: Routes = [
         loadComponent: () =>
             import('./components/journal/journal.component').then(m => m.JournalComponent)
     },
+    //to-do list route
+    {
+        path: 'to-do',
+        canActivate: [subscriptionGuard('individual')],
+        loadComponent: () =>
+            import('./components/to-do/to-do.component').then(m => m.ToDoComponent)
+    },
 
     //routes for both (no route guards)
     //calendar route

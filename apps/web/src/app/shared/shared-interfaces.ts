@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export interface Family {
   id: string;
   familyName: string;
@@ -79,6 +81,7 @@ export interface JournalItem {
   id?: string;
   text: string
   categoryIds: string[];
+  createdAt: string | Timestamp;
   //complete: boolean;
 }
 

@@ -5,6 +5,8 @@ import { JournalService } from '../../services/journal.service';
 import { JournalCategoryService } from '../../services/journal-category.service';
 import { JournalItem, JournalCategory } from '../../shared/shared-interfaces';
 import { FormsModule } from '@angular/forms';
+import { Timestamp } from 'firebase/firestore';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-journal',
@@ -36,15 +38,39 @@ export class JournalComponent implements OnInit {
   async loadJournalItems(): Promise<void> {
     const obs = await this.journalService.loadJournalItems();
     obs.subscribe(items => {
-      this.journalEntries = items;
+      this.journalEntries = items.sort((a, b) => {
+        const dateA = a.createdAt instanceof Timestamp ? a.createdAt.toDate() : new Date(a.createdAt);
+        const dateB = b.createdAt instanceof Timestamp ? b.createdAt.toDate() : new Date(b.createdAt);
+        return dateB.getTime() - dateA.getTime();
+      });
     });
+  }
+
+  getCreatedAtDate(entry: JournalItem): Date | null {
+    if(!entry.createdAt) return null;
+    if(entry.createdAt instanceof Timestamp) {
+      return entry.createdAt.toDate();
+    }
+    return new Date(entry.createdAt);
   }
 
   async loadCategories(): Promise<void> {
     const obs = await this.journalCategoryService.loadCategories();
-    obs.subscribe(cats => {
+    const cats = await firstValueFrom(obs);
+
+    if(cats.length === 0) {
+      await this.seedDefaultCategories();
+      return this.loadCategories();
+    } else {
       this.categories = cats;
-    })
+    }
+  }
+
+  private async seedDefaultCategories(): Promise<void> {
+    const defaultTitles = ['Groceries', 'Reflection', 'Goals', 'Dreams', 'Highlights'];
+    for (const title of defaultTitles) {
+      await this.journalCategoryService.saveCategory({ title });
+    }
   }
 
   async saveCategory(): Promise<void> {
@@ -102,6 +128,7 @@ export class JournalComponent implements OnInit {
     const newEntry: JournalItem = {
       text: this.newEntryText,
       categoryIds: this.newEntryCategoryId ? [this.newEntryCategoryId] : [],
+      createdAt: new Date().toISOString()
     };
 
     await this.journalService.saveJournalItem(newEntry);
@@ -115,6 +142,12 @@ export class JournalComponent implements OnInit {
     } else {
       this.loadJournalItems();
     }
+  }
+
+  async deleteEntry(EntryId?: string): Promise<void> {
+    if(!EntryId) return;
+    await this.journalService.deleteJournalItem(EntryId);
+    this.loadJournalItems();
   }
 
   cancelAddEntry(): void {
