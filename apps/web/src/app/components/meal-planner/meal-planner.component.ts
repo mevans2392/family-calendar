@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RecipeModalComponent } from './recipe-modal/recipe-modal.component';
 import { Recipe } from '../../shared/shared-interfaces';
 import { RecipeService } from '../../services/recipe.service';
-import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, DragDropModule, CdkDragMove } from '@angular/cdk/drag-drop';
 import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 
 @Component({
@@ -23,7 +23,9 @@ export class MealPlannerComponent {
   recipes: Recipe[] = [];
   openModal = false;
   selectedRecipe: Recipe | null = null;
-  
+  private scrollSpeed = 15;
+  private scrollThreshold = 100;
+  private scrollingInterval: any;
 
   ngOnInit(): void {
     this.loadRecipes();
@@ -101,6 +103,71 @@ export class MealPlannerComponent {
       this.recipeService.deleteRecipe(recipe.id).then(() => this.loadRecipes());
     }
   }
+
+  onDragMoved(event: CdkDragMove) {
+    const pointerY = event.pointerPosition.y;
+    const pointerX = event.pointerPosition.x;
+    const threshold = 120;
+    const speed = 15;
+
+    const unassigned = document.querySelector('.unassigned-recipe-house') as HTMLElement;
+    const scrollGrid = document.querySelector('.scroll-grid') as HTMLElement;
+    const mealGridWrapper = document.querySelector('.meal-grid-wrapper') as HTMLElement;
+
+    const unassignedRect = unassigned.getBoundingClientRect();
+
+    // ----- 1. Scroll unassigned list vertically if inside its range -----
+    if (pointerY >= unassignedRect.top && pointerY <= unassignedRect.bottom) {
+      if (pointerY < unassignedRect.top + threshold) {
+        this.startVerticalScroll(unassigned, -speed);
+      } else if (pointerY > unassignedRect.bottom - threshold) {
+        this.startVerticalScroll(unassigned, speed);
+      } else {
+        this.stopScrolling();
+      }
+      return; // avoid also scrolling the main grid
+    }
+
+    // ----- 2. Scroll main container vertically -----
+    const gridRect = scrollGrid.getBoundingClientRect();
+    if (pointerY < gridRect.top + threshold) {
+      this.startVerticalScroll(scrollGrid, -speed);
+    } else if (pointerY > gridRect.bottom - threshold) {
+      this.startVerticalScroll(scrollGrid, speed);
+    } else {
+      this.stopScrolling();
+    }
+
+    // ----- 3. Scroll meal grid horizontally -----
+    const mealGridRect = mealGridWrapper.getBoundingClientRect();
+    if (pointerX < mealGridRect.left + threshold) {
+      this.startHorizontalScroll(mealGridWrapper, -speed);
+    } else if (pointerX > mealGridRect.right - threshold) {
+      this.startHorizontalScroll(mealGridWrapper, speed);
+    }
+  }
+
+  private startVerticalScroll(container: HTMLElement, speed: number) {
+    if (this.scrollingInterval) return;
+    this.scrollingInterval = setInterval(() => {
+      container.scrollBy(0, speed);
+    }, 16);
+  }
+
+  private startHorizontalScroll(container: HTMLElement, speed: number) {
+    if (this.scrollingInterval) return;
+    this.scrollingInterval = setInterval(() => {
+      container.scrollBy(speed, 0);
+    }, 16);
+  }
+
+  public stopScrolling() {
+    if (this.scrollingInterval) {
+      clearInterval(this.scrollingInterval);
+      this.scrollingInterval = null;
+    }
+  }
+
 
   openEditModal(recipe: Recipe | null) {
     this.selectedRecipe = recipe;

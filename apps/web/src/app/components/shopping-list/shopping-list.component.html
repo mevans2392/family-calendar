@@ -7,7 +7,7 @@
     <div class="itemContainer">
         <h2 style="text-align: center;">Shopping List</h2>
         <div *ngFor="let items of item" class="items" (click)="editItem(items)">
-            <input type="checkbox" [(ngModel)]="items.completed" (click)="$event.stopPropagation()" />
+            <input type="checkbox" [(ngModel)]="items.completed" (click)="$event.stopPropagation()" (change)="toggleComplete(items)"/>
             <span [ngStyle]="{ 'text-decoration': items.completed ? 'line-through' : 'none'}">
                 {{ items.title }}
             </span>

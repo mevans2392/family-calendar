@@ -1,78 +1,86 @@
 <div class="row fixed-top" style="z-index: 1000;">
     <app-nav></app-nav>
 </div>
-<div class="button-container" style="text-align: center; padding-top: 20px;">
-    <button class="btn btn-outline-secondary" (click)="openEditModal(null)" style="margin-right: 5px;">Add Recipe</button>
-    <button class="btn btn-outline-danger" (click)="clearRecipesFromCell()">Clear Recipes</button>
-</div>
+
 
 
 <!-- Top: Meal Grid -->
-<div class="meal-grid-wrapper">
-    <div class="head-container">
-        <div class="header-cell empty"></div>
-        <div class="header-cell" *ngFor="let day of daysOfWeek">{{ day }}</div>
+<div class="scroll-grid">
+    <div class="button-container" style="text-align: center; padding-top: 20px;">
+        <button class="btn btn-outline-secondary" (click)="openEditModal(null)" style="margin-right: 5px;">Add Recipe</button>
+        <button class="btn btn-outline-danger" (click)="clearRecipesFromCell()">Clear Recipes</button>
     </div>
-    
-    
-    <div class="meal-grid">
-        
 
-        <ng-container *ngFor="let meal of mealTypes">
-            <div class="meal-type">{{ meal }}</div>
-            <div class="meal-cell" *ngFor="let day of daysOfWeek">
-                <div 
-                    class="meal-slot"
-                    cdkDropList
-                    [cdkDropListData]="getRecipesForCell(day, meal)"
-                    [cdkDropListConnectedTo]="connectedDropLists"
-                    [id]="day + '-' + meal"
-                    (cdkDropListDropped)="handleDrop($event, day, meal)"
-                >
-                    <div
-                        *ngFor="let recipe of getRecipesForCell(day, meal)"
-                        cdkDrag
-                        [cdkDragData]="recipe"
-                        class="recipe-card-wrapper"
-                    >
-                        <app-recipe-card
-                            [recipe]="recipe"
-                            (edit)="openEditModal(recipe)"
-                        ></app-recipe-card>
-                    </div>
-                    
-                
-                </div>
-            </div>
-        </ng-container>
-    </div>
-</div>
-
-<!-- Bottom: Unassigned Recipes -->
-<div class="unassigned-recipe-house">
-    <h3>Recipes</h3>
-    <div
-        id="unassigned-recipe-list"
-        cdkDropList
-        [cdkDropListData]="getUnassignedRecipes()"
-        [cdkDropListConnectedTo]="connectedDropLists"
-        (cdkDropListDropped)="handleUnassignDrop($event)"
-        class="unassigned-container"
-    >
-        <div *ngIf="getUnassignedRecipes().length === 0" class="empty-message">
-            No Recipes
+    <div class="meal-grid-wrapper">
+        <div class="head-container">
+            <div class="header-cell empty"></div>
+            <div class="header-cell" *ngFor="let day of daysOfWeek">{{ day }}</div>
         </div>
+        
+        
+        <div class="meal-grid">
+            
 
+            <ng-container *ngFor="let meal of mealTypes">
+                <div class="meal-type">{{ meal }}</div>
+                <div class="meal-cell" *ngFor="let day of daysOfWeek">
+                    <div 
+                        class="meal-slot"
+                        cdkDropList
+                        [cdkDropListData]="getRecipesForCell(day, meal)"
+                        [cdkDropListConnectedTo]="connectedDropLists"
+                        [id]="day + '-' + meal"
+                        (cdkDropListDropped)="handleDrop($event, day, meal)"
+                    >
+                        <div
+                            *ngFor="let recipe of getRecipesForCell(day, meal)"
+                            cdkDrag
+                            [cdkDragData]="recipe"
+                            (cdkDragMoved)="onDragMoved($event)"
+                            (cdkDragEnded)="stopScrolling()"
+                            class="recipe-card-wrapper"
+                        >
+                            <app-recipe-card
+                                [recipe]="recipe"
+                                (edit)="openEditModal(recipe)"
+                            ></app-recipe-card>
+                        </div>
+                        
+                    
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <!-- Bottom: Unassigned Recipes -->
+    <div class="unassigned-recipe-house">
+        <h3>Recipes</h3>
         <div
-            *ngFor="let recipe of getUnassignedRecipes()"
-            cdkDrag
-            [cdkDragData]="recipe"
-            class="recipe-card-wrapper"
+            id="unassigned-recipe-list"
+            cdkDropList
+            [cdkDropListData]="getUnassignedRecipes()"
+            [cdkDropListConnectedTo]="connectedDropLists"
+            (cdkDropListDropped)="handleUnassignDrop($event)"
+            class="unassigned-container"
         >
-            <app-recipe-card
-                [recipe]="recipe"
-                (edit)="openEditModal(recipe)"
-            ></app-recipe-card>
+            <div *ngIf="getUnassignedRecipes().length === 0" class="empty-message">
+                No Recipes
+            </div>
+
+            <div
+                *ngFor="let recipe of getUnassignedRecipes()"
+                cdkDrag
+                [cdkDragData]="recipe"
+                (cdkDragMoved)="onDragMoved($event)"
+                (cdkDragEnded)="stopScrolling()"
+                class="recipe-card-wrapper"
+            >
+                <app-recipe-card
+                    [recipe]="recipe"
+                    (edit)="openEditModal(recipe)"
+                ></app-recipe-card>
+            </div>
         </div>
     </div>
 </div>

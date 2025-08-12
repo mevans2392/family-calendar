@@ -1,20 +1,27 @@
-<div class="container-fluid">
-    <div class="row" id="toDoTitle">
+<div class="fixed-top bg-white">
+    <div class="container-fluid">
+      <div class="row">
+        <app-nav></app-nav>
+      </div>
+    </div>
+</div>
+
+<div class="to-do-list">
+    <div id="to-do-title">
         <div>
-            <h3>To-Do List:</h3>
+            <h2>To-Do List:</h2>
+        </div>
+        
+    </div>
+    <div id="to-do-container">
+        <div *ngFor="let item of toDoItems" class="to-do-items">
+            <input type="checkbox" [(ngModel)]="item.complete" (click)="$event.stopPropagation()" (change)="toggleComplete(item)" />
+            <span [ngStyle]="{ 'text-decoration': item.complete ? 'line-through' : 'none' }" (click)="editItem(item)">
+                {{ item.title }}
+            </span>
         </div>
     </div>
-    <div class="row" id="to-do-container">
-        <div *ngFor="let item of toDoItems" class="to-do-items" (click)="editItem(item)">
-            <label [style.color]="getColorForUid(item.assignedUser!) || 'grey'">
-                <input type="checkbox" [(ngModel)]="item.complete" (click)="$event.stopPropagation()"/>
-                <span [ngStyle]="{ 'text-decoration': item.complete ? 'line-through' : 'none' }">
-                    {{item.title }}
-                </span>
-            </label>
-        </div>
-    </div>
-    <div class="row mt-2 align-items-center">
+    <div class="row mt-3 align-items-center">
         <div class="col-5">
             <button class="btn btn-primary w-100" (click)="openModal()">Add Item</button>
         </div>
@@ -26,5 +33,7 @@
 
 <div *ngIf="showModal">
     <app-chore-modal
-    (close)="closeModal()"></app-chore-modal>
+        [chore]="editingItem"
+        (close)="closeModal()"
+    ></app-chore-modal>
 </div>

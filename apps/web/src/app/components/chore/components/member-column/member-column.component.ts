@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdkDragDrop, DragDropModule, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragMove, DragDropModule, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Chore, FamilyMember } from '../../../../shared/shared-interfaces';
 import { ChoreService } from '../../../../services/chore.service';
 import { ChoreCardComponent } from '../chore-card/chore-card.component';
@@ -19,6 +19,8 @@ export class MemberColumnComponent {
 
   @Output() choreUpdated = new EventEmitter<void>();
   @Output() editChoreRequested = new EventEmitter<Chore>();
+  @Output() dragMoved = new EventEmitter<CdkDragMove>();
+  @Output() dragEnded = new EventEmitter<void>();
   
 
   private choreService = inject(ChoreService);

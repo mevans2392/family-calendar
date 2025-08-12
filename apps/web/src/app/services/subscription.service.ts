@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, doc, docData } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
-import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Family } from '../shared/shared-interfaces';
 import { FamilyService } from './family.service';
 
@@ -36,6 +36,15 @@ export class SubscriptionService {
 
     getFamilyData(): Observable<Family | null> {
         return this.familyData$.asObservable();
+    }
+
+    // convenience streams
+    get subStatus$(): Observable<Family['subStatus'] | undefined> {
+        return this.familyData$.pipe(map(family => family?.subStatus));
+    }
+
+    get planType$(): Observable<Family['planType'] | undefined> {
+        return this.familyData$.pipe(map(family => family?.planType));
     }
 
     getTrialDaysLeft(trialStartDate: string | Date): number {

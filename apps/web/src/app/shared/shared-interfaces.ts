@@ -1,9 +1,12 @@
+import { Timestamp } from 'firebase/firestore';
+
 export interface Family {
   id: string;
   familyName: string;
   createdBy: string;
   createdAt: any;
   subStatus: 'free' | 'trial' | 'paid' | 'expired';
+  planType: 'individual' | 'family';
   trialStart: string;
   trialLength: number;
   stripeCustomerId?: string;
@@ -72,4 +75,17 @@ export interface Recipe {
   directions: string;
   day?: string;
   mealType?: string;
+}
+
+export interface JournalItem {
+  id?: string;
+  text: string
+  categoryIds: string[];
+  createdAt: string | Timestamp;
+  //complete: boolean;
+}
+
+export interface JournalCategory {
+  id?: string;
+  title: string;
 }

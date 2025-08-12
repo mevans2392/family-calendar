@@ -39,11 +39,11 @@ export class ShoppingListService {
         await addDoc(ref, newItem);
     }
 
-    async updateItem(id: string, title: string): Promise<void> {
+    async updateItem(id: string, changes: Partial<ShoppingItem>): Promise<void> {
         const familyId = await this.familyService.getFamilyId();
 
         const ref = doc(this.firestore, `families/${familyId}/shoppingList/${id}`);
-        await updateDoc(ref, { title });
+        await updateDoc(ref, changes);
     }
 
     async deleteCompletedItems(items: ShoppingItem[]): Promise<void> {

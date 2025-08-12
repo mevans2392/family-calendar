@@ -35,6 +35,7 @@ export class RegisterFamilyComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       familyName: ['', Validators.required],
+      planType: ['family', Validators.required],
       members: this.fb.array([])
     });
   }
@@ -47,8 +48,31 @@ export class RegisterFamilyComponent implements OnInit {
       this.registerForm.removeControl('password');
       this.loadFamilyData(this.familyId);
     } else {
-      this.addMember('Anyone');
+      const planType = this.registerForm.get('planType')?.value;
+
+      if(planType === 'family') {
+        this.addMember('Anyone');
+      }
     }
+
+    //add or remove 'Anyone' based on selected plan type
+    this.registerForm.get('planType')?.valueChanges.subscribe(planType => {
+      if(planType === 'family') {
+        const hasAnyone = this.members.value.some(
+          (m: { name: string }) => m.name === 'Anyone'
+        );
+        if(!hasAnyone) {
+          this.addMember('Anyone');
+        }
+      } else if(planType === 'individual') {
+        const anyoneIndex = this.members.value.findIndex(
+          (m: { name: string }) => m.name === 'Anyone'
+        );
+        if(anyoneIndex > -1) {
+          this.members.removeAt(anyoneIndex);
+        }
+      }
+    });
   }  
 
   loadFamilyData(familyId: string): void {
@@ -57,7 +81,8 @@ export class RegisterFamilyComponent implements OnInit {
         this.subStatus = family.subStatus;
 
         this.registerForm.patchValue({
-          familyName: family.familyName
+          familyName: family.familyName,
+          planType: family.planType || 'family'
         });
 
         this.members.clear();
@@ -102,39 +127,31 @@ export class RegisterFamilyComponent implements OnInit {
   }
 
   async submit(): Promise<void> {
-    console.log('Submit called');
-    console.log('isManagingExistingFamily:', this.isManagingExistingFamily);
-    console.log('Form status:', this.registerForm.status);
-    if(!this.registerForm.valid) {
-      console.log('Form is invalid', this.registerForm.errors, this.registerForm); 
-
-      this.members.controls.forEach((control, index) => {
-        console.log(`Member ${index}`, {
-          name: control.get('name')?.value,
-          color: control.get('color')?.value,
-          valid: control.valid,
-          errors: {
-            name: control.get('name')?.errors,
-            color: control.get('color')?.errors
-          }
-        });
-      });
-
+    if(!this.registerForm.valid) { 
       return;
     }
 
     const rawForm = this.registerForm.getRawValue();
-    const { email, password, familyName, members } = rawForm;
+    let { email, password, familyName, planType, members } = rawForm;
+
+    if(planType === 'individual') {
+      members = [
+        { name: familyName, color: this.presetColors[0] }
+      ];
+    }
+
+    if(planType === 'family' && !members.find((m: { name: string; color: string }) => m.name === 'Anyone')) {
+      members.push({ name: 'Anyone', color: this.presetColors[0] });
+    }
 
     try {
       if(this.isManagingExistingFamily) {
-        console.log('Calling updateFamily with:', familyName, members);
-        await this.familyService.updateFamily(familyName, members);
+        await this.familyService.updateFamily(familyName, members, planType);
       } else {
         const credential = await createUserWithEmailAndPassword(this.auth, email, password);
         const uid = credential.user.uid;
 
-        await this.familyService.registerFamily(uid, email, familyName, members);
+        await this.familyService.registerFamily(uid, email, familyName, members, planType);
       }
       
       this.router.navigate(['home']);

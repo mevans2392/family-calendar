@@ -2,11 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { RouterModule } from '@angular/router';
 import { Firestore, doc, docData } from '@angular/fire/firestore';
-import { Observable, map } from 'rxjs';
+import { Observable, map, combineLatest } from 'rxjs';
 import { FamilyService } from '../../services/family.service';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { httpsCallable, Functions } from '@angular/fire/functions';
-import { environment } from '../../../environments/environment';
+import { NavAccessService } from '../../services/nav-access.service';
 
 @Component({
   selector: 'app-nav',
@@ -17,11 +17,21 @@ import { environment } from '../../../environments/environment';
 })
 export class NavComponent implements OnInit {
   subStatus$!: Observable<'free' | 'trial' | 'paid' | 'expired' | undefined>;
+  // planType$!: Observable<'individual' | 'family' | undefined>;
+
+  // combined$ = combineLatest([this.subStatus$, this.planType$]).pipe(
+  //   map(([subStatus, planType]) => ({ subStatus, planType}))
+  // );
 
   private firestore = inject(Firestore);
   private authService = inject(AuthService);
   private familyService = inject(FamilyService);
   private functions = inject(Functions);
+  private navAccessService = inject(NavAccessService);
+
+  canAccess$ = this.navAccessService.canAccess$();
+  famVisible$ = this.navAccessService.famVisible$();
+  indVisible$ = this.navAccessService.indVisible$();
 
   async ngOnInit() {
     this.loadSubStatus();

@@ -12,7 +12,14 @@
         (cdkDropListDropped)="onDrop($event)"
         class="member-chore-list"
     >
-        <div *ngFor="let chore of chores" cdkDrag [cdkDragData]="chore" class="chore-card-wrapper">
+        <div 
+            *ngFor="let chore of chores" 
+            cdkDrag 
+            [cdkDragData]="chore"
+            (cdkDragMoved)="dragMoved.emit($event)"
+            (cdkDragEnded)="dragEnded.emit()"
+            class="chore-card-wrapper"
+        >
             <app-chore-card 
                 [chore]="chore"
                 (edit)="editChore($event)"

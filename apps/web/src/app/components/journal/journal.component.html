@@ -1,0 +1,67 @@
+<nav class="sticky-top" style="z-index: 1000;">
+    <app-nav></app-nav>
+</nav>
+<div class="everything">
+    <div class="heading-container">
+        <h2>Entries</h2>
+        <div class="journal-categories">
+            <div class="add-category">
+                <p style="margin-right: 10px;">Filter:</p>
+                <select *ngIf="!addingCategory" class="form-select" (change)="onCategoryChange($event)">
+                    <option value="">All</option>
+                    <option *ngFor="let category of categories" [value]="category.id">{{ category.title }}</option>
+                </select>
+
+                <div *ngIf="selectedCategoryId">
+                    <button class="del-cat-btn" (click)="deleteCategory(selectedCategoryId)">🗑</button>
+                </div>
+
+                <div *ngIf="addingCategory">
+                    <input type="text" [(ngModel)]="newCategoryTitle" placeholder="New category" />
+                    <button class="btn-primary" (click)="saveCategory()">✔</button>
+                    <button class="btn-primary" (click)="cancelAddCategory()">✖</button>
+                </div>
+                
+                <button class="btn-primary add-cat-btn" *ngIf="!addingCategory" (click)="addingCategory = true" style="margin-top: 10px;">+</button>
+            </div>
+            <h2>Categories</h2>
+            
+        </div>
+    </div>
+
+
+    <div *ngFor="let entry of journalEntries" class="journal-entries">
+        <div class="entry-text">
+            <button class="del-entry" (click)="deleteEntry(entry.id)">🗑</button>
+            <small *ngIf="entry.createdAt">
+                {{ getCreatedAtDate(entry) | date:'mediumDate' }}
+            </small>
+            <p>{{ entry.text }}</p>
+        </div>
+        <div class="entry-category">
+            <p *ngIf="entry.categoryIds?.length">{{ getCategoryTitle(entry) }}</p>
+        </div>
+        
+    </div> 
+
+    <div class="add-entry">
+        <button class="btn-primary" (click)="addEntry()">Add Entry</button>
+
+        <div *ngIf="addingEntry" class="add-entry-form">
+            <textarea [(ngModel)]="newEntryText" class="form-control" rows="4" placeholder="What do you have to say?"></textarea>
+
+            <select [(ngModel)]="newEntryCategoryId" class="form-select">
+                <option value="">No Category</option>
+                <option *ngFor="let category of categories" [value]="category.id">
+                    {{ category.title }}
+                </option>
+            </select>
+
+            <button class="btn-primary" (click)="saveEntry()">✔</button>
+            <button class="btn-primary" (click)="cancelAddEntry()">✖</button>
+        </div>
+    </div>
+</div>
+
+
+

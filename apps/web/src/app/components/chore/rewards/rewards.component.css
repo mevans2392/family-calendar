@@ -8,6 +8,10 @@
     margin-bottom: 20px;
     text-align: center;
 }
+.scroll-container {
+    height: 100%;
+    overflow-y: auto;
+}
 
 .reward-screen {
     padding: 1rem;

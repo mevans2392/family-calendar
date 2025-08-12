@@ -9,7 +9,7 @@ export class FamilyService {
   private firestore = inject(Firestore);
   private auth: Auth = inject(Auth);
 
-  async registerFamily(uid: string, email: string, familyName: string, members: { name: string; color: string}[]) {
+  async registerFamily(uid: string, email: string, familyName: string, members: { name: string; color: string}[], planType: string) {
     const trialLength = 14;  //two weeks
     const trialStart = new Date().toISOString().split('T')[0]; //'YYYY-MM-DD'
     
@@ -19,7 +19,8 @@ export class FamilyService {
       createdBy: uid,
       subStatus: 'trial',
       trialStart,
-      trialLength
+      trialLength,
+      planType
     });
 
     const familyId = familyRef.id;
@@ -66,13 +67,13 @@ export class FamilyService {
       return data['familyId'];
     }
 
-    async updateFamily(familyName: string, updatedMembers: { name: string; color: string }[]): Promise<void> {
+    async updateFamily(familyName: string, updatedMembers: { name: string; color: string }[], planType: string): Promise<void> {
       console.log('Updating family with:', updatedMembers);
       const familyId = await this.getFamilyId();
       const familyRef = doc(this.firestore, `families/${familyId}`);
       const usersCollection = collection(this.firestore, `families/${familyId}/users`);
 
-      await updateDoc(familyRef, { familyName });
+      await updateDoc(familyRef, { familyName, planType });
 
       const currentSnapshot = await getDocs(usersCollection);
       const currentMembers = currentSnapshot.docs.map(doc => ({

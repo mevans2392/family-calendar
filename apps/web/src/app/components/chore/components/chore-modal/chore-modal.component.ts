@@ -6,6 +6,7 @@ import { ChoreService } from '../../../../services/chore.service';
 import { Observable, map } from 'rxjs';
 import { Firestore, doc, docData } from '@angular/fire/firestore';
 import { FamilyService } from '../../../../services/family.service';
+import { NavAccessService } from '../../../../services/nav-access.service';
 
 @Component({
   selector: 'app-chore-modal',
@@ -25,6 +26,11 @@ export class ChoreModalComponent implements OnInit {
   private firestore = inject(Firestore);
   private familyService = inject(FamilyService);
   subStatus$!: Observable<'free' | 'trial' | 'paid' | 'expired' | undefined>;
+  private navAccessService = inject(NavAccessService);
+
+  canAccess$ = this.navAccessService.canAccess$();
+  famVisible$ = this.navAccessService.famVisible$();
+  indVisible$ = this.navAccessService.indVisible$();
 
   ngOnInit() {
     // Initialize local formChore so template bindings are always safe

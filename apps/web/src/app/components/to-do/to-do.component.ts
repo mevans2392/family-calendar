@@ -7,11 +7,12 @@ import { ChoreService } from '../../services/chore.service';
 import { FamilyService } from '../../services/family.service';
 import { FamilyMembersService } from '../../services/family-members.service';
 import { ChoreModalComponent } from '../chore/components/chore-modal/chore-modal.component';
+import { NavComponent } from '../nav/nav.component';
 
 @Component({
   selector: 'app-to-do',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChoreModalComponent],
+  imports: [CommonModule, FormsModule, ChoreModalComponent, NavComponent],
   templateUrl: './to-do.component.html',
   styleUrl: './to-do.component.css'
 })
@@ -109,6 +110,14 @@ export class ToDoComponent implements OnInit {
     this.newToDoTitle = item.title;
     this.selectedUserId = item.assignedUser!;
     this.showModal = true;
+  }
+
+  toggleComplete(item: Chore) {
+    if(!item.id) return;
+    this.choreService.saveChore({
+      ...item,
+      complete: item.complete
+    } as Chore);
   }
 
   async updateToDo() {

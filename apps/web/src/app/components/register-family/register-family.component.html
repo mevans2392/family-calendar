@@ -14,47 +14,74 @@
   </div>
 
   <div class="mb-3">
-    <label class="form-label">Family Name: </label>
+    <label class="form-label">{{ registerForm.get('planType')?.value === 'family' ? 'Family Name:' : 'Name' }}</label>
     <input type="text" formControlName="familyName" class="form-control" />
   </div>
 
-  <div formArrayName="members">
-    <p>"Anyone" is used for family activities and/or anything that is not currently assigned to a family member. Currently, it cannot be removed.</p>
-    <div *ngFor="let member of members.controls; let i = index" [formGroupName]="i" class="card mb-2 p-3">
-      <div class="row g-3 align-items-center">
-        <div class="col-md-5">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="name"
-            placeholder="Family Member Name"
-            [readonly]="member.get('name')?.value === 'Anyone'" />
-        </div>
-        <div class="col-md-5">
-          <div class="color-picker">
-            <div
-              *ngFor="let color of presetColors"
-              class="color-swatch"
-              [style.backgroundColor]="color"
-              [class.selected]="color === member.get('color')?.value"
-              (click)="member.get('color')?.setValue(color)"
-            ></div>
+  <!-- add members to a family - anyone is default and non-removable -->
+  <div class="add-members" *ngIf="registerForm.get('planType')?.value === 'family'">
+    <div formArrayName="members">
+      <p>"Anyone" is used for family activities and/or anything that is not currently assigned to a family member. Currently, it cannot be removed.</p>
+      <div *ngFor="let member of members.controls; let i = index" [formGroupName]="i" class="card mb-2 p-3">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-5">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              placeholder="Family Member Name"
+              [readonly]="member.get('name')?.value === 'Anyone'" />
+          </div>
+          <div class="col-md-5">
+            <div class="color-picker">
+              <div
+                *ngFor="let color of presetColors"
+                class="color-swatch"
+                [style.backgroundColor]="color"
+                [class.selected]="color === member.get('color')?.value"
+                (click)="member.get('color')?.setValue(color)"
+              ></div>
+            </div>
+          </div>
+          <div *ngIf="member.get('name')?.value !== 'Anyone'" class="col-md-2 text-end">
+            <button type="button" (click)="removeMember(i)" class="btn btn-outline-danger" [disabled]="member.get('name')?.value === 'Anyone'">Remove</button>
           </div>
         </div>
-        <div *ngIf="member.get('name')?.value !== 'Anyone'" class="col-md-2 text-end">
-          <button type="button" (click)="removeMember(i)" class="btn btn-outline-danger" [disabled]="member.get('name')?.value === 'Anyone'">Remove</button>
-        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <button type="button" (click)="addMember()" class="btn btn-secondary">+ Add Member</button>
+    </div>
+  </div>
+  
+  <!-- Select your color if you are on an individual plan -->
+  <div class="mb-3" *ngIf="registerForm.get('planType')?.value === 'individual'">
+    <label class="form-label">Choose your Color</label>
+    <div class="color-picker">
+      <div 
+        *ngFor="let color of presetColors"
+        class="color-swatch"
+        [style.background]="color"
+        [class.selected]="color === selectedColor"
+        (click)="selectedColor = color"
+      >
       </div>
     </div>
   </div>
 
   <div class="mb-3">
-    <button type="button" (click)="addMember()" class="btn btn-secondary">+ Add Member</button>
+    <label for="planType">Plan Type</label>
+    <p>**Coming Soon: Individual Plan**</p>
+    <select id="planType" class="form-select" formControlName="planType">
+      <option value="family">Family Plan</option>
+      <option value="individual">Individual Plan</option>
+    </select>
   </div>
 
   <!-- Show Register button if in registration mode -->
   <button type="submit" class="btn btn-primary">
-    {{ isManagingExistingFamily ? 'Update Family' : 'Register Family'}}
+    {{ isManagingExistingFamily ? 'Update Family' : 'Start 14-day Free Trial'}}
   </button>
 
   <!-- Show subscription controls if in manage mode -->
